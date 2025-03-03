@@ -14,5 +14,4 @@ inGraph is a tool designed to build and maintain a Knowledge Graph (KG) tailored
 inGraph serves as the backbone for knowledge-driven applications, providing structured and queryable data to enhance decision-making, automation, and analytics.
 
 ## Getting Started
-1. ...
-2. ...
+Under development, further updates will be made shortly.
