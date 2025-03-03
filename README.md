@@ -13,5 +13,40 @@ inGraph is a tool designed to build and maintain a Knowledge Graph (KG) tailored
 ## Usage
 inGraph serves as the backbone for knowledge-driven applications, providing structured and queryable data to enhance decision-making, automation, and analytics.
 
-## Getting Started
-Under development, further updates will be made shortly.
+## Tools Interaction
+
+### **Tools with Which inGraph Interacts**
+   - **inGraph** interacts with any tools that require access to the Knowledge Graph. It has a focus on the WP4 tools, but it can be also by the other INTED tools,
+
+### **How inGraph Interacts with Other Tools**
+   - **Direct API Invocation**: Other tools can interact with **inGraph** via its **REST API**. This enables fetching or updating data within the Knowledge Graph.
+
+### **Exposed API for Access**
+   **inGraph** exposes **REST APIs** that allow other tools to interact with the Knowledge Graph.
+
+   **API Endpoints**:
+   - Under development
+
+### **Message Bus Usage**
+   - **inGraph** does not currently plan to use a message bus.
+
+### **Data Shared Between Tools**
+   - **Inputs**: Data for creating or updating nodes/relationships.
+   - **Outputs**: Query results for retrieving nodes or relationships.
+
+### Authentication and Security
+  **inGraph** exposes a REST API, and the APIs will use a key to identify the Knowledge Graph for individual use cases, ensuring secure access.
+
+### 9. Hardware and Software Requirements
+
+#### Hardware:
+- A server with sufficient resources to handle the Knowledge Graph and its operations.
+
+#### Software:
+- **Graph Database**: A graph database like **Neo4j**.
+- **Web Server**: A framework to expose the REST API, e.g., **Flask** or similar.
+- **Containerization (Optional)**: Tools like **Docker** for deployment.
+
+
+
+
