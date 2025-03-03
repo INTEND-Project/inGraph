@@ -37,7 +37,7 @@ inGraph serves as the backbone for knowledge-driven applications, providing stru
 ### Authentication and Security
   **inGraph** exposes a REST API, and the APIs will use a key to identify the Knowledge Graph for individual use cases, ensuring secure access.
 
-### 9. Hardware and Software Requirements
+### Hardware and Software Requirements
 
 #### Hardware:
 - A server with sufficient resources to handle the Knowledge Graph and its operations.
