@@ -1,0 +1,7981 @@
+[
+  {
+    "@id": "https://intendproject.eu/gate/28_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/28_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31115328"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_28_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A1"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/30_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/30_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31646424"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_30_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A3"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/24_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/24_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22478005"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_24_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT19"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/37_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/37_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31114993"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_37_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A10"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/31_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/31_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31115373"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_31_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A4"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/15_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/17_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/18_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/19_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/20_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/22_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/23_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/24_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/25_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/28_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "BG0040A"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AE3"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/39_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/39_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31115593"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_39_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A12"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/36_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/36_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31115646"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_36_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A9"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/15_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/15_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229350"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_15_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT10"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/13_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/13_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229424"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_13_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT8"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/26_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/26_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22532689"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_26_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT21"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/15_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/16_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/17_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/18_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/19_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/20_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/21_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/22_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/23_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/24_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/25_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/26_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/27_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/28_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "BG0050A"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AE2"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/9_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/9_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22512471"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_9_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT4"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/21_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/21_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229503"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_21_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT16"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/29_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/29_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31115388"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_29_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A2"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/35_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/35_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31115374"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_35_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A8"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/34_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/34_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31114940"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_34_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A7"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/23_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/23_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229497"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_23_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT18"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/20_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/20_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22525603"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_20_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT15"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/5_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/5_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/15_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/16_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/17_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/18_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/19_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/20_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/22_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/23_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/24_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/25_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/26_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/28_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "BG0052A"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_5_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AE5"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/33_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/33_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31115567"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_33_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A6"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/38_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/38_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31557354"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_38_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A11"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/10_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/10_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229477"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_10_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT5"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/27_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/27_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229482"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_27_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT22"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/22_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/22_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22533909"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_22_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT17"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/25_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/25_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229494"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_25_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT20"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/18_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/18_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22535384"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_18_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT13"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/14_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/14_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229455"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_14_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT9"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/11_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/11_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22533432"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_11_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT6"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/32_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/32_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/5_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/12_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/13_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/14_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT31115620"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_32_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "A5"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/4_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/4_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/15_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/17_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/18_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/19_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/20_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/21_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/22_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/23_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/24_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/26_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/28_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "BG00001"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_4_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AE4"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/19_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/19_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22527228"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_19_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT14"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/6_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/6_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229480"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_6_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT1"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/12_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/12_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229335"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_12_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT7"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/8_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/8_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22528883"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_8_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT3"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/16_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/16_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229294"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_16_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT11"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/17_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/17_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22229237"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_17_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT12"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/3_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/1_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/15_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/16_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/17_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/18_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/19_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/20_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/21_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/22_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/23_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/24_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/25_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/26_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/28_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "BG0073A"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AE1"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/7_station",
+    "@type": [
+      "https://intendproject.eu/schema/AirQualityStation"
+    ],
+    "https://intendproject.eu/schema/hasConnectivityType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_connectivitytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_connectivitytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasPowerSupplyType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_powersupplytype"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_powersupplytype"
+      }
+    ],
+    "https://intendproject.eu/schema/hasLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/7_stationlocation"
+      }
+    ],
+    "https://intendproject.eu/schema/hasModel": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationmodel"
+      }
+    ],
+    "https://intendproject.eu/schema/hasOperator": [
+      {
+        "@id": "https://intendproject.eu/gate/2_stationoperator"
+      }
+    ],
+    "https://intendproject.eu/schema/hasSensor": [
+      {
+        "@id": "https://intendproject.eu/gate/1_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/2_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/3_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/4_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/7_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/8_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/9_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/10_sensor"
+      },
+      {
+        "@id": "https://intendproject.eu/gate/11_sensor"
+      }
+    ],
+    "https://intendproject.eu/schema/serialNumber": [
+      {
+        "@value": "AT22539001"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_7_station"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "AT2"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/JpKnncujHOnw"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_connectivitytype",
+    "@type": [
+      "https://intendproject.eu/schema/ConnectivityType"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_connectivitytype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Bluetooth"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/OigpCRIoQEbX"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_connectivitytype",
+    "@type": [
+      "https://intendproject.eu/schema/ConnectivityType"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_connectivitytype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "LoRaWAN"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/OigpCRIoQEbX"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_connectivitytype",
+    "@type": [
+      "https://intendproject.eu/schema/ConnectivityType"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_connectivitytype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Cellular"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/OigpCRIoQEbX"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/4_connectivitytype",
+    "@type": [
+      "https://intendproject.eu/schema/ConnectivityType"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_4_connectivitytype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "NB-IoT"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/OigpCRIoQEbX"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_22",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/station/coordinates"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_22"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_25",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/type"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_25"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_10",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/values/weekdays/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_10"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_14",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_14"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_13",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/model/values/heatmap/parameter/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_13"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_16",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/measure/param/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_16"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_4",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/values/chart/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_4"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_12",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/model/predictions/popup/heatmap/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_12"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_21",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/params"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_21"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_24",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/station/parameters"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_24"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_7",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/values/month/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_7"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_18",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/operator/coordinates"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_18"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_1",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/maxvalue/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_1"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_17",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/operator"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_17"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_19",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/operator/lastmeasurements"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_19"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_23",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/station/lastmeasurements"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_23"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_20",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/operator/parameters"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_20"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_3",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/value/param/stations/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_3"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_11",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/values/weekends/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_11"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_5",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/values/day/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_5"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_26",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/type/coordinates"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_26"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_6",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/values/hour/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_6"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_8",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/values/season/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_8"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_9",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/values/week/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_9"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_15",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/stations/lastmeasurements"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_15"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/API_function_2",
+    "@type": [
+      "https://intendproject.eu/schema/FunctionApi"
+    ],
+    "https://intendproject.eu/schema/hasMethod": [
+      {
+        "@value": "GET"
+      }
+    ],
+    "https://intendproject.eu/schema/path": [
+      {
+        "@value": "/aggregated/minvalue/station/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_function_2"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/fhasMwLKxXkj"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/21_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "NLL"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "10_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_21_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Noise"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/5_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "WS"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "12_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_5_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Wind"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/18_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "ND"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "8_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_18_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Noise"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/20_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "NFR"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "9_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_20_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Noise"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/26_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "RSSI"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "14_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_26_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Received"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/14_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "C6H6"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_14_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Benzene"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/23_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "BV12"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "6_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_23_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Battery"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "RH"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "3_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Relative"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/10_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "NO"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_10_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Nitrogen"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/13_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "O3"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_13_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Ozone"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/9_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "CO2"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_9_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Carbon"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/17_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "PM10"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_17_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Particulate"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/11_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "NO2"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_11_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Nitrogen"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/19_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "NFL"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "9_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_19_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Noise"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/7_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "SI"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "13_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_7_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Solar"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/25_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "SV"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "6_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_25_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Solar"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "p"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "2_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Pressure"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/24_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "BV7"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "6_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_24_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Battery"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "T"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "1_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Temperature"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/16_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "PM25"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_16_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Particulate"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/15_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "PM1"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_15_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Particulate"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/8_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "CO"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_8_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Carbon"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/22_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "NLR"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "10_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_22_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Noise"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/4_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "WD"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "8_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_4_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Wind"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/6_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "R"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "11_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_6_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Rainfall"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/12_parametertype",
+    "@type": [
+      "https://intendproject.eu/schema/ParameterType"
+    ],
+    "https://intendproject.eu/schema/parameterAbbreviation": [
+      {
+        "@value": "SO2"
+      }
+    ],
+    "https://intendproject.eu/schema/unit": [
+      {
+        "@value": "5_unit"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_12_parametertype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Sulphur"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/pKYiOHAqZGqY"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_powersupplytype",
+    "@type": [
+      "https://intendproject.eu/schema/PowerSupplyType"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_powersupplytype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Mains"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KvBNSfvcqYrX"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_powersupplytype",
+    "@type": [
+      "https://intendproject.eu/schema/PowerSupplyType"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_powersupplytype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Solar"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KvBNSfvcqYrX"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_powersupplytype",
+    "@type": [
+      "https://intendproject.eu/schema/PowerSupplyType"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_powersupplytype"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Battery"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KvBNSfvcqYrX"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/17_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/3_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_17_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_17_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/25_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/13_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_25_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_25_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/27_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/16_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_27_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_27_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/15_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_15_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_15_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/21_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/8_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_21_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_21_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/10_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "15"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "11000"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "3000"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "00018"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMax": [
+      {
+        "@value": "11000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMin": [
+      {
+        "@value": "3000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "800"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-400"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_10_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_10_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "956250"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/11_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "1200"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "19125"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "191250"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "120"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "09"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "015"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-200"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_1_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/14_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "002"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/5_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "450"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "01"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "800"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-200"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_14_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_14_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/18_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/4_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_18_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_18_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/4_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "997850"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/13_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "1200"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "19957"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "199570"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "120"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "09"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "015"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-200"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_4_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_4_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/26_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/14_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_26_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_26_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/7_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "125"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/16_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "300"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "15000"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "01"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "180"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "095"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMax": [
+      {
+        "@value": "11000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMin": [
+      {
+        "@value": "7500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-100"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_7_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_7_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/5_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/9_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "30"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "110358000"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "18393"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "360"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "095"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-200"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_5_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_5_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/19_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/5_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_19_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_19_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/20_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/7_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_20_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_20_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/28_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/17_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_28_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_28_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/23_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/11_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_23_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_23_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/13_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "30"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/4_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "3590"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "600"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-200"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_13_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_13_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/11_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "003"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/3_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "80"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMax": [
+      {
+        "@value": "11000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMin": [
+      {
+        "@value": "3000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "800"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-400"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_11_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_11_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/8_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "125"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/17_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "300"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "15000"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "01"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "180"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "095"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMax": [
+      {
+        "@value": "11000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMin": [
+      {
+        "@value": "7500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-100"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_8_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_8_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/12_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "002"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/6_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "18"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "01"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "1800"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "600"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_12_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_12_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/16_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/2_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_16_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_16_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/6_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "125"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/15_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "300"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "15000"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "01"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "180"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "095"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMax": [
+      {
+        "@value": "11000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMin": [
+      {
+        "@value": "7500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-100"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_6_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_6_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "1330450"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/12_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "1200"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "26609"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "266090"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "120"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "09"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "015"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-200"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_2_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/22_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/10_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_22_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_22_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/9_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "01"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/1_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "800"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "-400"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "00078"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "10"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMax": [
+      {
+        "@value": "11000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingPressureMin": [
+      {
+        "@value": "3000"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "800"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-400"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_9_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_9_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/accuracy": [
+      {
+        "@value": "5821"
+      }
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/8_parametertype"
+      }
+    ],
+    "https://intendproject.eu/schema/maxResponseTime": [
+      {
+        "@value": "1200"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMax": [
+      {
+        "@value": "116420"
+      }
+    ],
+    "https://intendproject.eu/schema/measuerementRangeMin": [
+      {
+        "@value": "00"
+      }
+    ],
+    "https://intendproject.eu/schema/resolution": [
+      {
+        "@value": "116420"
+      }
+    ],
+    "https://intendproject.eu/schema/useFulLifeMonths": [
+      {
+        "@value": "120"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMax": [
+      {
+        "@value": "09"
+      }
+    ],
+    "https://intendproject.eu/schema/workingHumidityMin": [
+      {
+        "@value": "015"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMax": [
+      {
+        "@value": "500"
+      }
+    ],
+    "https://intendproject.eu/schema/workingTemperatureMin": [
+      {
+        "@value": "-200"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_3_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/24_sensor",
+    "@type": [
+      "https://intendproject.eu/schema/Sensor"
+    ],
+    "https://intendproject.eu/schema/hasParameterType": [
+      {
+        "@id": "https://intendproject.eu/gate/12_parametertype"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_24_sensor"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/KwHOtbnBigXX"
+    },
+    "https://schema.org/name": [
+      {
+        "@value": "ID_24_sensor_name"
+      }
+    ]
+  },
+  {
+    "@id": "https://intendproject.eu/gate/38_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_38_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42658948"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23316558"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/30_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_30_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42677792"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23336003"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/9_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_9_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42693056"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23345861"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/23_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_23_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42727139"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23297472"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/27_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_27_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42645167"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23345139"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://intendproject.eu/schema/typeOfLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/4_typeoflocation"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "427320736"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "233110537"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/16_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_16_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42655528"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23383222"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/24_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_24_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42715417"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23264556"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/36_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_36_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42641728"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23313091"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/18_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_18_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42701583"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "233680"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/15_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_15_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42656333"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "2334925"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/25_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_25_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42693139"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23291667"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/20_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_20_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "4267"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23268472"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/6_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_6_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42680889"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23296306"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/19_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_19_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "4272225"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23335556"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/13_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_13_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "426780"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23308056"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/31_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_31_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42676455"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23320397"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/5_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://intendproject.eu/schema/typeOfLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/4_typeoflocation"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_5_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42665889"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23400272"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/34_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_34_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42650293"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23332304"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/10_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_10_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42696611"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23342028"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/32_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_32_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42649597"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23317302"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/35_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_35_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42659191"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23332316"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/12_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_12_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42664778"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23295861"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/8_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_8_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42665889"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23400272"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/11_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_11_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42711722"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23413528"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/22_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_22_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42701583"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23276833"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/28_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_28_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42682955"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23321371"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/39_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_39_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42664536"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23325833"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://intendproject.eu/schema/typeOfLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/2_typeoflocation"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "4267"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23268472"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/7_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_7_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "4262925"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23308639"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/4_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://intendproject.eu/schema/typeOfLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/2_typeoflocation"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_4_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42655528"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23383222"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/33_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_33_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42664717"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23317599"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/37_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_37_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42674009"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23330876"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/29_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_29_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42679057"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23327507"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/21_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_21_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "426870"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23240306"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/17_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_17_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42691417"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "2338625"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/26_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_26_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42710308"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23322558"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/14_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_14_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42671556"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23320139"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_stationlocation",
+    "@type": [
+      "https://intendproject.eu/schema/StationLocation"
+    ],
+    "https://intendproject.eu/schema/typeOfLocation": [
+      {
+        "@id": "https://intendproject.eu/gate/4_typeoflocation"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_stationlocation"
+      }
+    ],
+    "https://schema.org/latitude": [
+      {
+        "@value": "42680889"
+      }
+    ],
+    "https://schema.org/longitude": [
+      {
+        "@value": "23296306"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/ZHovqoxTQJwZ"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_stationmodel",
+    "@type": [
+      "https://intendproject.eu/schema/StationModel"
+    ],
+    "https://intendproject.eu/schema/manufacturerName": [
+      {
+        "@value": "Develiot"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_stationmodel"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Develiot"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/aTYXKoqXIwUP"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_stationmodel",
+    "@type": [
+      "https://intendproject.eu/schema/StationModel"
+    ],
+    "https://intendproject.eu/schema/manufacturerName": [
+      {
+        "@value": "Develiot"
+      }
+    ],
+    "https://intendproject.eu/schema/modelName": [
+      {
+        "@value": "DAQ7110"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_stationmodel"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Develiot"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/aTYXKoqXIwUP"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_stationoperator",
+    "@type": [
+      "https://intendproject.eu/schema/StationOperator"
+    ],
+    "https://intendproject.eu/schema/operatorWeb": [
+      {
+        "@value": "https://platformairthings-projectcom/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_stationoperator"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Sofia"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/OeQAULFRrWsE"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_stationoperator",
+    "@type": [
+      "https://intendproject.eu/schema/StationOperator"
+    ],
+    "https://intendproject.eu/schema/operatorEmail": [
+      {
+        "@value": "iaos@eeagovernmentbg"
+      }
+    ],
+    "https://intendproject.eu/schema/operatorPhone": [
+      {
+        "@value": "02/940"
+      }
+    ],
+    "https://intendproject.eu/schema/operatorWeb": [
+      {
+        "@value": "https://eeagovernmentbg/kav/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_stationoperator"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Executive"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/OeQAULFRrWsE"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_stationoperator",
+    "@type": [
+      "https://intendproject.eu/schema/StationOperator"
+    ],
+    "https://intendproject.eu/schema/operatorEmail": [
+      {
+        "@value": "citylabmanager@gate-aieu"
+      }
+    ],
+    "https://intendproject.eu/schema/operatorWeb": [
+      {
+        "@value": "https://citylabgate-aieu/"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_stationoperator"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "GATE"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/OeQAULFRrWsE"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/4_typeoflocation",
+    "@type": [
+      "https://intendproject.eu/schema/TypeOfLocation"
+    ],
+    "https://intendproject.eu/schema/loctype": [
+      {
+        "@value": "Background"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_4_typeoflocation"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/VrTrwxhoVjIB"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_typeoflocation",
+    "@type": [
+      "https://intendproject.eu/schema/TypeOfLocation"
+    ],
+    "https://intendproject.eu/schema/loctype": [
+      {
+        "@value": "Indoor"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_typeoflocation"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/VrTrwxhoVjIB"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_typeoflocation",
+    "@type": [
+      "https://intendproject.eu/schema/TypeOfLocation"
+    ],
+    "https://intendproject.eu/schema/loctype": [
+      {
+        "@value": "Urban"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_typeoflocation"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/VrTrwxhoVjIB"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_typeoflocation",
+    "@type": [
+      "https://intendproject.eu/schema/TypeOfLocation"
+    ],
+    "https://intendproject.eu/schema/loctype": [
+      {
+        "@value": "Traffic"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_typeoflocation"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/VrTrwxhoVjIB"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/5_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "Î¼g/m3"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_5_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "microgram"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/10_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "dB"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_10_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "decibel"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/1_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "Â°C"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_1_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "degree"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/2_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "hPa"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_2_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "hektopascal"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/3_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "%"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_3_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "percent"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/11_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "mm"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_11_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "millimetres"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/8_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "Â°"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_8_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "degree"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/6_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "V"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_6_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "volt"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/12_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "m/s"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_12_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "metres"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/14_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "dBm"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_14_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "decibel"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/9_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "Hz"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_9_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "hertz"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/4_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "mg/m3"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_4_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "milligram"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/13_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "W/m2"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_13_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "watts"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  },
+  {
+    "@id": "https://intendproject.eu/gate/7_unit",
+    "@type": [
+      "https://intendproject.eu/schema/Unit"
+    ],
+    "https://intendproject.eu/schema/unitSymbol": [
+      {
+        "@value": "-"
+      }
+    ],
+    "https://schema.org/id": [
+      {
+        "@value": "ID_7_unit"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "counts"
+      }
+    ],
+    "https://vocab.sti2.at/ds/compliesWith": {
+      "@id": "https://semantify.it/ds/QOhylhdXzJEV"
+    }
+  }
+]

@@ -1,0 +1,4 @@
+SELECT ?predicate ?object 
+WHERE { 
+  <https://intendproject.eu/fill/Machine5> ?predicate ?object 
+}
