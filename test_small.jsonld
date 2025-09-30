@@ -1,0 +1,15 @@
+{
+  "@context": {
+    "@vocab": "https://intendproject.eu/schema/",
+    "gate": "https://intendproject.eu/gate/",
+    "schema": "https://schema.org/"
+  },
+  "@graph": [
+    {
+      "@id": "https://intendproject.eu/gate/test_station",
+      "@type": "https://intendproject.eu/schema/AirQualityStation",
+      "https://schema.org/name": "Test Station",
+      "https://schema.org/id": "TEST_01"
+    }
+  ]
+}

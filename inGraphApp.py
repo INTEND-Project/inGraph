@@ -2,14 +2,13 @@ from flask import Flask, request, jsonify, send_file
 import requests
 import os
 import json
-from werkzeug.utils import secure_filename
 import logging
 from typing import Optional, Dict, Any
 
 app = Flask(__name__)
 
 # Configuration
-GRAPHDB_BASE_URL = "http://localhost:7200"
+GRAPHDB_BASE_URL = os.getenv("GRAPHDB_BASE_URL", "http://localhost:7200")
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {'jsonld', 'json', 'sparql', 'rq'}
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
