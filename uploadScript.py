@@ -49,7 +49,7 @@ def upload_jsonld_file(file_path, repository="second-graph", server_url="http://
 
 if __name__ == "__main__":
     # Configuration
-    file_to_upload = "KG\\gateKG_fixed.jsonld"  # Upload the fixed GATE knowledge graph
+    file_to_upload = "KG\\gateKG.jsonld"  # Upload the fixed GATE knowledge graph
     target_repository = "GATE"
     
     # Upload the file
