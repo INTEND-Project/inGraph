@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knowledge Graph Visualizer - INTEND Project</title>
+    <title>inGraph - INTEND Project</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css" rel="stylesheet">
@@ -14,25 +14,25 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <h1><i class="fas fa-project-diagram"></i> Knowledge Graph Visualizer</h1>
-                <p>Visualizza e interroga il tuo Knowledge Graph con query SPARQL</p>
+                <h1><i class="fas fa-project-diagram"></i> inGraph</h1>
+                <p>Visualize and query your Knowledge Graph with SPARQL queries</p>
             </div>
         </header>
 
         <!-- Repository Selection -->
         <div class="repository-section">
             <div class="section-header">
-                <h2><i class="fas fa-database"></i> Selezione Repository</h2>
+                <h2><i class="fas fa-database"></i> Repository Selection</h2>
                 <button id="refreshRepos" class="btn btn-secondary">
-                    <i class="fas fa-sync-alt"></i> Aggiorna
+                    <i class="fas fa-sync-alt"></i> Refresh
                 </button>
             </div>
             <div class="repository-controls">
                 <select id="repositorySelect" class="form-control">
-                    <option value="">Seleziona un repository...</option>
+                    <option value="">Select a repository...</option>
                 </select>
                 <div class="repository-info">
-                    <span id="repoInfo" class="info-text">Nessun repository selezionato</span>
+                    <span id="repoInfo" class="info-text">No repository selected</span>
                 </div>
             </div>
         </div>
@@ -45,38 +45,38 @@
                     <h2><i class="fas fa-code"></i> Editor SPARQL</h2>
                     <div class="query-controls">
                         <button id="executeQuery" class="btn btn-primary" disabled>
-                            <i class="fas fa-play"></i> Esegui Query
+                            <i class="fas fa-play"></i> Execute Query
                         </button>
                         <button id="clearQuery" class="btn btn-secondary">
-                            <i class="fas fa-trash"></i> Pulisci
+                            <i class="fas fa-trash"></i> Clear
                         </button>
                         <button id="loadExample" class="btn btn-secondary">
-                            <i class="fas fa-lightbulb"></i> Esempio
+                            <i class="fas fa-lightbulb"></i> Example
                         </button>
                     </div>
                 </div>
                 <div class="query-editor-container">
-                    <textarea id="queryEditor" placeholder="Inserisci la tua query SPARQL qui...">SELECT ?subject ?predicate ?object
+                    <textarea id="queryEditor" placeholder="Enter your SPARQL query here...">SELECT ?subject ?predicate ?object
 WHERE {
     ?subject ?predicate ?object .
 }
 LIMIT 100</textarea>
                 </div>
                 <div class="query-status">
-                    <span id="queryStatus" class="status-text">Pronto per eseguire query</span>
+                    <span id="queryStatus" class="status-text">Ready to execute query</span>
                 </div>
             </div>
 
             <!-- Visualization Panel -->
             <div class="visualization-panel">
                 <div class="section-header">
-                    <h2><i class="fas fa-eye"></i> Visualizzazione Grafo</h2>
+                    <h2><i class="fas fa-eye"></i> Graph Visualization</h2>
                     <div class="viz-controls">
                         <button id="resetZoom" class="btn btn-secondary">
                             <i class="fas fa-search-minus"></i> Reset Zoom
                         </button>
                         <button id="centerGraph" class="btn btn-secondary">
-                            <i class="fas fa-crosshairs"></i> Centra
+                            <i class="fas fa-crosshairs"></i> Center
                         </button>
                         <select id="layoutSelect" class="form-control">
                             <option value="force">Force Layout</option>
@@ -88,11 +88,11 @@ LIMIT 100</textarea>
                 <div id="graphContainer" class="graph-container">
                     <div class="graph-placeholder">
                         <i class="fas fa-project-diagram"></i>
-                        <p>Seleziona un repository ed esegui una query per visualizzare il grafo</p>
+                        <p>Select a repository and execute a query to visualize the graph</p>
                     </div>
                 </div>
                 <div class="graph-info">
-                    <span id="graphStats" class="info-text">Nodi: 0, Collegamenti: 0</span>
+                    <span id="graphStats" class="info-text">Nodes: 0, Links: 0</span>
                 </div>
             </div>
         </div>
@@ -100,19 +100,19 @@ LIMIT 100</textarea>
         <!-- Results Panel -->
         <div class="results-panel">
             <div class="section-header">
-                <h2><i class="fas fa-table"></i> Risultati Query</h2>
+                <h2><i class="fas fa-table"></i> Query Results</h2>
                 <div class="results-controls">
                     <button id="exportResults" class="btn btn-secondary" disabled>
-                        <i class="fas fa-download"></i> Esporta CSV
+                        <i class="fas fa-download"></i> Export CSV
                     </button>
-                    <span id="resultsCount" class="info-text">0 risultati</span>
+                    <span id="resultsCount" class="info-text">0 results</span>
                 </div>
             </div>
             <div class="results-container">
                 <div id="resultsTable" class="results-table">
                     <div class="no-results">
                         <i class="fas fa-search"></i>
-                        <p>Nessun risultato da visualizzare</p>
+                        <p>No results to display</p>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@ LIMIT 100</textarea>
         <div id="loadingOverlay" class="loading-overlay">
             <div class="loading-spinner">
                 <i class="fas fa-spinner fa-spin"></i>
-                <p>Caricamento in corso...</p>
+                <p>Loading...</p>
             </div>
         </div>
 
@@ -130,11 +130,11 @@ LIMIT 100</textarea>
         <div id="errorModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Errore</h3>
+                    <h3><i class="fas fa-exclamation-triangle"></i> Error</h3>
                     <button class="modal-close">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p id="errorMessage">Si è verificato un errore</p>
+                    <p id="errorMessage">An error occurred</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary modal-close">OK</button>

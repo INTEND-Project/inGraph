@@ -121,14 +121,14 @@ class KnowledgeGraphApp {
             
             if (response.ok) {
                 this.populateRepositorySelect(data.repositories);
-                this.updateStatus('Repositories caricati con successo', 'success');
+                this.updateStatus('Repositories loaded successfully', 'success');
                 console.log('Repositories loaded successfully:', data.repositories);
             } else {
-                throw new Error(data.error || 'Errore nel caricamento dei repository');
+                throw new Error(data.error || 'Error loading repositories');
             }
         } catch (error) {
             console.error('Error loading repositories:', error);
-            this.showError('Errore nel caricamento dei repository: ' + error.message);
+            this.showError('Error loading repositories: ' + error.message);
         } finally {
             this.hideLoading();
         }
@@ -136,7 +136,7 @@ class KnowledgeGraphApp {
 
     populateRepositorySelect(repositories) {
         const select = document.getElementById('repositorySelect');
-        select.innerHTML = '<option value="">Seleziona un repository...</option>';
+        select.innerHTML = '<option value="">Select a repository...</option>';
         
         repositories.forEach(repo => {
             const option = document.createElement('option');
@@ -149,7 +149,7 @@ class KnowledgeGraphApp {
     async selectRepository(repositoryId) {
         if (!repositoryId) {
             this.currentRepository = null;
-            this.updateRepositoryInfo('Nessun repository selezionato');
+            this.updateRepositoryInfo('No repository selected');
             document.getElementById('executeQuery').disabled = true;
             return;
         }
@@ -163,13 +163,13 @@ class KnowledgeGraphApp {
             
             if (response.ok) {
                 const info = data.info;
-                const infoText = `Repository: ${repositoryId} | Triples: ${info.triple_count || 'N/A'} | Stato: ${info.state || 'N/A'}`;
+                const infoText = `Repository: ${repositoryId} | Triples: ${info.triple_count || 'N/A'} | Status: ${info.state || 'N/A'}`;
                 this.updateRepositoryInfo(infoText);
             } else {
-                this.updateRepositoryInfo(`Repository: ${repositoryId} (Informazioni non disponibili)`);
+                this.updateRepositoryInfo(`Repository: ${repositoryId} (Information not available)`);
             }
         } catch (error) {
-            this.updateRepositoryInfo(`Repository: ${repositoryId} (Errore nel caricamento info)`);
+            this.updateRepositoryInfo(`Repository: ${repositoryId} (Error loading info)`);
         }
     }
 
@@ -177,7 +177,7 @@ class KnowledgeGraphApp {
         console.log('Executing query...');
         if (!this.currentRepository) {
             console.error('No repository selected');
-            this.showError('Seleziona prima un repository');
+            this.showError('Please select a repository first');
             return;
         }
 
@@ -185,12 +185,12 @@ class KnowledgeGraphApp {
         console.log('Query:', query);
         if (!query) {
             console.error('No query provided');
-            this.showError('Inserisci una query SPARQL');
+            this.showError('Please enter a SPARQL query');
             return;
         }
 
         this.showLoading();
-        this.updateQueryStatus('Esecuzione query in corso...', 'warning');
+        this.updateQueryStatus('Executing query...', 'warning');
 
         try {
             const formData = new FormData();
@@ -228,14 +228,14 @@ class KnowledgeGraphApp {
                 console.log('Final results for processing:', actualResults);
                 this.displayResults(actualResults);
                 this.visualizeGraph(actualResults);
-                this.updateQueryStatus('Query eseguita con successo', 'success');
+                this.updateQueryStatus('Query executed successfully', 'success');
             } else {
-                throw new Error(data.error || 'Errore nell\'esecuzione della query');
+                throw new Error(data.error || 'Error executing query');
             }
         } catch (error) {
             console.error('Error executing query:', error);
-            this.showError('Errore nell\'esecuzione della query: ' + error.message);
-            this.updateQueryStatus('Errore nell\'esecuzione della query', 'error');
+            this.showError('Error executing query: ' + error.message);
+            this.updateQueryStatus('Error executing query', 'error');
         } finally {
             this.hideLoading();
         }
@@ -251,10 +251,10 @@ class KnowledgeGraphApp {
             container.innerHTML = `
                 <div class="no-results">
                     <i class="fas fa-search"></i>
-                    <p>Nessun risultato trovato</p>
+                    <p>No results found</p>
                 </div>
             `;
-            countElement.textContent = '0 risultati';
+            countElement.textContent = '0 results';
             exportBtn.disabled = true;
             return;
         }
@@ -298,7 +298,7 @@ class KnowledgeGraphApp {
 
         tableHTML += '</tbody></table>';
         container.innerHTML = tableHTML;
-        countElement.textContent = `${bindings.length} risultati`;
+        countElement.textContent = `${bindings.length} results`;
         exportBtn.disabled = false;
     }
 
@@ -519,7 +519,7 @@ class KnowledgeGraphApp {
         container.innerHTML = `
             <div class="graph-placeholder">
                 <i class="fas fa-project-diagram"></i>
-                <p>Seleziona un repository ed esegui una query per visualizzare il grafo</p>
+                <p>Select a repository and execute a query to visualize the graph</p>
             </div>
         `;
         this.updateGraphStats(0, 0);
@@ -529,7 +529,7 @@ class KnowledgeGraphApp {
         const statsElement = document.getElementById('graphStats');
         if (nodes === null) nodes = this.graphData.nodes.length;
         if (links === null) links = this.graphData.links.length;
-        statsElement.textContent = `Nodi: ${nodes}, Collegamenti: ${links}`;
+        statsElement.textContent = `Nodes: ${nodes}, Links: ${links}`;
     }
 
     // Graph interaction methods
@@ -618,7 +618,7 @@ class KnowledgeGraphApp {
     }
 
     loadExampleQuery() {
-        const exampleQuery = `# Query di esempio per visualizzare il grafo
+        const exampleQuery = `# Example query to visualize the graph
 SELECT ?subject ?predicate ?object
 WHERE {
     ?subject ?predicate ?object .
@@ -638,10 +638,10 @@ LIMIT 20`;
         } else {
             const query = this.queryEditor.getValue().trim();
             if (query) {
-                statusElement.textContent = 'Query pronta per l\'esecuzione';
+                statusElement.textContent = 'Query ready for execution';
                 statusElement.className = 'status-text';
             } else {
-                statusElement.textContent = 'Inserisci una query SPARQL';
+                statusElement.textContent = 'Enter a SPARQL query';
                 statusElement.className = 'status-text';
             }
         }
@@ -658,7 +658,7 @@ LIMIT 20`;
 
     exportResults() {
         if (!this.currentResults || !this.currentResults.bindings) {
-            this.showError('Nessun risultato da esportare');
+            this.showError('No results to export');
             return;
         }
 
