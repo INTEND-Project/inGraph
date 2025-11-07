@@ -1,5 +1,40 @@
 import requests
 import os
+import time
+
+def create_repository(repository_id, server_url="http://localhost:5000"):
+    """
+    Create a new GraphDB repository
+    
+    Args:
+        repository_id (str): Repository ID/name
+        server_url (str): Server URL (default: "http://localhost:5000")
+    """
+    try:
+        data = {
+            "id": repository_id,
+            "title": repository_id,
+            "ruleset": "rdfsplus-optimized"
+        }
+        
+        print(f"Creating repository '{repository_id}'...")
+        response = requests.post(f"{server_url}/repositories/create", data=data)
+        
+        if response.status_code == 201:
+            result = response.json()
+            print(f"✅ Repository '{repository_id}' created successfully!")
+            return True
+        elif response.status_code == 409 or "already exists" in response.text.lower():
+            print(f"ℹ️  Repository '{repository_id}' already exists")
+            return True
+        else:
+            print(f"❌ Failed to create repository: {response.status_code}")
+            print(f"Error: {response.text}")
+            return False
+            
+    except Exception as e:
+        print(f"❌ Error creating repository: {str(e)}")
+        return False
 
 def upload_jsonld_file(file_path, repository="second-graph", server_url="http://localhost:5000"):
     """
@@ -49,10 +84,21 @@ def upload_jsonld_file(file_path, repository="second-graph", server_url="http://
 
 if __name__ == "__main__":
     # Configuration
-    file_to_upload = "KG/gateKG_fixed.jsonld"  # Upload the fixed GATE knowledge graph
-    target_repository = "GATE1"
+    file_to_upload = "KG/gateKG.jsonld"
+    target_repository = "GATE11"
     
-    # Upload the file
+    # Step 1: Create the repository
+    repo_created = create_repository(target_repository)
+    
+    if not repo_created:
+        print("\n💥 Failed to create repository!")
+        exit(1)
+    
+    # Wait a moment for repository to be ready
+    print("Waiting for repository to be ready...")
+    time.sleep(2)
+    
+    # Step 2: Upload the file
     success = upload_jsonld_file(file_to_upload, target_repository)
     
     if success:
