@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 import requests
 import os
 import json
@@ -47,6 +47,11 @@ def make_graphdb_request(method: str, url: str, headers: Dict[str, str] = None,
     except requests.exceptions.RequestException as e:
         logger.error(f"GraphDB request failed: {str(e)}")
         raise
+
+@app.route('/', methods=['GET'])
+def index():
+    """Serve the web interface"""
+    return render_template('index.html')
 
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -173,10 +178,16 @@ def execute_sparql_query():
         
         # Return appropriate response based on format
         if output_format == 'json':
+            # Always try to parse JSON for SPARQL results
+            try:
+                results_data = response.json()
+            except:
+                results_data = response.text
+                
             return jsonify({
                 "query": query,
                 "repository": repository,
-                "results": response.json() if response.headers.get('content-type', '').startswith('application/json') else response.text,
+                "results": results_data,
                 "status": "success"
             }), 200
         else:
@@ -451,14 +462,15 @@ def too_large(e):
 @app.errorhandler(404)
 def not_found(e):
     return jsonify({"error": "Endpoint not found"}), 404
-
 @app.errorhandler(500)
 def internal_error(e):
     return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == '__main__':
-    print("🚀 GraphDB REST API starting...")
-    print("📚 Available endpoints:")
+    print("🚀 Knowledge Graph Visualizer starting...")
+    print("🌐 Web Interface: http://0.0.0.0:5000")
+    print("📚 API endpoints:")
+    print("  GET  /                    - Web interface")
     print("  GET  /health              - Health check")
     print("  GET  /repositories        - List repositories")
     print("  POST /upload              - Upload JSON-LD file")
@@ -467,6 +479,6 @@ if __name__ == '__main__':
     print("  GET  /repository/<name>/size - Get repository size")
     print("  DELETE /repository/<name>/clear - Clear repository")
     print("  GET  /examples            - API usage examples")
-    print("\n🌐 Server running on http://0.0.0.0:5000")
+    print("\n✨ Open http://localhost:5000 in your browser to start visualizing!")
     
     app.run(debug=True, host='0.0.0.0', port=5000)

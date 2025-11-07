@@ -4,57 +4,47 @@ services:
   # GraphDB Service
   graphdb:
     image: ontotext/graphdb:10.6.2
-    container_name: graphdb-container
+    container_name: graphdb-prod-container
     ports:
       - "7200:7200"
     environment:
-      - GDB_HEAP_SIZE=2g
-      - GDB_JAVA_OPTS=-Xmx2g -Xms1g
+      - GDB_HEAP_SIZE=4g
+      - GDB_JAVA_OPTS=-Xmx4g -Xms2g
     volumes:
-      - graphdb_data:/opt/graphdb/home
-      - graphdb_work:/opt/graphdb/work
+      - graphdb_prod_data:/opt/graphdb/home
+      - graphdb_prod_work:/opt/graphdb/work
     networks:
-      - app-network
+      - kg-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7200/rest/repositories"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 60s
+    restart: unless-stopped
 
-  # Knowledge Graph Web Interface Service
+  # Knowledge Graph Web Interface Service - Production
   kg-visualizer:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: kg-visualizer-container
+      target: production
+    container_name: kg-visualizer-prod-container
     ports:
-      - "5000:5000"
+      - "80:5000"
     environment:
-      - FLASK_ENV=development
-      - FLASK_DEBUG=1
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
       - PYTHONUNBUFFERED=1
       - GRAPHDB_BASE_URL=http://graphdb:7200
       - FLASK_HOST=0.0.0.0
       - FLASK_PORT=5000
-    volumes:
-      # Mount source code for hot reloading during development
-      - .:/app
-      # Mount uploads directory
-      - ./uploads:/app/uploads
-      # Mount static files for web interface
-      - ./static:/app/static
-      - ./templates:/app/templates
-      # Exclude __pycache__ and .git from volume mount
-      - /app/__pycache__
-      - /app/.git
     networks:
-      - app-network
+      - kg-network
     depends_on:
       graphdb:
         condition: service_healthy
     restart: unless-stopped
-    command: python inGraphApp.py
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
@@ -64,12 +54,12 @@ services:
 
 # Named volumes for GraphDB data persistence
 volumes:
-  graphdb_data:
+  graphdb_prod_data:
     driver: local
-  graphdb_work:
+  graphdb_prod_work:
     driver: local
 
 # Custom network for service communication
 networks:
-  app-network:
+  kg-network:
     driver: bridge

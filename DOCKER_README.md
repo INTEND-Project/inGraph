@@ -1,52 +1,61 @@
-# Docker Development Setup
+# 🐳 Docker Setup per Knowledge Graph Visualizer
 
-This setup provides a complete development environment with GraphDB and your Flask application running in containers with hot reloading capabilities.
+Questo progetto utilizza Docker e Docker Compose per eseguire l'interfaccia web di visualizzazione del Knowledge Graph con GraphDB.
 
-## 🚀 Quick Start
+## 📋 Prerequisiti
 
-### Prerequisites
-- Docker Desktop installed and running
-- Docker Compose (included with Docker Desktop)
+- Docker Desktop installato e in esecuzione
+- Almeno 4GB di RAM disponibile per GraphDB
+- PowerShell (per Windows) o Bash (per Linux/Mac)
 
-### Starting the Environment
+## 🚀 Avvio Rapido
+
+### Usando lo Script di Sviluppo (Raccomandato)
 
 ```powershell
-# Start all services
-docker-compose up -d
+# Avvia tutti i servizi in modalità sviluppo
+.\docker-dev.ps1 start
 
-# Or use the PowerShell helper script
-.\docker-dev.ps1 up
+# Visualizza i log dell'interfaccia web
+.\docker-dev.ps1 logs-app
+
+# Controlla lo stato dei servizi
+.\docker-dev.ps1 status
+
+# Verifica la salute dei servizi
+.\docker-dev.ps1 health
 ```
 
-### Accessing Services
+### Comandi Docker Manuali
 
-- **Flask Application**: http://localhost:5000
-- **GraphDB Workbench**: http://localhost:7200
-- **Health Check**: http://localhost:5000/health
+```bash
+# Avvia tutti i servizi
+docker-compose up -d
 
-## 🔧 Development Features
+# Controlla lo stato
+docker-compose ps
 
-### Hot Reloading
-- Code changes are automatically reflected without rebuilding containers
-- The entire project directory is mounted as a volume
-- Flask runs in debug mode for instant updates
+# Visualizza i log
+docker-compose logs -f kg-visualizer
+```
 
-### Data Persistence
-- GraphDB data is persisted in Docker volumes
-- Uploads directory is mounted for file persistence
-- Data survives container restarts
+## 🌐 Servizi Disponibili
 
-## 📋 Management Commands
+### 🔬 Knowledge Graph Visualizer (Interfaccia Web)
+- **Porta:** 5000
+- **URL:** http://localhost:5000
+- **Funzionalità:**
+  - Selezione repository GraphDB
+  - Editor SPARQL con syntax highlighting
+  - Visualizzazione interattiva del grafo con D3.js
+  - Tabella risultati con export CSV
+  - Layout multipli (force, circular, hierarchical)
 
-### Using PowerShell Script
-```powershell
-# Start services
-.\docker-dev.ps1 up
-
-# Stop services
-.\docker-dev.ps1 down
-
-# Rebuild app container
+### 📊 GraphDB
+- **Porta:** 7200
+- **Workbench:** http://localhost:7200
+- **Persistenza dati:** Volumi Docker (`graphdb_data`, `graphdb_work`)
+- **Memoria:** 2GB heap size (dev) / 4GB (prod)
 .\docker-dev.ps1 build
 
 # View logs
@@ -77,7 +86,7 @@ docker-compose build app
 docker-compose restart app
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ### Services
 1. **GraphDB Container**
@@ -101,7 +110,7 @@ docker-compose restart app
 - **Uploads**: `./uploads:/app/uploads` (file persistence)
 - **GraphDB Data**: Named volumes for database persistence
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Container Issues
 ```bash
@@ -130,14 +139,14 @@ curl http://localhost:5000/health
 2. Check volume mounts in docker-compose.yml
 3. Verify file permissions
 
-## 🧹 Cleanup
+## Cleanup
 
 ### Remove Containers Only
 ```bash
 docker-compose down
 ```
 
-### Remove Containers and Volumes (⚠️ Data Loss)
+### Remove Containers and Volumes (Data Loss)
 ```bash
 docker-compose down -v
 ```
@@ -147,7 +156,7 @@ docker-compose down -v
 docker-compose down -v --rmi all
 ```
 
-## 📝 Configuration
+## Configuration
 
 ### Environment Variables
 - `FLASK_ENV=development`
@@ -159,7 +168,7 @@ docker-compose down -v --rmi all
 - Java options: `-Xmx2g -Xms1g`
 - Health check interval: 30s
 
-## 🔒 Security Notes
+## Security Notes
 
 - Services are isolated in a custom network
 - Only necessary ports are exposed

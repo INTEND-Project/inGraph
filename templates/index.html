@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Visualizer - INTEND Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-project-diagram"></i> Knowledge Graph Visualizer</h1>
+                <p>Visualizza e interroga il tuo Knowledge Graph con query SPARQL</p>
+            </div>
+        </header>
+
+        <!-- Repository Selection -->
+        <div class="repository-section">
+            <div class="section-header">
+                <h2><i class="fas fa-database"></i> Selezione Repository</h2>
+                <button id="refreshRepos" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt"></i> Aggiorna
+                </button>
+            </div>
+            <div class="repository-controls">
+                <select id="repositorySelect" class="form-control">
+                    <option value="">Seleziona un repository...</option>
+                </select>
+                <div class="repository-info">
+                    <span id="repoInfo" class="info-text">Nessun repository selezionato</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Query Panel -->
+            <div class="query-panel">
+                <div class="section-header">
+                    <h2><i class="fas fa-code"></i> Editor SPARQL</h2>
+                    <div class="query-controls">
+                        <button id="executeQuery" class="btn btn-primary" disabled>
+                            <i class="fas fa-play"></i> Esegui Query
+                        </button>
+                        <button id="clearQuery" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i> Pulisci
+                        </button>
+                        <button id="loadExample" class="btn btn-secondary">
+                            <i class="fas fa-lightbulb"></i> Esempio
+                        </button>
+                    </div>
+                </div>
+                <div class="query-editor-container">
+                    <textarea id="queryEditor" placeholder="Inserisci la tua query SPARQL qui...">SELECT ?subject ?predicate ?object
+WHERE {
+    ?subject ?predicate ?object .
+}
+LIMIT 100</textarea>
+                </div>
+                <div class="query-status">
+                    <span id="queryStatus" class="status-text">Pronto per eseguire query</span>
+                </div>
+            </div>
+
+            <!-- Visualization Panel -->
+            <div class="visualization-panel">
+                <div class="section-header">
+                    <h2><i class="fas fa-eye"></i> Visualizzazione Grafo</h2>
+                    <div class="viz-controls">
+                        <button id="resetZoom" class="btn btn-secondary">
+                            <i class="fas fa-search-minus"></i> Reset Zoom
+                        </button>
+                        <button id="centerGraph" class="btn btn-secondary">
+                            <i class="fas fa-crosshairs"></i> Centra
+                        </button>
+                        <select id="layoutSelect" class="form-control">
+                            <option value="force">Force Layout</option>
+                            <option value="circular">Circular Layout</option>
+                            <option value="hierarchical">Hierarchical Layout</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="graphContainer" class="graph-container">
+                    <div class="graph-placeholder">
+                        <i class="fas fa-project-diagram"></i>
+                        <p>Seleziona un repository ed esegui una query per visualizzare il grafo</p>
+                    </div>
+                </div>
+                <div class="graph-info">
+                    <span id="graphStats" class="info-text">Nodi: 0, Collegamenti: 0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="results-panel">
+            <div class="section-header">
+                <h2><i class="fas fa-table"></i> Risultati Query</h2>
+                <div class="results-controls">
+                    <button id="exportResults" class="btn btn-secondary" disabled>
+                        <i class="fas fa-download"></i> Esporta CSV
+                    </button>
+                    <span id="resultsCount" class="info-text">0 risultati</span>
+                </div>
+            </div>
+            <div class="results-container">
+                <div id="resultsTable" class="results-table">
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>Nessun risultato da visualizzare</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Caricamento in corso...</p>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="errorModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Errore</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage">Si è verificato un errore</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary modal-close">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://d3js.org/d3.v7.min.js" onerror="console.error('Failed to load D3.js')"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js" onerror="console.error('Failed to load CodeMirror')"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/sparql/sparql.min.js" onerror="console.error('Failed to load CodeMirror SPARQL mode')"></script>
+    <script>
+        // Check if libraries loaded successfully
+        window.addEventListener('load', function() {
+            console.log('Page loaded');
+            console.log('D3 available:', typeof d3 !== 'undefined');
+            console.log('CodeMirror available:', typeof CodeMirror !== 'undefined');
+            
+            if (typeof d3 === 'undefined') {
+                console.error('D3.js failed to load!');
+            }
+            if (typeof CodeMirror === 'undefined') {
+                console.error('CodeMirror failed to load!');
+            }
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
