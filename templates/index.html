@@ -78,6 +78,9 @@ LIMIT 100</textarea>
                         <button id="centerGraph" class="btn btn-secondary">
                             <i class="fas fa-crosshairs"></i> Center
                         </button>
+                        <button id="fullscreenBtn" class="btn btn-secondary">
+                            <i class="fas fa-expand"></i> Fullscreen
+                        </button>
                         <select id="layoutSelect" class="form-control">
                             <option value="force">Force Layout</option>
                             <option value="circular">Circular Layout</option>
@@ -85,10 +88,22 @@ LIMIT 100</textarea>
                         </select>
                     </div>
                 </div>
-                <div id="graphContainer" class="graph-container">
-                    <div class="graph-placeholder">
-                        <i class="fas fa-project-diagram"></i>
-                        <p>Select a repository and execute a query to visualize the graph</p>
+                <div class="graph-wrapper">
+                    <div id="graphContainer" class="graph-container">
+                        <div class="graph-placeholder">
+                            <i class="fas fa-project-diagram"></i>
+                            <p>Select a repository and execute a query to visualize the graph</p>
+                        </div>
+                    </div>
+                    <!-- Properties Panel (visible only in fullscreen) -->
+                    <div id="propertiesPanel" class="properties-panel">
+                        <div class="properties-header">
+                            <h3 id="propertiesTitle"><i class="fas fa-info-circle"></i> Properties</h3>
+                            <button id="closeProperties" class="close-btn">&times;</button>
+                        </div>
+                        <div id="propertiesContent" class="properties-content">
+                            <p class="no-selection">Click on a node or edge to view properties</p>
+                        </div>
                     </div>
                 </div>
                 <div class="graph-info">
@@ -148,7 +163,6 @@ LIMIT 100</textarea>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js" onerror="console.error('Failed to load CodeMirror')"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/sparql/sparql.min.js" onerror="console.error('Failed to load CodeMirror SPARQL mode')"></script>
     <script>
-        // Check if libraries loaded successfully
         window.addEventListener('load', function() {
             console.log('Page loaded');
             console.log('D3 available:', typeof d3 !== 'undefined');

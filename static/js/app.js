@@ -7,6 +7,11 @@ class KnowledgeGraphApp {
         this.simulation = null;
         this.svg = null;
         this.currentResults = null;
+        this.isFullscreen = false;
+        this.selectedElement = null;
+        this.isDragging = false;
+        this.dragStartX = 0;
+        this.dragStartY = 0;
         
         this.init();
     }
@@ -25,7 +30,6 @@ class KnowledgeGraphApp {
     }
 
     setupEventListeners() {
-        // Repository selection
         document.getElementById('repositorySelect').addEventListener('change', (e) => {
             this.selectRepository(e.target.value);
         });
@@ -34,7 +38,6 @@ class KnowledgeGraphApp {
             this.loadRepositories();
         });
 
-        // Query controls
         document.getElementById('executeQuery').addEventListener('click', () => {
             this.executeQuery();
         });
@@ -47,7 +50,6 @@ class KnowledgeGraphApp {
             this.loadExampleQuery();
         });
 
-        // Visualization controls
         document.getElementById('resetZoom').addEventListener('click', () => {
             this.resetZoom();
         });
@@ -60,19 +62,24 @@ class KnowledgeGraphApp {
             this.changeLayout(e.target.value);
         });
 
-        // Results controls
+        document.getElementById('fullscreenBtn').addEventListener('click', () => {
+            this.toggleFullscreen();
+        });
+
+        document.getElementById('closeProperties').addEventListener('click', () => {
+            this.closePropertiesPanel();
+        });
+
         document.getElementById('exportResults').addEventListener('click', () => {
             this.exportResults();
         });
 
-        // Modal controls
         document.querySelectorAll('.modal-close').forEach(btn => {
             btn.addEventListener('click', () => {
                 this.hideModal();
             });
         });
 
-        // Click outside modal to close
         document.getElementById('errorModal').addEventListener('click', (e) => {
             if (e.target.id === 'errorModal') {
                 this.hideModal();
@@ -115,14 +122,11 @@ class KnowledgeGraphApp {
         this.showLoading();
         try {
             const response = await fetch('/repositories');
-            console.log('Repository response status:', response.status);
             const data = await response.json();
-            console.log('Repository data:', data);
             
             if (response.ok) {
                 this.populateRepositorySelect(data.repositories);
                 this.updateStatus('Repositories loaded successfully', 'success');
-                console.log('Repositories loaded successfully:', data.repositories);
             } else {
                 throw new Error(data.error || 'Error loading repositories');
             }
@@ -176,15 +180,12 @@ class KnowledgeGraphApp {
     async executeQuery() {
         console.log('Executing query...');
         if (!this.currentRepository) {
-            console.error('No repository selected');
             this.showError('Please select a repository first');
             return;
         }
 
         const query = this.queryEditor.getValue().trim();
-        console.log('Query:', query);
         if (!query) {
-            console.error('No query provided');
             this.showError('Please enter a SPARQL query');
             return;
         }
@@ -198,34 +199,25 @@ class KnowledgeGraphApp {
             formData.append('query', query);
             formData.append('format', 'json');
 
-            console.log('Sending query to repository:', this.currentRepository);
             const response = await fetch('/query', {
                 method: 'POST',
                 body: formData
             });
 
-            console.log('Query response status:', response.status);
             const data = await response.json();
-            console.log('Query response data:', data);
 
             if (response.ok) {
-                // Handle the nested structure from GraphDB
                 let actualResults = data.results;
-                console.log('Raw API results:', actualResults);
                 
                 if (actualResults && actualResults.results && actualResults.results.bindings) {
-                    // GraphDB returns nested structure: results.results.bindings
                     actualResults = actualResults.results;
-                    console.log('Extracted nested results:', actualResults);
                 } else if (actualResults && actualResults.bindings) {
-                    // Direct structure: results.bindings
-                    console.log('Using direct results structure');
+                    // Direct structure
                 } else {
                     console.warn('Unexpected results structure:', actualResults);
                 }
                 
                 this.currentResults = actualResults;
-                console.log('Final results for processing:', actualResults);
                 this.displayResults(actualResults);
                 this.visualizeGraph(actualResults);
                 this.updateQueryStatus('Query executed successfully', 'success');
@@ -242,7 +234,6 @@ class KnowledgeGraphApp {
     }
 
     displayResults(results) {
-        console.log('Displaying results:', results);
         const container = document.getElementById('resultsTable');
         const countElement = document.getElementById('resultsCount');
         const exportBtn = document.getElementById('exportResults');
@@ -261,18 +252,13 @@ class KnowledgeGraphApp {
 
         const bindings = results.bindings;
         
-        // Get variables from head.vars or extract from first binding
         let variables = [];
         if (results.head && results.head.vars) {
             variables = results.head.vars;
         } else if (bindings.length > 0) {
-            // Extract variable names from first binding
             variables = Object.keys(bindings[0]);
         }
-        
-        console.log('Variables found:', variables);
 
-        // Create table
         let tableHTML = '<table><thead><tr>';
         variables.forEach(variable => {
             tableHTML += `<th>${variable}</th>`;
@@ -303,64 +289,72 @@ class KnowledgeGraphApp {
     }
 
     visualizeGraph(results) {
-        console.log('Visualizing graph with results:', results);
         if (!results || !results.bindings || results.bindings.length === 0) {
-            console.log('No results to visualize, clearing graph');
             this.clearGraph();
             return;
         }
 
-        console.log('Converting results to graph data...');
+        this.lastQueryResults = results;
+
         const graphData = this.convertResultsToGraph(results);
-        console.log('Graph data:', graphData);
         this.updateGraph(graphData);
     }
 
     convertResultsToGraph(results) {
         const nodes = new Map();
         const links = [];
+        const triples = [];
 
         results.bindings.forEach(binding => {
-            // Try to identify subject, predicate, object pattern
             const vars = Object.keys(binding);
             
             if (vars.includes('subject') && vars.includes('predicate') && vars.includes('object')) {
-                // Standard SPO pattern
                 const subject = binding.subject;
                 const predicate = binding.predicate;
                 const object = binding.object;
 
-                // Add subject node
+                if (subject && predicate && object) {
+                    triples.push({
+                        subject: subject.value,
+                        subjectLabel: this.shortenUri(subject.value),
+                        predicate: predicate.value,
+                        predicateLabel: this.shortenUri(predicate.value),
+                        object: object.value,
+                        objectLabel: object.type === 'literal' ? object.value : this.shortenUri(object.value),
+                        objectType: object.type
+                    });
+                }
+
                 if (subject && !nodes.has(subject.value)) {
                     nodes.set(subject.value, {
                         id: subject.value,
                         label: this.shortenUri(subject.value),
                         type: subject.type,
-                        fullUri: subject.value
+                        fullUri: subject.value,
+                        triples: []
                     });
                 }
 
-                // Add object node
                 if (object && !nodes.has(object.value)) {
                     nodes.set(object.value, {
                         id: object.value,
                         label: object.type === 'literal' ? object.value : this.shortenUri(object.value),
                         type: object.type,
-                        fullUri: object.value
+                        fullUri: object.value,
+                        triples: []
                     });
                 }
 
-                // Add link
                 if (subject && object && predicate) {
                     links.push({
                         source: subject.value,
                         target: object.value,
                         label: this.shortenUri(predicate.value),
-                        predicate: predicate.value
+                        predicate: predicate.value,
+                        predicateLabel: this.shortenUri(predicate.value)
                     });
                 }
             } else {
-                // Generic pattern - create nodes for all variables
                 vars.forEach(variable => {
                     const value = binding[variable];
                     if (value && !nodes.has(value.value)) {
@@ -369,9 +363,32 @@ class KnowledgeGraphApp {
                             label: value.type === 'literal' ? value.value : this.shortenUri(value.value),
                             type: value.type,
                             fullUri: value.value,
-                            variable: variable
+                            variable: variable,
+                            triples: []
                         });
                     }
+                });
+            }
+        });
+
+        triples.forEach(triple => {
+            if (nodes.has(triple.subject)) {
+                nodes.get(triple.subject).triples.push({
+                    role: 'subject',
+                    predicate: triple.predicateLabel,
+                    predicateFull: triple.predicate,
+                    value: triple.objectLabel,
+                    valueFull: triple.object,
+                    valueType: triple.objectType
+                });
+            }
+            if (nodes.has(triple.object)) {
+                nodes.get(triple.object).triples.push({
+                    role: 'object',
+                    subject: triple.subjectLabel,
+                    subjectFull: triple.subject,
+                    predicate: triple.predicateLabel,
+                    predicateFull: triple.predicate
                 });
             }
         });
@@ -390,11 +407,20 @@ class KnowledgeGraphApp {
         // Clear existing content
         container.innerHTML = '';
 
-        // Create SVG
+        // FIX: SVG uses 100% width/height so it always fills its container.
+        // The viewBox defines a fixed coordinate system that D3 works in.
+        // preserveAspectRatio ensures the graph scales uniformly.
         this.svg = d3.select('#graphContainer')
             .append('svg')
-            .attr('width', width)
-            .attr('height', height);
+            .attr('width', '100%')
+            .attr('height', '100%')
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .style('display', 'block');
+        
+        // Store the viewBox dimensions — these never change
+        this.viewBoxWidth = width;
+        this.viewBoxHeight = height;
 
         // Add arrow marker
         this.svg.append('defs').append('marker')
@@ -432,9 +458,10 @@ class KnowledgeGraphApp {
         }
 
         this.graphData = graphData;
-        const container = document.getElementById('graphContainer');
-        const width = container.clientWidth;
-        const height = container.clientHeight;
+        
+        // Always use the fixed viewBox coordinate system
+        const width = this.viewBoxWidth;
+        const height = this.viewBoxHeight;
 
         // Update simulation
         this.simulation = d3.forceSimulation(graphData.nodes)
@@ -452,7 +479,13 @@ class KnowledgeGraphApp {
             .selectAll('line')
             .data(graphData.links)
             .enter().append('line')
-            .attr('class', 'link');
+            .attr('class', 'link')
+            .on('click', (event, d) => {
+                if (this.isFullscreen && !this.isDragging) {
+                    event.stopPropagation();
+                    this.showEdgeProperties(d, event.currentTarget);
+                }
+            });
 
         // Create link labels
         const linkLabel = g.append('g')
@@ -471,6 +504,20 @@ class KnowledgeGraphApp {
             .enter().append('circle')
             .attr('class', d => `node ${d.type}`)
             .attr('r', d => d.type === 'literal' ? 8 : 12)
+            .on('click', (event, d) => {
+                if (this.isFullscreen && !this.isDragging) {
+                    event.stopPropagation();
+                    this.showNodeProperties(d, event.currentTarget);
+                }
+            })
+            .on('dblclick', (event, d) => {
+                d.fx = null;
+                d.fy = null;
+                d3.select(event.currentTarget).classed('pinned', false);
+                if (!this.simulation.alpha() > 0.3) {
+                    this.simulation.alpha(0.3).restart();
+                }
+            })
             .call(d3.drag()
                 .on('start', (event, d) => this.dragstarted(event, d))
                 .on('drag', (event, d) => this.dragged(event, d))
@@ -488,7 +535,7 @@ class KnowledgeGraphApp {
 
         // Add tooltips
         node.append('title')
-            .text(d => `${d.type}: ${d.fullUri || d.id}`);
+            .text(d => `${d.type}: ${d.fullUri || d.id}\n\n💡 Drag to reposition\n💡 Double-click to unlock`);
 
         // Update positions on simulation tick
         this.simulation.on('tick', () => {
@@ -537,17 +584,29 @@ class KnowledgeGraphApp {
         if (!event.active) this.simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
+        this.isDragging = false;
+        this.dragStartX = event.x;
+        this.dragStartY = event.y;
     }
 
     dragged(event, d) {
         d.fx = event.x;
         d.fy = event.y;
+        const dx = event.x - this.dragStartX;
+        const dy = event.y - this.dragStartY;
+        if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+            this.isDragging = true;
+        }
     }
 
     dragended(event, d) {
         if (!event.active) this.simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
+        
+        if (this.isDragging) {
+            d3.select(event.sourceEvent.target).classed('pinned', true);
+        }
+        
+        this.isDragging = false;
     }
 
     resetZoom() {
@@ -561,26 +620,63 @@ class KnowledgeGraphApp {
 
     centerGraph() {
         if (this.simulation && this.graphData.nodes.length > 0) {
-            const container = document.getElementById('graphContainer');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            
+            const width = this.viewBoxWidth;
+            const height = this.viewBoxHeight;
+
+            // Release all fixed nodes
+            this.graphData.nodes.forEach(node => {
+                node.fx = null;
+                node.fy = null;
+            });
+            if (this.svg) {
+                this.svg.selectAll('.node').classed('pinned', false);
+            }
+
             this.simulation
                 .force('center', d3.forceCenter(width / 2, height / 2))
-                .alpha(0.3)
+                .alpha(0.5)
                 .restart();
+            
+            this.resetZoom();
+        }
+    }
+
+    fitGraphToViewBox() {
+        if (!this.svg || !this.zoomBehavior) return;
+        try {
+            const g = this.svg.select('.graph-group');
+            if (g.empty()) return;
+            const bounds = g.node().getBBox();
+            const vbWidth = this.viewBoxWidth;
+            const vbHeight = this.viewBoxHeight;
+
+            if (!bounds || !isFinite(bounds.width) || !isFinite(bounds.height) || bounds.width === 0 || bounds.height === 0) {
+                this.resetZoom();
+                return;
+            }
+
+            const scale = Math.min(4, 0.85 / Math.max(bounds.width / vbWidth, bounds.height / vbHeight));
+            const translateX = vbWidth / 2 - scale * (bounds.x + bounds.width / 2);
+            const translateY = vbHeight / 2 - scale * (bounds.y + bounds.height / 2);
+
+            this.svg.transition().duration(400).call(
+                this.zoomBehavior.transform,
+                d3.zoomIdentity.translate(translateX, translateY).scale(scale)
+            );
+        } catch (e) {
+            console.error('fitGraphToViewBox error:', e);
         }
     }
 
     changeLayout(layoutType) {
         if (!this.simulation || this.graphData.nodes.length === 0) return;
 
-        const container = document.getElementById('graphContainer');
-        const width = container.clientWidth;
-        const height = container.clientHeight;
+        const width = this.viewBoxWidth;
+        const height = this.viewBoxHeight;
 
         switch (layoutType) {
             case 'force':
+                this.graphData.nodes.forEach(node => { node.fx = null; node.fy = null; });
                 this.simulation
                     .force('link', d3.forceLink(this.graphData.links).id(d => d.id).distance(100))
                     .force('charge', d3.forceManyBody().strength(-300))
@@ -600,6 +696,7 @@ class KnowledgeGraphApp {
                 });
                 break;
             case 'hierarchical':
+                this.graphData.nodes.forEach(node => { node.fx = null; node.fy = null; });
                 this.simulation
                     .force('link', d3.forceLink(this.graphData.links).id(d => d.id).distance(80))
                     .force('charge', d3.forceManyBody().strength(-200))
@@ -627,7 +724,6 @@ LIMIT 20`;
         
         this.queryEditor.setValue(exampleQuery);
         this.updateQueryStatus();
-        console.log('Example query loaded');
     }
 
     updateQueryStatus(message = null, type = null) {
@@ -652,7 +748,6 @@ LIMIT 20`;
     }
 
     updateStatus(message, type) {
-        // Could be used for general status updates
         console.log(`${type}: ${message}`);
     }
 
@@ -664,7 +759,6 @@ LIMIT 20`;
 
         const bindings = this.currentResults.bindings;
         
-        // Get variables from head.vars or extract from first binding
         let variables = [];
         if (this.currentResults.head && this.currentResults.head.vars) {
             variables = this.currentResults.head.vars;
@@ -672,7 +766,6 @@ LIMIT 20`;
             variables = Object.keys(bindings[0]);
         }
 
-        // Create CSV content
         let csvContent = variables.join(',') + '\n';
         bindings.forEach(binding => {
             const row = variables.map(variable => {
@@ -682,7 +775,6 @@ LIMIT 20`;
             csvContent += row.join(',') + '\n';
         });
 
-        // Download CSV
         const blob = new Blob([csvContent], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -697,7 +789,6 @@ LIMIT 20`;
     shortenUri(uri) {
         if (!uri || typeof uri !== 'string') return uri;
         
-        // Common prefixes
         const prefixes = {
             'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf:',
             'http://www.w3.org/2000/01/rdf-schema#': 'rdfs:',
@@ -714,7 +805,6 @@ LIMIT 20`;
             }
         }
 
-        // If no prefix match, show last part of URI
         const lastSlash = uri.lastIndexOf('/');
         const lastHash = uri.lastIndexOf('#');
         const lastSeparator = Math.max(lastSlash, lastHash);
@@ -741,6 +831,269 @@ LIMIT 20`;
 
     hideModal() {
         document.getElementById('errorModal').style.display = 'none';
+    }
+
+    // =============================================
+    // FULLSCREEN — fixed version
+    // =============================================
+    toggleFullscreen() {
+        const panel = document.querySelector('.visualization-panel');
+        const btn = document.getElementById('fullscreenBtn');
+        
+        this.isFullscreen = !this.isFullscreen;
+        
+        if (this.isFullscreen) {
+            // --- ENTER fullscreen ---
+            panel.classList.add('fullscreen');
+            btn.innerHTML = '<i class="fas fa-compress"></i> Exit Fullscreen';
+            
+            if (this.svg) {
+                this.svg.selectAll('.node').style('cursor', 'pointer');
+                this.svg.selectAll('.link').style('cursor', 'pointer');
+            }
+            
+            // After CSS transition completes, fit graph into the new large viewport
+            setTimeout(() => {
+                this.fitGraphToViewBox();
+            }, 350);
+            
+        } else {
+            // --- EXIT fullscreen ---
+            panel.classList.remove('fullscreen');
+            btn.innerHTML = '<i class="fas fa-expand"></i> Fullscreen';
+            this.closePropertiesPanel();
+            
+            if (this.svg) {
+                this.svg.selectAll('.node').style('cursor', 'default');
+                this.svg.selectAll('.link').style('cursor', 'default');
+            }
+            
+            // After CSS transition completes, reset zoom so graph fits the small container
+            setTimeout(() => {
+                this.resetZoom();
+            }, 350);
+        }
+    }
+
+    // Properties panel methods
+    showNodeProperties(nodeData, element) {
+        this.clearSelection();
+        
+        this.selectedElement = element;
+        d3.select(element).classed('selected', true);
+        
+        const panel = document.getElementById('propertiesPanel');
+        const content = document.getElementById('propertiesContent');
+        const title = document.getElementById('propertiesTitle');
+        
+        if (!panel) {
+            console.error('Properties panel not found in DOM!');
+            return;
+        }
+        
+        title.innerHTML = '<i class="fas fa-circle"></i> Node Properties';
+        
+        let html = '';
+        
+        html += `
+            <div class="property-item">
+                <div class="property-label">ID</div>
+                <div class="property-value">${this.escapeHtml(nodeData.id)}</div>
+            </div>
+        `;
+        
+        html += `
+            <div class="property-item">
+                <div class="property-label">Label</div>
+                <div class="property-value">${this.escapeHtml(nodeData.label)}</div>
+            </div>
+        `;
+        
+        html += `
+            <div class="property-item">
+                <div class="property-label">Type</div>
+                <div class="property-value">${this.escapeHtml(nodeData.type)}</div>
+            </div>
+        `;
+        
+        if (nodeData.fullUri && nodeData.fullUri !== nodeData.id) {
+            html += `
+                <div class="property-item">
+                    <div class="property-label">Full URI</div>
+                    <div class="property-value">
+                        <a href="${nodeData.fullUri}" target="_blank">${this.escapeHtml(nodeData.fullUri)}</a>
+                    </div>
+                </div>
+            `;
+        }
+        
+        if (nodeData.variable) {
+            html += `
+                <div class="property-item">
+                    <div class="property-label">Variable</div>
+                    <div class="property-value">${this.escapeHtml(nodeData.variable)}</div>
+                </div>
+            `;
+        }
+        
+        if (nodeData.triples && nodeData.triples.length > 0) {
+            html += `
+                <div class="property-item">
+                    <div class="property-label">Triples (${nodeData.triples.length})</div>
+                    <div class="property-value">
+            `;
+            
+            nodeData.triples.forEach((triple, index) => {
+                if (triple.role === 'subject') {
+                    html += `
+                        <div style="margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #667eea;">
+                            <strong style="color: #667eea;">→</strong> 
+                            <span style="color: #667eea;">${this.escapeHtml(triple.predicate)}</span> → 
+                            <span style="color: #2c3e50;">${this.escapeHtml(triple.value)}</span>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div style="margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #764ba2;">
+                            <span style="color: #2c3e50;">${this.escapeHtml(triple.subject)}</span> → 
+                            <span style="color: #764ba2;">${this.escapeHtml(triple.predicate)}</span> 
+                            <strong style="color: #764ba2;">→</strong>
+                        </div>
+                    `;
+                }
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+        
+        const excludeKeys = ['id', 'label', 'type', 'fullUri', 'variable', 'triples', 'x', 'y', 'vx', 'vy', 'fx', 'fy', 'index'];
+        Object.keys(nodeData).forEach(key => {
+            if (!excludeKeys.includes(key)) {
+                html += `
+                    <div class="property-item">
+                        <div class="property-label">${this.escapeHtml(key)}</div>
+                        <div class="property-value">${this.escapeHtml(String(nodeData[key]))}</div>
+                    </div>
+                `;
+            }
+        });
+        
+        content.innerHTML = html;
+        panel.classList.add('active');
+    }
+
+    showEdgeProperties(edgeData, element) {
+        this.clearSelection();
+        
+        this.selectedElement = element;
+        d3.select(element).classed('selected', true);
+        
+        const panel = document.getElementById('propertiesPanel');
+        const content = document.getElementById('propertiesContent');
+        const title = document.getElementById('propertiesTitle');
+        
+        title.innerHTML = '<i class="fas fa-arrow-right"></i> Edge Properties';
+        
+        let html = '';
+        
+        const sourceNode = edgeData.source;
+        const targetNode = edgeData.target;
+        const sourceLabel = sourceNode.label || this.shortenUri(sourceNode.id || sourceNode);
+        const targetLabel = targetNode.label || this.shortenUri(targetNode.id || targetNode);
+        
+        html += `
+            <div class="property-item">
+                <div class="property-label">Triple</div>
+                <div class="property-value">
+                    <div style="padding: 12px; background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%); border-radius: 8px; border-left: 4px solid #667eea;">
+                        <div style="margin-bottom: 8px;">
+                            <strong style="color: #667eea;">Subject:</strong><br>
+                            <span style="color: #2c3e50; margin-left: 10px;">${this.escapeHtml(sourceLabel)}</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong style="color: #f39c12;">Predicate:</strong><br>
+                            <span style="color: #2c3e50; margin-left: 10px;">${this.escapeHtml(edgeData.label)}</span>
+                        </div>
+                        <div>
+                            <strong style="color: #764ba2;">Object:</strong><br>
+                            <span style="color: #2c3e50; margin-left: 10px;">${this.escapeHtml(targetLabel)}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        html += `
+            <div class="property-item">
+                <div class="property-label">Source Node</div>
+                <div class="property-value">
+                    <strong>Label:</strong> ${this.escapeHtml(sourceLabel)}<br>
+                    <strong>URI:</strong> <a href="${sourceNode.id || sourceNode}" target="_blank" style="word-break: break-all;">${this.escapeHtml(sourceNode.id || sourceNode)}</a><br>
+                    ${sourceNode.type ? `<strong>Type:</strong> ${this.escapeHtml(sourceNode.type)}` : ''}
+                </div>
+            </div>
+        `;
+        
+        html += `
+            <div class="property-item">
+                <div class="property-label">Target Node</div>
+                <div class="property-value">
+                    <strong>Label:</strong> ${this.escapeHtml(targetLabel)}<br>
+                    <strong>URI:</strong> <a href="${targetNode.id || targetNode}" target="_blank" style="word-break: break-all;">${this.escapeHtml(targetNode.id || targetNode)}</a><br>
+                    ${targetNode.type ? `<strong>Type:</strong> ${this.escapeHtml(targetNode.type)}` : ''}
+                </div>
+            </div>
+        `;
+        
+        html += `
+            <div class="property-item">
+                <div class="property-label">Predicate URI</div>
+                <div class="property-value">
+                    <a href="${edgeData.predicate}" target="_blank" style="word-break: break-all;">${this.escapeHtml(edgeData.predicate)}</a>
+                </div>
+            </div>
+        `;
+        
+        const excludeKeys = ['source', 'target', 'predicate', 'predicateLabel', 'label', 'index'];
+        Object.keys(edgeData).forEach(key => {
+            if (!excludeKeys.includes(key) && typeof edgeData[key] !== 'object') {
+                html += `
+                    <div class="property-item">
+                        <div class="property-label">${this.escapeHtml(key)}</div>
+                        <div class="property-value">${this.escapeHtml(String(edgeData[key]))}</div>
+                    </div>
+                `;
+            }
+        });
+        
+        content.innerHTML = html;
+        panel.classList.add('active');
+    }
+
+    closePropertiesPanel() {
+        const panel = document.getElementById('propertiesPanel');
+        const content = document.getElementById('propertiesContent');
+        
+        panel.classList.remove('active');
+        content.innerHTML = '<p class="no-selection">Click on a node or edge to view properties</p>';
+        
+        this.clearSelection();
+    }
+
+    clearSelection() {
+        if (this.selectedElement) {
+            d3.select(this.selectedElement).classed('selected', false);
+            this.selectedElement = null;
+        }
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 }
 

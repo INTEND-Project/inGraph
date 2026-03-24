@@ -84,8 +84,8 @@ def upload_jsonld_file(file_path, repository="second-graph", server_url="http://
 
 if __name__ == "__main__":
     # Configuration
-    file_to_upload = "KG/gateKG.jsonld"
-    target_repository = "GATE11"
+    file_to_upload = "fillKG-test2.jsonld"
+    target_repository = "fillKG-test2"
     
     # Step 1: Create the repository
     repo_created = create_repository(target_repository)

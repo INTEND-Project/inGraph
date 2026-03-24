@@ -132,9 +132,20 @@ body {
     align-items: center;
 }
 
-/* Graph Container */
-.graph-container {
+/* Graph Wrapper - contains both graph and properties panel */
+.graph-wrapper {
+    position: relative;
     height: 400px;
+}
+
+/* Graph Container
+   FIX: overflow: hidden instead of auto.
+   The SVG uses viewBox + preserveAspectRatio to scale the graph
+   into whatever container size it has. D3 zoom/pan handles navigation.
+   With overflow:auto the SVG could create scrollbars when its pixel
+   dimensions were larger than the container (e.g. after exiting fullscreen). */
+.graph-container {
+    height: 100%;
     border: 2px solid #e1e8ed;
     border-radius: 10px;
     position: relative;
@@ -450,6 +461,166 @@ body {
     pointer-events: none;
 }
 
+/* Properties Panel */
+.properties-panel {
+    position: absolute;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.properties-panel.active {
+    right: 0 !important;
+    display: flex !important;
+}
+
+.properties-header {
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.properties-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.properties-header h3 i {
+    margin-right: 8px;
+}
+
+.close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.properties-content {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.no-selection {
+    color: #95a5a6;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+.property-item {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.property-item:last-child {
+    border-bottom: none;
+}
+
+.property-label {
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.property-value {
+    color: #2c3e50;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.property-value a {
+    color: #667eea;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.property-value a:hover {
+    text-decoration: underline;
+}
+
+/* Fullscreen Mode */
+.visualization-panel.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    margin: 0;
+    border-radius: 0;
+    max-width: none;
+}
+
+.visualization-panel.fullscreen .graph-wrapper {
+    height: calc(100vh - 140px);
+}
+
+.visualization-panel.fullscreen .graph-container {
+    height: 100%;
+    border-radius: 0;
+}
+
+.visualization-panel.fullscreen .properties-panel {
+    display: flex;
+}
+
+.visualization-panel.fullscreen .section-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* Node and Edge highlight on selection */
+.node.selected {
+    stroke: #f39c12;
+    stroke-width: 4px;
+    filter: drop-shadow(0 0 8px #f39c12);
+}
+
+.link.selected {
+    stroke: #f39c12;
+    stroke-width: 4px;
+    filter: drop-shadow(0 0 6px #f39c12);
+}
+
+/* Pinned/Fixed nodes */
+.node.pinned {
+    stroke: #e74c3c;
+    stroke-width: 3px;
+    stroke-dasharray: 4, 2;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .main-content {
@@ -482,12 +653,21 @@ body {
         flex-wrap: wrap;
     }
     
-    .graph-container {
+    .graph-wrapper {
         height: 300px;
     }
     
     .query-editor-container .CodeMirror {
         height: 200px;
+    }
+    
+    .properties-panel {
+        width: 100%;
+        right: -100%;
+    }
+    
+    .visualization-panel.fullscreen .graph-wrapper {
+        height: calc(100vh - 100px);
     }
 }
 
