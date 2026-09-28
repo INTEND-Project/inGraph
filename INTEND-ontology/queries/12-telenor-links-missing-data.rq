@@ -1,0 +1,16 @@
+# Telenor network CQ: which links have no measured bandwidth and/or
+# packet error rate? Surfaces the source-data gap documented in
+# examples/telenor-network-data.ttl's header (40 links missing
+# bandwidth, 34 missing packet error rate, the two sets not identical)
+# as a queryable result rather than only a comment.
+PREFIX telenor: <https://w3id.org/intend/extensions/telenor#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?link ?name ?hasBandwidth ?hasPacketErrorRate WHERE {
+    ?link a telenor:NetworkLink ;
+          rdfs:label ?name .
+    BIND(EXISTS { ?link telenor:bandwidthTbps ?b } AS ?hasBandwidth)
+    BIND(EXISTS { ?link telenor:packetErrorRatePerSecond ?p } AS ?hasPacketErrorRate)
+    FILTER(!?hasBandwidth || !?hasPacketErrorRate)
+}
+ORDER BY ?name

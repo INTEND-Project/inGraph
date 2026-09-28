@@ -1,0 +1,385 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix fill:   <https://w3id.org/intend/extensions/fill#> .
+@prefix cat:    <https://w3id.org/intend/examples/fill-catalog#> .
+@prefix data:   <https://w3id.org/intend/examples/fill-data#> .
+@prefix tio:    <https://w3id.org/intend/external/tio#> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  FILL GmbH instance data (ABox)
+#  Source: Balzotti et al., "The INTENT Ontology", Section 6 (Validation),
+#  for the users/machines/workflow layer; examples/fill-catalog-data.ttl
+#  (migrated from a real FILL knowledge graph, supplied 2026-08-25) for
+#  the service/component/container/machine-type catalog referenced below.
+#
+#  REVISION NOTE (2026-08-25): this file previously carried its own
+#  invented catalog (Service/ProductComponent/Container individuals named
+#  data:ProdData, data:PC1..PC13, data:C1..C42) reconstructed from the
+#  paper's OCR-extracted Tables 1-4, with an explicit GAP flagged because
+#  Tables 3/4's column layout could not be reliably recovered. That
+#  catalog is now GONE, replaced by real data in
+#  examples/fill-catalog-data.ttl (prefix cat:). Consequences:
+#   - Only 5 real machine types exist (cat:Machine1..cat:Machine5), not
+#     7. MA-02 (previously "Machine6") and MA-04 (previously "Machine7")
+#     have been reassigned to real types below — ILLUSTRATIVE, since the
+#     real KG does not include FILL's customer/ownership data, only the
+#     product catalog. Reassignment: MA-02 -> Machine3, MA-04 -> Machine5.
+#   - Component/Container/Service local names and their relationships
+#     (fill:requires/fill:calls/fill:offersService/
+#     fill:compatibleWithMachineType/fill:hasAvailableContainer) now come
+#     straight from the real KG (see examples/fill-catalog-data.ttl's
+#     header for the anomalies found in that source).
+#   - The 10 example intents below are NEWLY authored (same narrative
+#     style as the paper's Section 6.3, and Intent 1 still follows Figure
+#     7's 3-tier resolution pattern) but their expected container sets
+#     are COMPUTED and VERIFIED against the real catalog (script-checked:
+#     for each (MachineType, Service) pair, ground truth = containers
+#     reachable via Service -requires-> Component -calls-> Container,
+#     filtered to those fill:compatibleWithMachineType that MachineType —
+#     and a Service not in that MachineType's fill:offersService is
+#     treated as infeasible regardless of container compatibility, since
+#     that authorization is itself an explicit source fact). This
+#     replaces the earlier approach of copying numbers from the paper's
+#     Table 5, which is no longer used here.
+#   - Service resolution (which cat:Service a given natural-language
+#     intent maps to) is still an ILLUSTRATIVE editorial choice on my
+#     part, not disclosed by any source — same caveat as before.
+#
+#################################################################
+
+<https://w3id.org/intend/examples/fill-data> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - FILL example instance data"@en ;
+    owl:imports <https://w3id.org/intend/extensions/fill> ,
+                <https://w3id.org/intend/examples/fill-catalog> ;
+    owl:versionInfo "0.2.0" .
+
+#################################################################
+# Roles and Permissions (Section 6.2)
+# Role VOCABULARY is grounded in Section 6.2's explicit text; the
+# assignment of one specific role to each of Pablo/Mary/Amira below is
+# ILLUSTRATIVE (the paper does not say who holds which role).
+#################################################################
+
+data:ProductionManagerRole a intend:Role ; rdfs:label "Production Manager"@en .
+data:MaintenanceTechnicianRole a intend:Role ; rdfs:label "Maintenance Technician"@en .
+data:PlantOperatorRole a intend:Role ; rdfs:label "Plant Operator"@en .
+
+data:pabloPermission a intend:Permission ;
+    intend:action "deploy"^^xsd:string ;
+    intend:scope "production-line-1"^^xsd:string ;
+    rdfs:comment "Illustrative: Section 6.2 states permissions scope deployment to assigned production lines/zones; the specific zone name is not given in the paper." .
+
+data:maryPermission a intend:Permission ;
+    intend:action "deploy"^^xsd:string ;
+    intend:scope "production-line-2"^^xsd:string .
+
+data:amiraPermission a intend:Permission ;
+    intend:action "manage"^^xsd:string ;
+    intend:scope "maintenance-zone-1"^^xsd:string .
+
+#################################################################
+# Users and Machines (Figure 6, machine types reassigned per the
+# REVISION NOTE above — MA-01/MA-03 keep their original valid types)
+#################################################################
+
+data:pablo a intend:Person ;
+    foaf:name "Pablo"^^xsd:string ;
+    intend:hasRole data:ProductionManagerRole ;
+    intend:hasPermission data:pabloPermission .
+
+data:mary a intend:Person ;
+    foaf:name "Mary"^^xsd:string ;
+    intend:hasRole data:MaintenanceTechnicianRole ;
+    intend:hasPermission data:maryPermission .
+
+data:amira a intend:Person ;
+    foaf:name "Amira"^^xsd:string ;
+    intend:hasRole data:PlantOperatorRole ;
+    intend:hasPermission data:amiraPermission .
+
+data:MA01 a fill:Machine ;
+    rdfs:label "MA-01"@en ;
+    fill:hasMachineType cat:Machine2 ;
+    fill:ipAddress "192.168.10.002"^^xsd:string .
+
+data:MA02 a fill:Machine ;
+    rdfs:label "MA-02"@en ;
+    fill:hasMachineType cat:Machine3 ;
+    fill:ipAddress "10.2.45.02"^^xsd:string ;
+    rdfs:comment "Reassigned from the paper's \"Machine6\" (does not exist in the real catalog) to Machine3, the most restricted real machine type — deliberately, so this machine can still illustrate an infeasible-intent case (Intent 5 below)." .
+
+data:MA03 a fill:Machine ;
+    rdfs:label "MA-03"@en ;
+    fill:hasMachineType cat:Machine1 ;
+    fill:ipAddress "10.2.45.01"^^xsd:string .
+
+data:MA04 a fill:Machine ;
+    rdfs:label "MA-04"@en ;
+    fill:hasMachineType cat:Machine5 ;
+    fill:ipAddress "192.168.8.002"^^xsd:string ;
+    rdfs:comment "Reassigned from the paper's \"Machine7\" (does not exist in the real catalog) to Machine5." .
+
+data:pablo fill:owns data:MA01 .
+data:mary  fill:owns data:MA02 , data:MA03 .
+data:amira fill:owns data:MA04 .
+
+#################################################################
+# Business resources + top-level Resource-layer aggregate
+# (illustrative individuals — the paper names the categories in Section
+# 6.2 but gives no concrete edge-server/cloud-instance data for FILL)
+#################################################################
+
+data:fillEdgeServer1 a intend:BusinessResource ; rdfs:label "FILL shop-floor edge server"@en .
+data:fillCloudInstance1 a intend:BusinessResource ; rdfs:label "FILL cloud analytics instance"@en .
+
+data:FillContinuum a intend:Resource ;
+    rdfs:label "FILL computing-continuum resource layer"@en ;
+    rdfs:comment "Worked example of the opt-in Resource-layer aggregate pattern (see shapes/intend-shapes-resource.ttl and shapes/intend-shapes-fill-extension.ttl)." ;
+    intend:consistsIn data:fillEdgeServer1 , data:fillCloudInstance1 ,
+                       data:MA01 , data:MA02 , data:MA03 , data:MA04 .
+
+#################################################################
+# Workflow — shared across all use cases (Section 6.2: "Chatbot, Adapter,
+# Explainer: These components remain consistent across all use cases.")
+#################################################################
+
+data:fillWorkflow a intend:Workflow ;
+    intend:hasChatbot data:chatbot ;
+    intend:hasAdapter data:adapter ;
+    intend:hasExplainer data:explainer ;
+    intend:hasBusinessKnowledge data:businessKnowledge .
+
+data:businessKnowledge a intend:BusinessKnowledge ;
+    rdfs:label "FILL Business Knowledge graph"@en ;
+    intend:hasCapability intend:DataUpload , intend:SparqlQuerying , intend:AutomaticInsightGeneration .
+
+data:dialogEngine a intend:DialogEngine .
+data:nlu a intend:NLU .
+data:vectorStore a intend:VectorStore .
+data:llmService a intend:LLMService ; rdfs:label "GPT-5 mini (via DSPy ReAct agent, Section 6.4.2)"@en .
+
+data:chatbot a intend:Chatbot ;
+    intend:accessesTo data:businessKnowledge ;
+    intend:hasDialogEngine data:dialogEngine ;
+    intend:hasNlu data:nlu ;
+    intend:hasVectorStore data:vectorStore ;
+    intend:hasLlmServices data:llmService .
+
+data:knowledgeExtractor a intend:KnowledgeExtractor .
+data:systemIntentGenerator a intend:SystemIntentGenerator .
+
+data:adapter a intend:Adapter ;
+    intend:accessesTo data:businessKnowledge ;
+    intend:hasKnowledgeExtractor data:knowledgeExtractor ;
+    intend:hasSystemIntentGenerator data:systemIntentGenerator .
+
+data:intentParsingStage a intend:IntentParsingAgent .
+data:logAnalysisStage a intend:LogAnalysisAgent .
+data:outcomeDeterminationStage a intend:OutcomeDeterminationAgent .
+data:explanationGenerationStage a intend:ExplanationGeneratorAgent .
+
+data:explainer a intend:Explainer ;
+    intend:accessesTo data:businessKnowledge ;
+    intend:hasIntentParsingStage data:intentParsingStage ;
+    intend:hasLogAnalysisStage data:logAnalysisStage ;
+    intend:hasOutcomeDeterminationStage data:outcomeDeterminationStage ;
+    intend:hasExplanationGenerationStage data:explanationGenerationStage .
+
+#################################################################
+# INTENT 1 — Pablo / MA-01 (Machine2): "I want to analyze possible
+# leakages." Full 3-tier resolution chain, in the style of Figure 7 (raw
+# NL -> chatbot-clarified -> adapter-resolved system intent), resolving
+# to Prod Data (cat:Service1) — the same non-obvious resolution the
+# paper's own Figure 7 uses (NOT Energy Tracker, despite Energy
+# Tracker's description literally mentioning "leaks" — kept as the same
+# cautionary example as before: service resolution is a judgment call,
+# not keyword matching). Container set VERIFIED against the real
+# catalog: Service1 requires Component1,2,3,6,12; of their containers,
+# exactly these 10 are fill:compatibleWithMachineType cat:Machine2.
+#################################################################
+
+# Tier 1 — raw natural-language intent (owner: Pablo, handler: Chatbot)
+data:intent1_target a tio:Target ; rdfs:label "I want to analyze possible leakages"@en .
+data:intent1_expectation a tio:Expectation ; rdfs:label "Understand and clarify the user's request"@en ;
+    intend:hasTarget data:intent1_target .
+data:intent1 a intend:Intent ;
+    rdfs:label "Intent 1 (tier 1, raw NL)"@en ;
+    intend:hasExpectation data:intent1_expectation ;
+    intend:hasTarget data:intent1_target ;
+    intend:wasAttributedTo data:pablo ;
+    intend:isSentTo data:chatbot .
+data:pablo intend:generates data:intent1 .
+
+# Tier 2 — chatbot-clarified intent (owner: Chatbot, handler: Adapter)
+data:intent2_target a tio:Target ; rdfs:label "run service PROD DATA on machine MA-01"@en .
+data:intent2_condition a tio:Condition ; rdfs:label "must be compatible with MA-01 (Machine2)"@en .
+data:intent2_expectation a tio:Expectation ; rdfs:label "satisfy all conditions"@en ;
+    intend:hasTarget data:intent2_target ;
+    intend:hasCondition data:intent2_condition .
+data:intent2 a intend:Intent ;
+    rdfs:label "Intent 2 (tier 2, chatbot-clarified)"@en ;
+    intend:hasExpectation data:intent2_expectation ;
+    intend:hasTarget data:intent2_target ;
+    intend:hasCondition data:intent2_condition ;
+    intend:wasDerivedFrom data:intent1 ;
+    intend:wasAttributedTo data:chatbot ;
+    intend:isSentTo data:adapter ;
+    intend:deploys cat:Service1 .
+data:chatbot intend:generates data:intent2 .
+
+# Tier 3 — adapter-resolved, machine-actionable system intent
+data:intent3_target a tio:Target ; rdfs:label "run containers Container1,2,3,4,5,11,12,17,19,29 on machine MA-01"@en .
+data:intent3_condition a tio:Condition ; rdfs:label "must be compatible with MA-01 (Machine2)"@en .
+data:intent3_expectation a tio:Expectation ; rdfs:label "satisfy all conditions"@en ;
+    intend:hasTarget data:intent3_target ;
+    intend:hasCondition data:intent3_condition .
+data:intent3 a intend:Intent ;
+    rdfs:label "Intent 3 (tier 3, adapter-resolved system intent)"@en ;
+    intend:hasExpectation data:intent3_expectation ;
+    intend:hasTarget data:intent3_target ;
+    intend:hasCondition data:intent3_condition ;
+    intend:wasDerivedFrom data:intent2 ;
+    intend:wasAttributedTo data:adapter ;
+    intend:deploys cat:Container1, cat:Container2, cat:Container3, cat:Container4, cat:Container5,
+                    cat:Container11, cat:Container12, cat:Container17, cat:Container19, cat:Container29 ;
+    intend:hasIntentReport data:intent1Report .
+data:adapter intend:generates data:intent3 .
+cat:Container1 fill:runsOn data:MA01 .  cat:Container2 fill:runsOn data:MA01 .
+cat:Container3 fill:runsOn data:MA01 .  cat:Container4 fill:runsOn data:MA01 .
+cat:Container5 fill:runsOn data:MA01 .  cat:Container11 fill:runsOn data:MA01 .
+cat:Container12 fill:runsOn data:MA01 . cat:Container17 fill:runsOn data:MA01 .
+cat:Container19 fill:runsOn data:MA01 . cat:Container29 fill:runsOn data:MA01 .
+
+data:intent1Report a intend:IntentReport ;
+    prov:wasGeneratedBy data:explainer ;
+    intend:hasExpectationReport [ a tio:ExpectationReport ; rdfs:label "all conditions satisfied"@en ] ;
+    intend:hasConditionReport [ a tio:ConditionReport ; rdfs:label "MA-01 (Machine2) compatibility check passed"@en ] ;
+    intend:hasTargetReport [ a tio:TargetReport ; rdfs:label "10/10 containers deployed on MA-01 (verified against the real FILL catalog)"@en ] .
+data:explainer intend:sendsReport data:pablo .
+
+#################################################################
+# INTENTS 2-10 — modeled at Target + deploys(service, containers) level.
+# Each container set below is script-verified against
+# examples/fill-catalog-data.ttl (Service -requires-> Component -calls->
+# Container, filtered by fill:compatibleWithMachineType, and gated on
+# the MachineType actually fill:offersService that Service).
+#################################################################
+
+# Pablo/MA-01 (Machine2): deploy Machine State -> 1 container
+data:intent4 a intend:Intent ;
+    rdfs:label "I want to deploy service MACHINE STATE."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "run containers Container23 on machine MA-01"@en ] ;
+    intend:wasAttributedTo data:pablo ;
+    intend:isSentTo data:adapter ;
+    intend:deploys cat:Service2, cat:Container23 .
+data:pablo intend:generates data:intent4 .
+cat:Container23 fill:runsOn data:MA01 .
+
+# Pablo/MA-01 (Machine2): optimize G-Code -> 5 containers (Machine2 DOES
+# offer Service8 in the real catalog, unlike the paper's Table 2 where
+# G-Code Analyzer excluded Pablo's machine type — this scenario is no
+# longer an infeasible case, see Intent 6 for the new infeasible one)
+data:intent5 a intend:Intent ;
+    rdfs:label "I want to optimize the G-Code."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "run containers Container31,32,33,34,39 on machine MA-01"@en ] ;
+    intend:wasAttributedTo data:pablo ;
+    intend:isSentTo data:adapter ;
+    intend:deploys cat:Service8, cat:Container31, cat:Container32, cat:Container33, cat:Container34, cat:Container39 .
+data:pablo intend:generates data:intent5 .
+cat:Container31 fill:runsOn data:MA01 . cat:Container32 fill:runsOn data:MA01 .
+cat:Container33 fill:runsOn data:MA01 . cat:Container34 fill:runsOn data:MA01 .
+cat:Container39 fill:runsOn data:MA01 .
+
+# Mary/MA-02 (Machine3): leakage -> Energy Tracker, 8 containers
+data:intent6 a intend:Intent ;
+    rdfs:label "I fear I have some leakage in my machine MA-02 and want to analyse the process."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "run containers Container1,2,3,4,5,23,25,27 on machine MA-02"@en ] ;
+    intend:wasAttributedTo data:mary ;
+    intend:isSentTo data:adapter ;
+    intend:deploys cat:Service3, cat:Container1, cat:Container2, cat:Container3, cat:Container4, cat:Container5,
+                    cat:Container23, cat:Container25, cat:Container27 ;
+    rdfs:comment "Resolved to Energy Tracker directly (unlike Intent 1's Prod Data resolution for near-identical phrasing) — service resolution is not assumed to be deterministic across users/phrasings; both are plausible, illustrative choices." .
+data:mary intend:generates data:intent6 .
+cat:Container1 fill:runsOn data:MA02 . cat:Container2 fill:runsOn data:MA02 .
+cat:Container3 fill:runsOn data:MA02 . cat:Container4 fill:runsOn data:MA02 .
+cat:Container5 fill:runsOn data:MA02 . cat:Container23 fill:runsOn data:MA02 .
+cat:Container25 fill:runsOn data:MA02 . cat:Container27 fill:runsOn data:MA02 .
+
+# Mary/MA-02 (Machine3): INFEASIBLE — Machine3 does not offer Service10
+# (Tool Performance) at all (fill:offersService), regardless of whether
+# compatible containers exist for it in the abstract.
+data:intent7 a intend:Intent ;
+    rdfs:label "Tools should be replaced based on their condition for MA-02."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "Tool Performance requested for MA-02, but Machine3 does not offer this service"@en ] ;
+    intend:wasAttributedTo data:mary ;
+    intend:isSentTo data:adapter ;
+    rdfs:comment "No intend:deploys asserted on purpose: cat:Machine3.fill:offersService does not include cat:Service10 (verified against examples/fill-catalog-data.ttl) — an authorization-level infeasibility, distinct from Intent 9's capability-level infeasibility below." .
+data:mary intend:generates data:intent7 .
+
+# Mary/MA-03 (Machine1): tool performance -> 4 containers (feasible here,
+# same service as the infeasible Intent 7 above, different machine)
+data:intent8 a intend:Intent ;
+    rdfs:label "Tools should be replaced based on their condition for MA-03."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "run containers Container11,12,17,21 on machine MA-03"@en ] ;
+    intend:wasAttributedTo data:mary ;
+    intend:isSentTo data:adapter ;
+    intend:deploys cat:Service10, cat:Container11, cat:Container12, cat:Container17, cat:Container21 .
+data:mary intend:generates data:intent8 .
+cat:Container11 fill:runsOn data:MA03 . cat:Container12 fill:runsOn data:MA03 .
+cat:Container17 fill:runsOn data:MA03 . cat:Container21 fill:runsOn data:MA03 .
+
+# Mary/MA-03 (Machine1): G-Code -> 5 containers
+data:intent9 a intend:Intent ;
+    rdfs:label "I want to optimize the G-Code on my machine MA-03."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "run containers Container31,32,33,34,39 on machine MA-03"@en ] ;
+    intend:wasAttributedTo data:mary ;
+    intend:isSentTo data:adapter ;
+    intend:deploys cat:Service8, cat:Container31, cat:Container32, cat:Container33, cat:Container34, cat:Container39 .
+data:mary intend:generates data:intent9 .
+cat:Container31 fill:runsOn data:MA03 . cat:Container32 fill:runsOn data:MA03 .
+cat:Container33 fill:runsOn data:MA03 . cat:Container34 fill:runsOn data:MA03 .
+cat:Container39 fill:runsOn data:MA03 .
+
+# Amira/MA-04 (Machine5): alarms -> Alarm Analyzer, 1 container
+data:intent10 a intend:Intent ;
+    rdfs:label "There are a lot of alarms on my machine, I want to analyze them."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "run containers Container29 on machine MA-04"@en ] ;
+    intend:wasAttributedTo data:amira ;
+    intend:isSentTo data:adapter ;
+    intend:deploys cat:Service5, cat:Container29 .
+data:amira intend:generates data:intent10 .
+cat:Container29 fill:runsOn data:MA04 .
+
+# Amira/MA-04 (Machine5): INFEASIBLE (doubly so — Machine5 neither offers
+# Service9 nor has any container that would be compatible with it anyway)
+data:intent11 a intend:Intent ;
+    rdfs:label "I want to detect the optimal temperature range for production."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "Thermo Stability requested for MA-04, but Machine5 does not offer this service"@en ] ;
+    intend:wasAttributedTo data:amira ;
+    intend:isSentTo data:adapter ;
+    rdfs:comment "No intend:deploys asserted: cat:Machine5.fill:offersService does not include cat:Service9, AND Service9 has no fill:requires target in the real catalog at all (Component9 is targeted by no Service, and Service9 targets no Component) — infeasible for two independent reasons." .
+data:amira intend:generates data:intent11 .
+
+# Amira/MA-04 (Machine5): logbook -> 2 containers
+data:intent12 a intend:Intent ;
+    rdfs:label "I want to keep track of component changes and machine crashes."@en ;
+    intend:hasExpectation [ a tio:Expectation ; rdfs:label "satisfy all conditions"@en ] ;
+    intend:hasTarget [ a tio:Target ; rdfs:label "run containers Container23,24 on machine MA-04"@en ] ;
+    intend:wasAttributedTo data:amira ;
+    intend:isSentTo data:adapter ;
+    intend:deploys cat:Service11, cat:Container23, cat:Container24 .
+data:amira intend:generates data:intent12 .
+cat:Container23 fill:runsOn data:MA04 . cat:Container24 fill:runsOn data:MA04 .

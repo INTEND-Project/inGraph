@@ -1,0 +1,222 @@
+{
+  "@context": {
+    "intend": "https://w3id.org/intend/ontology#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "tio": "https://w3id.org/intend/external/tio#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:IntentShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b1"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b2"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b3"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b4"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b5"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b6"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b7"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Intent"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b1",
+      "sh:class": {
+        "@id": "tio:Expectation"
+      },
+      "sh:message": "An Intent must express at least one Expectation.",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasExpectation"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b2",
+      "sh:class": {
+        "@id": "tio:Target"
+      },
+      "sh:message": "An Intent must have at least one Target (canonical Intent -> Target reading, Section 5.1.1 prose).",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasTarget"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b3",
+      "sh:class": {
+        "@id": "tio:Condition"
+      },
+      "sh:message": "Conditions are optional constraints on an Intent.",
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasCondition"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b4",
+      "sh:class": {
+        "@id": "intend:IntentReport"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasIntentReport"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b5",
+      "sh:class": {
+        "@id": "intend:IntentManager"
+      },
+      "sh:message": "An unrouted Intent (not yet sent to a handler) is allowed.",
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:isSentTo"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b6",
+      "sh:class": {
+        "@id": "intend:IntentManager"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "An Intent must be attributed to exactly one responsible IntentManager (owner).",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:wasAttributedTo"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b7",
+      "sh:class": {
+        "@id": "intend:Intent"
+      },
+      "sh:message": "Only sub-intents have a wasDerivedFrom parent.",
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:wasDerivedFrom"
+      }
+    },
+    {
+      "@id": "intend:ExpectationOptionalScopeShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b12"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b13"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "tio:Expectation"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b12",
+      "sh:class": {
+        "@id": "tio:Target"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasTarget"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b13",
+      "sh:class": {
+        "@id": "tio:Condition"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasCondition"
+      }
+    },
+    {
+      "@id": "intend:IntentManagerShape",
+      "@type": "sh:NodeShape",
+      "sh:property": {
+        "@id": "_:n64d0094399a1459da7d17f9cc54976e7b8"
+      },
+      "sh:targetClass": {
+        "@id": "intend:IntentManager"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b8",
+      "sh:class": {
+        "@id": "intend:Capability"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasCapability"
+      }
+    },
+    {
+      "@id": "intend:IntentReportShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b9"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b10"
+        },
+        {
+          "@id": "_:n64d0094399a1459da7d17f9cc54976e7b11"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:IntentReport"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b9",
+      "sh:class": {
+        "@id": "tio:ExpectationReport"
+      },
+      "sh:message": "An IntentReport must trace the fulfillment of at least one Expectation.",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasExpectationReport"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b10",
+      "sh:class": {
+        "@id": "tio:ConditionReport"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasConditionReport"
+      }
+    },
+    {
+      "@id": "_:n64d0094399a1459da7d17f9cc54976e7b11",
+      "sh:class": {
+        "@id": "tio:TargetReport"
+      },
+      "sh:message": "An IntentReport must trace the resolution of at least one Target.",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasTargetReport"
+      }
+    }
+  ]
+}

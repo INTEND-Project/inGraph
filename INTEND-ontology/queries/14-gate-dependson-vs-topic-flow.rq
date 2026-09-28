@@ -1,0 +1,36 @@
+# GATE pipeline CQ: cross-check the explicit intend:dependsOn assertions
+# against the dependency implied by shared Kafka topics (A depends on B if B
+# gate:producesToTopic T and A gate:consumesFromTopic the SAME T). Verified
+# programmatically before migration: exactly one pair disagrees —
+# data:traffic-jam-alert intend:dependsOn data:traffic-jam-detector is
+# explicit but not implied by any shared topic (the two microservices'
+# topics differ: "traffic_jam_detector" vs "traffic_jam_detections" — see
+# examples/gate-microservices-data.ttl header and
+# queries/13-gate-topic-flow-anomalies.rq).
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX gate:   <https://w3id.org/intend/extensions/gate#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?consumer ?consumerName ?producer ?producerName ?reason WHERE {
+    {
+        # explicit dependsOn with no shared-topic explanation
+        ?consumer intend:dependsOn ?producer ;
+                  rdfs:label ?consumerName .
+        ?producer rdfs:label ?producerName .
+        FILTER NOT EXISTS {
+            ?producer gate:producesToTopic ?t .
+            ?consumer gate:consumesFromTopic ?t .
+        }
+        BIND("explicit dependsOn, no shared topic found" AS ?reason)
+    } UNION {
+        # shared-topic flow with no explicit dependsOn
+        ?producer gate:producesToTopic ?t .
+        ?consumer gate:consumesFromTopic ?t ;
+                  rdfs:label ?consumerName .
+        ?producer rdfs:label ?producerName .
+        FILTER (?producer != ?consumer)
+        FILTER NOT EXISTS { ?consumer intend:dependsOn ?producer }
+        BIND("shared topic, no explicit dependsOn" AS ?reason)
+    }
+}
+ORDER BY ?consumerName

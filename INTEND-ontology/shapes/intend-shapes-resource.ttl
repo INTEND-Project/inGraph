@@ -1,0 +1,90 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  SHACL shapes — Resource module
+#################################################################
+
+# NOTE on consistsIn cardinality: Figure 2 shows "resource -consistsIn-> business
+# resource" as 1..* and "resource -consistsIn-> customer resource" as 0..*. This is
+# NOT a per-instance recursive requirement (an individual Machine does not itself
+# have to consist of a BusinessResource — that would be nonsensical for an atomic
+# device). It describes the *overall Resource layer of the continuum* as a
+# conceptual aggregate of >=1 BusinessResource and >=0 CustomerResource. We therefore
+# leave `consistsIn` fully optional on the generic ResourceShape below (minCount 0)
+# and express the aggregate cardinality only where a project actually models such a
+# top-level pool individual, via the qualified shape further down (targeted with
+# sh:targetNode per deployment, not sh:targetClass intend:Resource).
+intend:ResourceShape a sh:NodeShape ;
+    sh:targetClass intend:Resource ;
+    sh:property [
+        sh:path intend:consistsIn ;
+        sh:class intend:Resource ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:hasThroughput ;
+        sh:class intend:Throughput ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:hasAvailability ;
+        sh:class intend:Availability ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:hasConnectionDensity ;
+        sh:class intend:ConnectionDensity ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:hosts ;
+        sh:class intend:Application ;
+        sh:minCount 0 ;
+    ] .
+
+intend:BusinessResourceShape a sh:NodeShape ;
+    sh:targetClass intend:BusinessResource ;
+    sh:property [
+        sh:path intend:allows ;
+        sh:class intend:Permission ;
+        sh:minCount 0 ;
+    ] .
+
+# Opt-in shape for a deployment that models an explicit top-level Resource-layer
+# aggregate individual (see note above `intend:ResourceShape`). Not bound via
+# sh:targetClass on purpose — it would otherwise wrongly apply to every Resource
+# instance. Apply it explicitly to your aggregate individual, e.g. in your own
+# shapes file: `intend:MyResourcePool a intend:ResourcePoolAggregateShape .` behaves
+# as a normal class-based target once you also type the individual as needed, or
+# simply reference this shape's property constraints directly with sh:targetNode.
+intend:ResourcePoolAggregateShape a sh:NodeShape ;
+    sh:property [
+        sh:path intend:consistsIn ;
+        sh:qualifiedValueShape [ sh:class intend:BusinessResource ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "The Resource-layer aggregate must consist of at least one BusinessResource (Figure 2: cardinality 1..*)." ;
+    ] ;
+    sh:property [
+        sh:path intend:consistsIn ;
+        sh:qualifiedValueShape [ sh:class intend:CustomerResource ] ;
+        sh:qualifiedMinCount 0 ;
+        sh:message "The Resource-layer aggregate may consist of zero or more CustomerResources (Figure 2: cardinality 0..*)." ;
+    ] .
+
+intend:ThroughputShape a sh:NodeShape ;
+    sh:targetClass intend:Throughput ;
+    sh:property [ sh:path intend:uplinkThroughput ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:downlinkThroughput ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:unit ; sh:datatype xsd:string ; sh:maxCount 1 ] .
+
+intend:AvailabilityShape a sh:NodeShape ;
+    sh:targetClass intend:Availability ;
+    sh:property [ sh:path intend:minAvailability ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ; sh:maxInclusive 100 ] ;
+    sh:property [ sh:path intend:maxAvailability ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ; sh:maxInclusive 100 ] .
+
+intend:ConnectionDensityShape a sh:NodeShape ;
+    sh:targetClass intend:ConnectionDensity ;
+    sh:property [ sh:path intend:minConnectionDensity ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:maxConnectionDensity ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ] .

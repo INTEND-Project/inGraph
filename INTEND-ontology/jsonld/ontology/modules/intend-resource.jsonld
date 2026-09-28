@@ -1,0 +1,330 @@
+{
+  "@context": {
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sosa": "http://www.w3.org/ns/sosa/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:maxAvailability",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Availability"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "maximum availability"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:CustomerResource",
+      "@type": "owl:Class",
+      "rdfs:comment": "User-owned or user-managed resources (industrial machines, personal devices, sensors), linked to specific users via intend:hasCustomerResource (see intend-user.ttl).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Customer Resource"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:Resource"
+      }
+    },
+    {
+      "@id": "intend:consistsIn",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Composition relationship linking a Resource to its constituent BusinessResource(s) (cardinality >=1) or CustomerResource(s) (cardinality >=0) — see shapes/intend-shapes-resource.ttl for the exact cardinalities.",
+      "rdfs:domain": {
+        "@id": "intend:Resource"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "consists in"
+      },
+      "rdfs:range": {
+        "@id": "intend:Resource"
+      }
+    },
+    {
+      "@id": "intend:ConnectionDensity",
+      "@type": "owl:Class",
+      "rdfs:comment": "The number of simultaneous connections the resource can support, expressed as a min/max range (Figure 4).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Connection Density"
+      },
+      "rdfs:subClassOf": {
+        "@id": "sosa:ObservableProperty"
+      }
+    },
+    {
+      "@id": "intend:BusinessResource",
+      "@type": "owl:Class",
+      "owl:disjointWith": {
+        "@id": "intend:CustomerResource"
+      },
+      "rdfs:comment": "Infrastructure resources made available to all users according to their roles and permissions: edge servers, cloud instances, network infrastructure. Managed by specific organizations and implementing defined policies.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Business Resource"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:Resource"
+      }
+    },
+    {
+      "@id": "intend:hasThroughput",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Resource"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has throughput"
+      },
+      "rdfs:range": {
+        "@id": "intend:Throughput"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "intend:hasObservableProperty"
+      }
+    },
+    {
+      "@id": "intend:hasConnectionDensity",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Resource"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has connection density"
+      },
+      "rdfs:range": {
+        "@id": "intend:ConnectionDensity"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "intend:hasObservableProperty"
+      }
+    },
+    {
+      "@id": "intend:allows",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Links a business resource to the permissions (intend:Permission, see intend-user.ttl) that regulate its usage by different users.",
+      "rdfs:domain": {
+        "@id": "intend:BusinessResource"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "allows"
+      }
+    },
+    {
+      "@id": "intend:downlinkThroughput",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Throughput"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "downlink throughput"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:EdgeDevice",
+      "@type": "owl:Class",
+      "rdfs:comment": "Specialization of Resource/sosa:Platform for edge-positioned computing resources, according to their nature and position in the continuum.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Edge Device"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:Resource"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/resource",
+      "@type": "owl:Ontology",
+      "owl:imports": {
+        "@id": "sosa:"
+      },
+      "owl:versionInfo": "0.1.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - Resource module"
+      }
+    },
+    {
+      "@id": "intend:hasObservableProperty",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Generic link from a Resource to an intrinsic, runtime-monitorable characteristic (sosa:ObservableProperty). hasThroughput/hasAvailability/hasConnectionDensity are convenience sub-properties for the three kinds named in the paper.",
+      "rdfs:domain": {
+        "@id": "intend:Resource"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has observable property"
+      },
+      "rdfs:range": {
+        "@id": "sosa:ObservableProperty"
+      }
+    },
+    {
+      "@id": "intend:CloudDataCenter",
+      "@type": "owl:Class",
+      "rdfs:comment": "Specialization of Resource/sosa:Platform for centralized cloud computing resources, according to their nature and position in the continuum.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Cloud Data Center"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:Resource"
+      }
+    },
+    {
+      "@id": "intend:unit",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Measurement unit for a value class instance, e.g. \"Mbit/s\", \"%\", \"ms\", \"bps\". Domain intentionally left open: reused by every value class in Resource and Application modules (Throughput, Availability, ConnectionDensity, Latency, Bandwidth, PacketLossRate).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "unit"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "intend:minAvailability",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Availability"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "minimum availability"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:Availability",
+      "@type": "owl:Class",
+      "rdfs:comment": "The percentage of the resource that is available, expressed as a min/max range (Figure 4).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Availability"
+      },
+      "rdfs:subClassOf": {
+        "@id": "sosa:ObservableProperty"
+      }
+    },
+    {
+      "@id": "intend:hasAvailability",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Resource"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has availability"
+      },
+      "rdfs:range": {
+        "@id": "intend:Availability"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "intend:hasObservableProperty"
+      }
+    },
+    {
+      "@id": "intend:hosts",
+      "@type": "owl:ObjectProperty",
+      "owl:inverseOf": {
+        "@id": "intend:executesOn"
+      },
+      "rdfs:comment": "Links a Resource to the Application(s) executed on it, connecting the\ninfrastructure layer to the application layer (Section 5.1.3 wording). Formal inverse\nof intend:executesOn (Application -> Resource, defined in intend-application.ttl,\nSection 5.1.4 wording) — see the module header note on how the paper's two opposite\ndefinitions of \"executesOn\" are reconciled.",
+      "rdfs:domain": {
+        "@id": "intend:Resource"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "hosts"
+      }
+    },
+    {
+      "@id": "intend:Resource",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "The fundamental substrate upon which intent-based operations are realized in\nthe computing continuum: cloud data centers, edge nodes and IoT devices (Section\n5.1.3). Aligned with sosa:Platform, an entity that hosts or supports other entities,\nwhich naturally captures the role of computational resources as hosts for\napplications and data operations."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Resource"
+      },
+      "rdfs:subClassOf": {
+        "@id": "sosa:Platform"
+      }
+    },
+    {
+      "@id": "intend:Throughput",
+      "@type": "owl:Class",
+      "rdfs:comment": "The amount of data a resource can process or transmit, expressed as uplink/downlink values (Figure 4).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Throughput"
+      },
+      "rdfs:subClassOf": {
+        "@id": "sosa:ObservableProperty"
+      }
+    },
+    {
+      "@id": "intend:maxConnectionDensity",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:ConnectionDensity"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "maximum connection density"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:minConnectionDensity",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:ConnectionDensity"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "minimum connection density"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:uplinkThroughput",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Throughput"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "uplink throughput"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    }
+  ]
+}

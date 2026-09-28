@@ -1,0 +1,12 @@
+config.py
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+venv/
+.env/
+
+uploads/
+ontology_store/

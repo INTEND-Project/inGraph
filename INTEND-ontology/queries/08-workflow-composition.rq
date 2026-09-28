@@ -1,0 +1,12 @@
+# Workflow composition (Section 5.1.5): what does the shared FILL
+# Workflow consist of, and which capabilities does its BusinessKnowledge
+# expose?
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX data:   <https://w3id.org/intend/examples/fill-data#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?component ?componentType ?capabilityLabel WHERE {
+    data:fillWorkflow intend:hasChatbot|intend:hasAdapter|intend:hasExplainer|intend:hasBusinessKnowledge ?component .
+    ?component a ?componentType .
+    OPTIONAL { ?component intend:hasCapability/rdfs:label ?capabilityLabel }
+}

@@ -1,0 +1,33 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+#################################################################
+#
+#  Convenience bundle for exploring the project in Protégé.
+#
+#  This is NOT part of the modular ontology (nothing in ontology/,
+#  extensions/ or examples/ imports this file, and nothing should).
+#  It exists purely so you can do File > Open on ONE file and get the
+#  core ontology + all three domain extensions (FILL, Telenor, GATE) +
+#  all three populated example datasets at once, instead of opening
+#  several files separately. The three domains are unrelated, sharing
+#  no individuals — bundling them here is just Protégé convenience, not
+#  a claim that they interoperate.
+#
+#  For anything other than manual exploration (validate.py, another
+#  project's owl:imports, publishing), keep using ontology/intend.ttl
+#  and each extensions/intend-*-extension.ttl + examples/*-data.ttl
+#  pair independently — that separation (schema vs. domain extension
+#  vs. instance data) is deliberate, see README.md.
+#
+#################################################################
+
+<https://w3id.org/intend/everything> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - everything (Protégé exploration bundle)"@en ;
+    owl:imports <https://w3id.org/intend/ontology> ,
+                <https://w3id.org/intend/extensions/fill> ,
+                <https://w3id.org/intend/examples/fill-data> ,
+                <https://w3id.org/intend/extensions/telenor> ,
+                <https://w3id.org/intend/examples/telenor-data> ,
+                <https://w3id.org/intend/extensions/gate> ,
+                <https://w3id.org/intend/examples/gate-data> .

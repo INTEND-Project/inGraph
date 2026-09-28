@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inGraph - INTEND Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-project-diagram"></i> inGraph</h1>
+                <p>Visualize and query your Knowledge Graph with SPARQL queries</p>
+            </div>
+        </header>
+
+        <!-- Repository Selection -->
+        <div class="repository-section">
+            <div class="section-header">
+                <h2><i class="fas fa-database"></i> Repository Selection</h2>
+                <button id="refreshRepos" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div class="repository-controls">
+                <select id="repositorySelect" class="form-control">
+                    <option value="">Select a repository...</option>
+                </select>
+                <div class="repository-info">
+                    <span id="repoInfo" class="info-text">No repository selected</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ontology & Validation -->
+        <div class="ontology-section">
+            <div class="section-header">
+                <h2><i class="fas fa-check-double"></i> Ontology &amp; Validation</h2>
+                <button id="refreshOntologyStatus" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div class="ontology-status">
+                <span id="ontologyStatusText" class="info-text">Checking ontology status...</span>
+            </div>
+            <div class="ontology-grid">
+                <div class="ontology-card">
+                    <h3><i class="fas fa-upload"></i> Load Ontology</h3>
+                    <p class="ontology-hint">
+                        Select the ontology TBox file(s) and the matching SHACL shapes file(s) (JSON-LD).
+                        Loading replaces any previously loaded ontology.
+                    </p>
+                    <label class="ontology-file-label">
+                        Ontology files (TBox)
+                        <input type="file" id="ontologyFilesInput" multiple accept=".jsonld,.json">
+                    </label>
+                    <label class="ontology-file-label">
+                        SHACL shapes files
+                        <input type="file" id="shapesFilesInput" multiple accept=".jsonld,.json">
+                    </label>
+                    <div class="ontology-actions">
+                        <button id="loadOntologyBtn" class="btn btn-primary">
+                            <i class="fas fa-cloud-upload-alt"></i> Load Ontology
+                        </button>
+                        <button id="clearOntologyBtn" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                </div>
+                <div class="ontology-card">
+                    <h3><i class="fas fa-clipboard-check"></i> Validate &amp; Upload a KG</h3>
+                    <p class="ontology-hint">
+                        <strong>Validate</strong> checks a JSON-LD/JSON file against the loaded ontology
+                        without uploading it anywhere (dry run) — requires an ontology to be loaded first.
+                        <strong>Upload to Repository</strong> sends the same file to whichever repository
+                        is selected above in <strong>Repository Selection</strong>; the response includes
+                        the same validation report (if an ontology is loaded), it just also lands in GraphDB.
+                    </p>
+                    <label class="ontology-file-label">
+                        KG file to validate or upload
+                        <input type="file" id="validateFileInput" accept=".jsonld,.json">
+                    </label>
+                    <div class="ontology-actions">
+                        <button id="validateKgBtn" class="btn btn-primary" disabled>
+                            <i class="fas fa-play"></i> Validate
+                        </button>
+                        <button id="uploadKgBtn" class="btn btn-primary" disabled>
+                            <i class="fas fa-cloud-upload-alt"></i> Upload to Repository
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="validationReport" class="validation-report"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Query Panel -->
+            <div class="query-panel">
+                <div class="section-header">
+                    <h2><i class="fas fa-code"></i> Editor SPARQL</h2>
+                    <div class="query-controls">
+                        <button id="executeQuery" class="btn btn-primary" disabled>
+                            <i class="fas fa-play"></i> Execute Query
+                        </button>
+                        <button id="clearQuery" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                        <button id="loadExample" class="btn btn-secondary">
+                            <i class="fas fa-lightbulb"></i> Example
+                        </button>
+                    </div>
+                </div>
+                <div class="query-editor-container">
+                    <textarea id="queryEditor" placeholder="Enter your SPARQL query here...">SELECT ?subject ?predicate ?object
+WHERE {
+    ?subject ?predicate ?object .
+}
+LIMIT 100</textarea>
+                </div>
+                <div class="query-status">
+                    <span id="queryStatus" class="status-text">Ready to execute query</span>
+                </div>
+            </div>
+
+            <!-- Visualization Panel -->
+            <div class="visualization-panel">
+                <div class="section-header">
+                    <h2><i class="fas fa-eye"></i> Graph Visualization</h2>
+                    <div class="viz-controls">
+                        <button id="resetZoom" class="btn btn-secondary">
+                            <i class="fas fa-search-minus"></i> Reset Zoom
+                        </button>
+                        <button id="centerGraph" class="btn btn-secondary">
+                            <i class="fas fa-crosshairs"></i> Center
+                        </button>
+                        <button id="fullscreenBtn" class="btn btn-secondary">
+                            <i class="fas fa-expand"></i> Fullscreen
+                        </button>
+                        <select id="layoutSelect" class="form-control">
+                            <option value="force">Force Layout</option>
+                            <option value="circular">Circular Layout</option>
+                            <option value="hierarchical">Hierarchical Layout</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="graph-wrapper">
+                    <div id="graphContainer" class="graph-container">
+                        <div class="graph-placeholder">
+                            <i class="fas fa-project-diagram"></i>
+                            <p>Select a repository and execute a query to visualize the graph</p>
+                        </div>
+                    </div>
+                    <!-- Properties Panel (visible only in fullscreen) -->
+                    <div id="propertiesPanel" class="properties-panel">
+                        <div class="properties-header">
+                            <h3 id="propertiesTitle"><i class="fas fa-info-circle"></i> Properties</h3>
+                            <button id="closeProperties" class="close-btn">&times;</button>
+                        </div>
+                        <div id="propertiesContent" class="properties-content">
+                            <p class="no-selection">Click on a node or edge to view properties</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="graph-info">
+                    <span id="graphStats" class="info-text">Nodes: 0, Links: 0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="results-panel">
+            <div class="section-header">
+                <h2><i class="fas fa-table"></i> Query Results</h2>
+                <div class="results-controls">
+                    <button id="exportResults" class="btn btn-secondary" disabled>
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                    <span id="resultsCount" class="info-text">0 results</span>
+                </div>
+            </div>
+            <div class="results-container">
+                <div id="resultsTable" class="results-table">
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>No results to display</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading...</p>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="errorModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Error</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage">An error occurred</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary modal-close">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://d3js.org/d3.v7.min.js" onerror="console.error('Failed to load D3.js')"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js" onerror="console.error('Failed to load CodeMirror')"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/sparql/sparql.min.js" onerror="console.error('Failed to load CodeMirror SPARQL mode')"></script>
+    <script>
+        window.addEventListener('load', function() {
+            console.log('Page loaded');
+            console.log('D3 available:', typeof d3 !== 'undefined');
+            console.log('CodeMirror available:', typeof CodeMirror !== 'undefined');
+            
+            if (typeof d3 === 'undefined') {
+                console.error('D3.js failed to load!');
+            }
+            if (typeof CodeMirror === 'undefined') {
+                console.error('CodeMirror failed to load!');
+            }
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

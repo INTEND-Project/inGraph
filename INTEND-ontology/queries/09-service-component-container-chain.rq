@@ -1,0 +1,18 @@
+# Resource/Application CQ (adapted): which product components does a
+# given service require, and which containers does each of those call
+# (Figure 5's Service -requires-> ProductComponent -calls-> Container
+# chain)?
+#
+# NOTE: returns no rows against examples/fill-instance-data.ttl as
+# shipped, because fill:requires (Service -> ProductComponent) is not
+# populated there — Table 3's column alignment could not be reliably
+# recovered from the source document (see the file's header comment).
+# The query itself is correct: it starts returning results the moment
+# you add fill:requires triples from the authoritative FILL dataset.
+PREFIX fill: <https://w3id.org/intend/extensions/fill#>
+
+SELECT ?service ?component ?container WHERE {
+    ?service a fill:Service ;
+             fill:requires ?component .
+    ?component fill:calls ?container .
+}

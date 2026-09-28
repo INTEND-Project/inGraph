@@ -1,0 +1,140 @@
+@prefix intend:  <https://w3id.org/intend/ontology#> .
+@prefix fill:    <https://w3id.org/intend/extensions/fill#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  INTEND Ontology — FILL domain extension
+#  Source: Balzotti et al., "The INTENT Ontology", Section 6.2 and
+#  Figure 5 ("Extension of INTENT ontology to FILL Company").
+#
+#  This module is a WORKED EXAMPLE of non-functional requirement #2
+#  ("easy to extend... without modifying the core structure"): it adds
+#  domain-specific classes and properties, all defined as subclasses/
+#  sub-properties of core intend: terms, without touching any file under
+#  ontology/modules/. Use it as a template for your own domain extension
+#  (replace Machine/MachineType/Service/ProductComponent/Container with
+#  your own equipment/service/deployment-unit hierarchy).
+#
+#  UPDATED 2026-08-25 after receiving a real FILL knowledge graph export
+#  (examples/fill-catalog-data.ttl): added fill:MachineType and four
+#  properties (hasMachineType, offersService, compatibleWithMachineType,
+#  hasAvailableContainer) to model machine TYPES as first-class catalog
+#  entries with their own service/container compatibility profile —
+#  distinct from fill:Machine, which represents a specific customer-owned
+#  unit (e.g. MA-01). The earlier fill:machineType (a plain xsd:string)
+#  is removed in favor of the object property fill:hasMachineType now
+#  that real per-type data is available to populate a proper class.
+#
+#################################################################
+
+<https://w3id.org/intend/extensions/fill> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - FILL domain extension"@en ;
+    owl:imports <https://w3id.org/intend/ontology> ;
+    owl:versionInfo "0.1.0" .
+
+#################################################################
+# Classes
+#################################################################
+
+fill:Machine a owl:Class ;
+    rdfs:subClassOf intend:CustomerResource ;
+    rdfs:label "Machine"@en ;
+    rdfs:comment "A specific industrial machine unit owned/managed by a FILL customer (Section 6.2: \"Customer resource: machines owned/managed by specific users\"; Figure 6). An individual, concrete piece of equipment (e.g. \"MA-01\") — contrast with fill:MachineType, its catalog model." .
+
+fill:MachineType a owl:Class ;
+    rdfs:label "Machine Type"@en ;
+    rdfs:comment "A FILL machine model/type (Machine1..Machine5 in the real FILL catalog, examples/fill-catalog-data.ttl), characterized by which Services it offers (fill:offersService) and which Containers are available on it (fill:hasAvailableContainer). Catalog/reference data, not itself a hosted intend:Resource — a specific fill:Machine unit references its type via fill:hasMachineType." .
+
+fill:Service a owl:Class ;
+    rdfs:subClassOf intend:Application ;
+    rdfs:label "Service"@en ;
+    rdfs:comment "A FILL digital service (e.g. Prod Data, Machine State, Energy Tracker), offered on compatible machine types via fill:offersService." .
+
+fill:ProductComponent a owl:Class ;
+    rdfs:subClassOf intend:Application ;
+    rdfs:label "Product Component"@en ;
+    rdfs:comment "A component required by a Service (fill:requires) that in turn calls one or more Containers (fill:calls)." .
+
+fill:Container a owl:Class ;
+    rdfs:subClassOf intend:Application ;
+    rdfs:label "Container"@en ;
+    rdfs:comment "A deployable container belonging to a ProductComponent, compatible with specific machine types (fill:compatibleWithMachineType)." .
+
+#################################################################
+# Datatype properties
+#################################################################
+
+fill:ipAddress a owl:DatatypeProperty ;
+    rdfs:domain fill:Machine ;
+    rdfs:range xsd:string ;
+    rdfs:label "IP address"@en .
+
+#################################################################
+# Object properties — all specializations of core intend: properties,
+# demonstrating extension without core-file modification (Figure 5):
+#   service --requires--> product component --calls--> container --runs on--> machine
+#   user    --owns------> machine
+#   machine --has machine type--> machine type --offers service--> service
+#   container --compatible with machine type--> machine type
+#   machine type --has available container--> container
+#################################################################
+
+fill:requires a owl:ObjectProperty ;
+    rdfs:subPropertyOf intend:dependsOn ;
+    rdfs:domain fill:Service ;
+    rdfs:range fill:ProductComponent ;
+    rdfs:label "requires"@en .
+
+fill:calls a owl:ObjectProperty ;
+    rdfs:subPropertyOf intend:dependsOn ;
+    rdfs:domain fill:ProductComponent ;
+    rdfs:range fill:Container ;
+    rdfs:label "calls"@en .
+
+fill:runsOn a owl:ObjectProperty ;
+    rdfs:subPropertyOf intend:executesOn ;
+    rdfs:domain fill:Container ;
+    rdfs:range fill:Machine ;
+    rdfs:label "runs on"@en ;
+    rdfs:comment "Actual deployment of one Container instance onto one specific customer Machine unit (used for per-intent deployment tracking in examples/fill-instance-data.ttl). Contrast with fill:compatibleWithMachineType, which expresses catalog-level compatibility with a MachineType, not a concrete deployment." .
+
+fill:owns a owl:ObjectProperty ;
+    rdfs:subPropertyOf intend:hasCustomerResource ;
+    rdfs:domain intend:User ;
+    rdfs:range fill:Machine ;
+    rdfs:label "owns"@en ;
+    rdfs:comment "Figure 6: user --owns--> machine." .
+
+fill:hasMachineType a owl:ObjectProperty ;
+    rdfs:domain fill:Machine ;
+    rdfs:range fill:MachineType ;
+    rdfs:label "has machine type"@en ;
+    rdfs:comment "Links a specific customer-owned Machine unit to its catalog MachineType, determining which services/containers are available on it." .
+
+fill:offersService a owl:ObjectProperty ;
+    rdfs:domain fill:MachineType ;
+    rdfs:range fill:Service ;
+    rdfs:label "offers service"@en ;
+    rdfs:comment "Which Services a machine type supports (migrated from the real FILL KG's Machine.hasService)." .
+
+fill:compatibleWithMachineType a owl:ObjectProperty ;
+    rdfs:domain fill:Container ;
+    rdfs:range fill:MachineType ;
+    rdfs:label "compatible with machine type"@en ;
+    rdfs:comment "Which machine types a Container can be deployed on (migrated from the real FILL KG's Container.canBeDeployedOn)." .
+
+fill:hasAvailableContainer a owl:ObjectProperty ;
+    rdfs:domain fill:MachineType ;
+    rdfs:range fill:Container ;
+    rdfs:label "has available container"@en ;
+    rdfs:comment """Container instances confirmed available on this machine type (migrated
+from the real FILL KG's Machine.hasContainer). NOT fully derivable from
+offersService + requires + calls + compatibleWithMachineType alone —
+empirically verified (examples/fill-catalog-data.ttl header) that the
+source includes additional containers beyond what that chain predicts for
+every one of the 5 machine types, so this must be asserted directly
+rather than computed from the other four properties.""" .

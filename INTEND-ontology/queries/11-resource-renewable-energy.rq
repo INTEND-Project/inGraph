@@ -1,0 +1,24 @@
+# Resource CQ #5 (Section 3): "Which edge resources utilize renewable
+# energy sources and how does this impact their suitability for green
+# computing initiatives?"
+#
+# UPDATED 2026-08-25: previously an empty template. Now backed by real
+# data: extensions/intend-telenor-extension.ttl defines
+# telenor:usesRenewableEnergy (derived from the source's
+# majorSourceOfElectricity: Wind Power/Hydropower = true, Nuclear
+# Power/Diesel generators = false), populated in
+# examples/telenor-network-data.ttl from a real Telenor edge-cluster KG.
+#
+# Filters on telenor:EdgeCluster rather than intend:BusinessResource —
+# see queries/10-resource-gpu-cpu.rq for why (no RDFS/OWL entailment in
+# scripts/validate.py's --queries mode).
+PREFIX telenor: <https://w3id.org/intend/extensions/telenor#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?resource ?name ?electricitySource WHERE {
+    ?resource a telenor:EdgeCluster ;
+              rdfs:label ?name ;
+              telenor:usesRenewableEnergy true ;
+              telenor:electricitySource ?electricitySource .
+}
+ORDER BY ?name

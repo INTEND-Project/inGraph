@@ -1,0 +1,375 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix fill:   <https://w3id.org/intend/extensions/fill#> .
+@prefix cat:    <https://w3id.org/intend/examples/fill-catalog#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  FILL catalog data — migrated verbatim from a real FILL
+#  knowledge graph (JSON-LD export, https://intendproject.eu/fill/*,
+#  supplied 2026-08-25). This supersedes the earlier catalog that
+#  had been reconstructed from the paper's OCR-extracted Tables
+#  1-4 (Section 6.1) — that reconstruction is no longer used.
+#
+#  KNOWN SOURCE ANOMALIES (present in the original JSON-LD, kept
+#  visible here rather than silently patched):
+#   - Component7 does not exist in the export (numbering jumps 6->8).
+#     cat:Container30's source isContainerOf pointed at itself (a
+#     Container, not a Component) - dropped as nonsensical. No
+#     fill:calls asserts cat:Container30 as a result: it is left
+#     without an asserted parent Component in this migration,
+#     rather than fabricating a Component7 with no evidence.
+#   - cat:Component9 has no fill:calls (no containers) and is never
+#     targeted by any Service's fill:requires - both preserved as-is.
+#   - cat:Service6 (Data Xplorer) and cat:Service9 (Thermo Stability)
+#     have no fill:requires target at all - preserved as-is.
+#   - cat:Component14 had neither a name nor an id in the source;
+#     defaulted to "Component14" here. It is also never targeted by
+#     any Service's fill:requires, so its container (cat:Container42)
+#     is only reachable via the MachineType-level fill:hasAvailableContainer
+#     facts below, not via the Service->Component->Container chain.
+#   - fill:hasAvailableContainer is NOT fully derivable from
+#     offersService+requires+calls+compatibleWithMachineType: verified
+#     empirically that the source's Machine.hasContainer includes
+#     containers beyond what that chain predicts for every one of the
+#     5 machine types, so it is asserted directly here rather than left
+#     to be computed.
+#   - The source's `compliesWith` annotations (Semantify.it authoring
+#     tool metadata, one fixed value per rdf:type) are not migrated:
+#     they are not domain content.
+#
+#################################################################
+
+<https://w3id.org/intend/examples/fill-catalog> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - FILL catalog data (from real KG)"@en ;
+    owl:imports <https://w3id.org/intend/extensions/fill> .
+
+#################################################################
+# Machine types
+#################################################################
+
+cat:Machine1 a fill:MachineType ;
+    intend:name "Machine1"^^xsd:string ;
+    fill:offersService cat:Service1, cat:Service2, cat:Service3, cat:Service4, cat:Service5, cat:Service6, cat:Service7, cat:Service8, cat:Service9, cat:Service10, cat:Service11, cat:Service12 ;
+    fill:hasAvailableContainer cat:Container1, cat:Container2, cat:Container5, cat:Container11, cat:Container12, cat:Container17, cat:Container19, cat:Container21, cat:Container23, cat:Container25, cat:Container26, cat:Container29, cat:Container30, cat:Container31, cat:Container32, cat:Container33, cat:Container34, cat:Container39, cat:Container40, cat:Container41, cat:Container42 .
+
+cat:Machine2 a fill:MachineType ;
+    intend:name "Machine2"^^xsd:string ;
+    fill:offersService cat:Service1, cat:Service2, cat:Service3, cat:Service4, cat:Service5, cat:Service6, cat:Service7, cat:Service8, cat:Service9, cat:Service10, cat:Service11, cat:Service12 ;
+    fill:hasAvailableContainer cat:Container1, cat:Container2, cat:Container3, cat:Container4, cat:Container5, cat:Container11, cat:Container12, cat:Container17, cat:Container19, cat:Container21, cat:Container23, cat:Container25, cat:Container26, cat:Container29, cat:Container30, cat:Container31, cat:Container32, cat:Container33, cat:Container34, cat:Container39, cat:Container40, cat:Container41, cat:Container42 .
+
+cat:Machine3 a fill:MachineType ;
+    intend:name "Machine3"^^xsd:string ;
+    fill:offersService cat:Service1, cat:Service2, cat:Service3, cat:Service4, cat:Service9 ;
+    fill:hasAvailableContainer cat:Container1, cat:Container2, cat:Container3, cat:Container4, cat:Container5, cat:Container11, cat:Container12, cat:Container13, cat:Container14, cat:Container17, cat:Container19, cat:Container21, cat:Container23, cat:Container25, cat:Container27, cat:Container29, cat:Container30, cat:Container42 .
+
+cat:Machine4 a fill:MachineType ;
+    intend:name "Machine4"^^xsd:string ;
+    fill:offersService cat:Service1, cat:Service2, cat:Service3, cat:Service4, cat:Service5, cat:Service6, cat:Service7, cat:Service10 ;
+    fill:hasAvailableContainer cat:Container1, cat:Container2, cat:Container5, cat:Container6, cat:Container7, cat:Container10, cat:Container11, cat:Container12, cat:Container15, cat:Container16, cat:Container17, cat:Container18, cat:Container19, cat:Container20, cat:Container21, cat:Container22, cat:Container23, cat:Container24, cat:Container25, cat:Container26, cat:Container27, cat:Container28, cat:Container29, cat:Container30, cat:Container31, cat:Container32, cat:Container33, cat:Container34, cat:Container35, cat:Container36, cat:Container37, cat:Container38, cat:Container39 .
+
+cat:Machine5 a fill:MachineType ;
+    intend:name "Machine5"^^xsd:string ;
+    fill:offersService cat:Service1, cat:Service2, cat:Service3, cat:Service4, cat:Service5, cat:Service6, cat:Service7, cat:Service8, cat:Service10, cat:Service11 ;
+    fill:hasAvailableContainer cat:Container1, cat:Container5, cat:Container6, cat:Container10, cat:Container11, cat:Container15, cat:Container17, cat:Container18, cat:Container19, cat:Container20, cat:Container21, cat:Container22, cat:Container23, cat:Container24, cat:Container25, cat:Container26, cat:Container27, cat:Container28, cat:Container29, cat:Container30, cat:Container31, cat:Container33, cat:Container34, cat:Container35, cat:Container37, cat:Container38, cat:Container39 .
+
+#################################################################
+# Services
+#################################################################
+
+cat:Service1 a fill:Service ;
+    intend:name "Service1"^^xsd:string ;
+    rdfs:label "Prod Data"@en ;
+    intend:description "PROD DATA records all components and the process steps are analyzed. Occurred messages and the tool usage of each component are displayed and provide transparency in the production data."^^xsd:string ;
+    fill:requires cat:Component1, cat:Component2, cat:Component3, cat:Component6, cat:Component12 .
+
+cat:Service2 a fill:Service ;
+    intend:name "Service2"^^xsd:string ;
+    rdfs:label "Machine State"@en ;
+    intend:description "MACHINE STATE provides an overview of your production. The machine status can be called up at any time, allowing workflows to be optimized."^^xsd:string ;
+    fill:requires cat:Component4 .
+
+cat:Service3 a fill:Service ;
+    intend:name "Service3"^^xsd:string ;
+    rdfs:label "Energy Tracker"@en ;
+    intend:description "ENERGY TRACKER monitors media consumption and ensures early detection of production changes and leaks that might otherwise go undetected."^^xsd:string ;
+    fill:requires cat:Component1, cat:Component4, cat:Component5 .
+
+cat:Service4 a fill:Service ;
+    intend:name "Service4"^^xsd:string ;
+    rdfs:label "KPI Analyzer"@en ;
+    intend:description "KPI ANALYZER provides information on the utilization of a machine in a defined period. The analysis provides insights into utilization and efficiency and identifies any bottlenecks or optimization potential."^^xsd:string ;
+    fill:requires cat:Component1, cat:Component4 .
+
+cat:Service5 a fill:Service ;
+    intend:name "Service5"^^xsd:string ;
+    rdfs:label "Alarm Analyzer"@en ;
+    intend:description "ALARM ANALYZER records all alarms and messages and identifies the main messages. Actual machine problems can thus be identified."^^xsd:string ;
+    fill:requires cat:Component6 .
+
+cat:Service6 a fill:Service ;
+    intend:name "Service6"^^xsd:string ;
+    rdfs:label "Data Xplorer"@en ;
+    intend:description "DATA XPLORER allows manual analysis of all recorded data. Any questions can thus be clarified independently."^^xsd:string .
+
+cat:Service7 a fill:Service ;
+    intend:name "Service7"^^xsd:string ;
+    rdfs:label "Program History"@en ;
+    intend:description "PROGRAM HISTORY automatically records every NC program change. The possibility of analysis and tracking provides more transparency and control."^^xsd:string ;
+    fill:requires cat:Component1, cat:Component2, cat:Component3 .
+
+cat:Service8 a fill:Service ;
+    intend:name "Service8"^^xsd:string ;
+    rdfs:label "G-Code Analyzer"@en ;
+    intend:description "G-CODE ANALYZER analyzes the G-code of all components. Optimization potential is suggested to effectively reduce cycle time."^^xsd:string ;
+    fill:requires cat:Component10, cat:Component11 .
+
+cat:Service9 a fill:Service ;
+    intend:name "Service9"^^xsd:string ;
+    rdfs:label "Thermo Stability"@en ;
+    intend:description "THERMO STABILITY detects the constant temperature range for efficient production. This saves time and reduces scrap due to a shorter warm-up phase."^^xsd:string .
+
+cat:Service10 a fill:Service ;
+    intend:name "Service10"^^xsd:string ;
+    rdfs:label "Tool Performance"@en ;
+    intend:description "TOOL PERFORMANCE analyzes tool wear. You can determine the condition when replacing tools or compare wear among tools of the same type."^^xsd:string ;
+    fill:requires cat:Component2, cat:Component3, cat:Component13 .
+
+cat:Service11 a fill:Service ;
+    intend:name "Service11"^^xsd:string ;
+    rdfs:label "Logbook"@en ;
+    intend:description "LOGBOOK logs component changes of motors, spindles and ball screws. In addition, every machine crash is recorded, including the program run."^^xsd:string ;
+    fill:requires cat:Component4, cat:Component8, cat:Component9 .
+
+cat:Service12 a fill:Service ;
+    intend:name "Service12"^^xsd:string ;
+    intend:description "Test runs generate the specific machine performance indicator. This allows you to detect changes over time and check successful installation after component replacement."^^xsd:string ;
+    fill:requires cat:Component8, cat:Component9 .
+
+#################################################################
+# Product components
+#################################################################
+
+cat:Component1 a fill:ProductComponent ;
+    intend:name "Component1"^^xsd:string ;
+    fill:calls cat:Container1, cat:Container2, cat:Container3, cat:Container4, cat:Container5, cat:Container6, cat:Container7, cat:Container8, cat:Container9, cat:Container10 .
+
+cat:Component2 a fill:ProductComponent ;
+    intend:name "Component2"^^xsd:string ;
+    fill:calls cat:Container11, cat:Container12, cat:Container13, cat:Container14, cat:Container15, cat:Container16 .
+
+cat:Component3 a fill:ProductComponent ;
+    intend:name "Component3"^^xsd:string ;
+    fill:calls cat:Container17, cat:Container18 .
+
+cat:Component4 a fill:ProductComponent ;
+    intend:name "Component4"^^xsd:string ;
+    fill:calls cat:Container23, cat:Container24 .
+
+cat:Component5 a fill:ProductComponent ;
+    intend:name "Component5"^^xsd:string ;
+    fill:calls cat:Container25, cat:Container26, cat:Container27, cat:Container28 .
+
+cat:Component6 a fill:ProductComponent ;
+    intend:name "Component6"^^xsd:string ;
+    fill:calls cat:Container29 .
+
+cat:Component8 a fill:ProductComponent ;
+    intend:name "Component8"^^xsd:string ;
+    fill:calls cat:Container40, cat:Container41 .
+
+cat:Component9 a fill:ProductComponent ;
+    intend:name "Component9"^^xsd:string .
+
+cat:Component10 a fill:ProductComponent ;
+    intend:name "Component10"^^xsd:string ;
+    fill:calls cat:Container31, cat:Container32, cat:Container33, cat:Container34, cat:Container35, cat:Container36, cat:Container37, cat:Container38 .
+
+cat:Component11 a fill:ProductComponent ;
+    intend:name "Component11"^^xsd:string ;
+    fill:calls cat:Container39 .
+
+cat:Component12 a fill:ProductComponent ;
+    intend:name "Component12"^^xsd:string ;
+    fill:calls cat:Container19, cat:Container20 .
+
+cat:Component13 a fill:ProductComponent ;
+    intend:name "Component13"^^xsd:string ;
+    fill:calls cat:Container21, cat:Container22 .
+
+cat:Component14 a fill:ProductComponent ;
+    intend:name "Component14"^^xsd:string ;
+    fill:calls cat:Container42 .
+
+#################################################################
+# Containers
+#################################################################
+
+cat:Container1 a fill:Container ;
+    intend:name "Container1"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container2 a fill:Container ;
+    intend:name "Container2"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4 .
+
+cat:Container3 a fill:Container ;
+    intend:name "Container3"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine2, cat:Machine3 .
+
+cat:Container4 a fill:Container ;
+    intend:name "Container4"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine2, cat:Machine3 .
+
+cat:Container5 a fill:Container ;
+    intend:name "Container5"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container6 a fill:Container ;
+    intend:name "Container6"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container7 a fill:Container ;
+    intend:name "Container7"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4 .
+
+cat:Container8 a fill:Container ;
+    intend:name "Container8"^^xsd:string .
+
+cat:Container9 a fill:Container ;
+    intend:name "Container9"^^xsd:string .
+
+cat:Container10 a fill:Container ;
+    intend:name "Container10"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container11 a fill:Container ;
+    intend:name "Container11"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container12 a fill:Container ;
+    intend:name "Container12"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4 .
+
+cat:Container13 a fill:Container ;
+    intend:name "Container13"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine3 .
+
+cat:Container14 a fill:Container ;
+    intend:name "Container14"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine3 .
+
+cat:Container15 a fill:Container ;
+    intend:name "Container15"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container16 a fill:Container ;
+    intend:name "Container16"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4 .
+
+cat:Container17 a fill:Container ;
+    intend:name "Container17"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container18 a fill:Container ;
+    intend:name "Container18"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container19 a fill:Container ;
+    intend:name "Container19"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container20 a fill:Container ;
+    intend:name "Container20"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container21 a fill:Container ;
+    intend:name "Container21"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container22 a fill:Container ;
+    intend:name "Container22"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container23 a fill:Container ;
+    intend:name "Container23"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container24 a fill:Container ;
+    intend:name "Container24"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container25 a fill:Container ;
+    intend:name "Container25"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container26 a fill:Container ;
+    intend:name "Container26"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine4, cat:Machine5 .
+
+cat:Container27 a fill:Container ;
+    intend:name "Container27"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container28 a fill:Container ;
+    intend:name "Container28"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container29 a fill:Container ;
+    intend:name "Container29"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container30 a fill:Container ;
+    intend:name "Container30"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3, cat:Machine4, cat:Machine5 .
+
+cat:Container31 a fill:Container ;
+    intend:name "Container31"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine4, cat:Machine5 .
+
+cat:Container32 a fill:Container ;
+    intend:name "Container32"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine4 .
+
+cat:Container33 a fill:Container ;
+    intend:name "Container33"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine4, cat:Machine5 .
+
+cat:Container34 a fill:Container ;
+    intend:name "Container34"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine4, cat:Machine5 .
+
+cat:Container35 a fill:Container ;
+    intend:name "Container35"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container36 a fill:Container ;
+    intend:name "Container36"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4 .
+
+cat:Container37 a fill:Container ;
+    intend:name "Container37"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container38 a fill:Container ;
+    intend:name "Container38"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine4, cat:Machine5 .
+
+cat:Container39 a fill:Container ;
+    intend:name "Container39"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine4, cat:Machine5 .
+
+cat:Container40 a fill:Container ;
+    intend:name "Container40"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2 .
+
+cat:Container41 a fill:Container ;
+    intend:name "Container41"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2 .
+
+cat:Container42 a fill:Container ;
+    intend:name "Container42"^^xsd:string
+    ; fill:compatibleWithMachineType cat:Machine1, cat:Machine2, cat:Machine3 .
+

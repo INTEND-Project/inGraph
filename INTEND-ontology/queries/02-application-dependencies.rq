@@ -1,0 +1,19 @@
+# Application CQ #3 (Section 3): "What dependencies exist between
+# different applications in a multi-step data processing workflow?"
+#
+# Conceptually queries the generic intend:dependsOn super-property (see
+# ontology/modules/intend-application.ttl), of which fill:requires and
+# fill:calls are rdfs:subPropertyOf specializations. Written as an
+# explicit property-path union rather than plain `intend:dependsOn`
+# alone: SPARQL basic graph pattern matching does not walk the
+# rdfs:subPropertyOf chain without RDFS/OWL entailment (which
+# scripts/validate.py's --queries mode does not apply) — `intend:dependsOn`
+# is included too so this query also picks up any dependency asserted
+# directly at the generic level, e.g. by a different domain extension.
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX fill:   <https://w3id.org/intend/extensions/fill#>
+
+SELECT ?upstream ?downstream WHERE {
+    ?upstream intend:dependsOn|fill:requires|fill:calls ?downstream .
+}
+ORDER BY ?upstream ?downstream

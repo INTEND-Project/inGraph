@@ -1,0 +1,43 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  SHACL shapes — Application module
+#################################################################
+
+intend:ApplicationShape a sh:NodeShape ;
+    sh:targetClass intend:Application ;
+    sh:property [ sh:path intend:name ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
+                  sh:message "An Application must have exactly one name." ] ;
+    sh:property [ sh:path intend:description ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:applicationDomain ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:type ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:executionTime ; sh:datatype xsd:duration ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:status ; sh:class intend:Status ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:executesOn ; sh:class intend:Resource ; sh:minCount 0 ] ;
+    sh:property [ sh:path intend:dependsOn ; sh:class intend:Application ; sh:minCount 0 ] ;
+    sh:property [ sh:path intend:hasLatency ; sh:class intend:Latency ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:requiresBandwidth ; sh:class intend:Bandwidth ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasAcceptablePacketLossRate ; sh:class intend:PacketLossRate ; sh:maxCount 1 ] .
+
+intend:StatusShape a sh:NodeShape ;
+    sh:targetClass intend:Status ;
+    sh:property [ sh:path intend:lifecycleState ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
+                  sh:message "Status must state a lifecycle state, e.g. \"deployed\", \"running\", \"stopped\" (non-exhaustive per Section 5.1.4)." ] ;
+    sh:property [ sh:path intend:energyConsumptionPerHour ; sh:datatype xsd:float ; sh:maxCount 1 ; sh:minInclusive 0 ] .
+
+intend:LatencyShape a sh:NodeShape ;
+    sh:targetClass intend:Latency ;
+    sh:property [ sh:path intend:uplinkLatency ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path intend:downlinkLatency ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] .
+
+intend:BandwidthShape a sh:NodeShape ;
+    sh:targetClass intend:Bandwidth ;
+    sh:property [ sh:path intend:minBandwidth ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path intend:maxBandwidth ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] .
+
+intend:PacketLossRateShape a sh:NodeShape ;
+    sh:targetClass intend:PacketLossRate ;
+    sh:property [ sh:path intend:minPacketLossRate ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ; sh:maxInclusive 100 ] ;
+    sh:property [ sh:path intend:maxPacketLossRate ; sh:datatype xsd:float ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ; sh:maxInclusive 100 ] .

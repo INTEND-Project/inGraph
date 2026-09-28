@@ -1,0 +1,70 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix fill:   <https://w3id.org/intend/extensions/fill#> .
+@prefix data:   <https://w3id.org/intend/examples/fill-data#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  SHACL shapes — FILL domain extension
+#
+#  Gotcha worth keeping: every literal inside an sh:in ( ... ) list below
+#  is written with an explicit ^^xsd:string. pyshacl (tested: 0.40.1) can
+#  fail to match a plain Turtle string literal from an sh:in list against
+#  an explicitly ^^xsd:string-typed literal in the data graph, even
+#  though they are the same RDF term per RDF 1.1 semantics. Typing both
+#  sides explicitly sidesteps the issue.
+#################################################################
+
+fill:MachineShape a sh:NodeShape ;
+    sh:targetClass fill:Machine ;
+    sh:property [
+        sh:path fill:hasMachineType ;
+        sh:class fill:MachineType ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "A Machine must have exactly one MachineType." ;
+    ] ;
+    sh:property [
+        sh:path fill:ipAddress ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+        sh:pattern "^(\\d{1,3}\\.){3}\\d{1,3}$" ;
+        sh:message "ipAddress must look like an IPv4 address." ;
+    ] .
+
+fill:MachineTypeShape a sh:NodeShape ;
+    sh:targetClass fill:MachineType ;
+    sh:property [ sh:path fill:offersService ; sh:class fill:Service ; sh:minCount 0 ] ;
+    sh:property [ sh:path fill:hasAvailableContainer ; sh:class fill:Container ; sh:minCount 0 ] .
+
+fill:ServiceShape a sh:NodeShape ;
+    sh:targetClass fill:Service ;
+    sh:property [ sh:path fill:requires ; sh:class fill:ProductComponent ; sh:minCount 0 ] .
+
+fill:ProductComponentShape a sh:NodeShape ;
+    sh:targetClass fill:ProductComponent ;
+    sh:property [ sh:path fill:calls ; sh:class fill:Container ; sh:minCount 0 ] .
+
+# Worked example of the opt-in Resource-layer aggregate pattern documented in
+# intend-shapes-resource.ttl: data:FillContinuum (examples/fill-instance-data.ttl,
+# under the fill-data example namespace, NOT the fill: extension namespace) is the
+# single top-level Resource individual that consistsIn the FILL business resources
+# and customer machines, so we bind the reusable qualified-cardinality shape to
+# that one specific node instead of to the whole intend:Resource class.
+[] a sh:NodeShape ;
+    sh:targetNode data:FillContinuum ;
+    sh:node intend:ResourcePoolAggregateShape .
+
+fill:ContainerShape a sh:NodeShape ;
+    sh:targetClass fill:Container ;
+    sh:property [
+        sh:path fill:runsOn ;
+        sh:class fill:Machine ;
+        sh:minCount 0 ;
+        sh:message "runsOn, when asserted, must point to a Machine. No fixed cardinality: a Container identifies a deployable unit, which can legitimately be deployed to zero (not-yet-scheduled), one, or several Machine individuals — the same container 'kind' can recur across different intents/machines." ;
+    ] ;
+    sh:property [
+        sh:path fill:compatibleWithMachineType ;
+        sh:class fill:MachineType ;
+        sh:minCount 0 ;
+    ] .

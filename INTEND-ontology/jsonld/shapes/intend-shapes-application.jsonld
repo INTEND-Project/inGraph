@@ -1,0 +1,320 @@
+{
+  "@context": {
+    "intend": "https://w3id.org/intend/ontology#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:BandwidthShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b16"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b17"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Bandwidth"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b16",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:minBandwidth"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b17",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:maxBandwidth"
+      }
+    },
+    {
+      "@id": "intend:StatusShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b12"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b13"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Status"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b12",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "Status must state a lifecycle state, e.g. \"deployed\", \"running\", \"stopped\" (non-exhaustive per Section 5.1.4).",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:lifecycleState"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b13",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:energyConsumptionPerHour"
+      }
+    },
+    {
+      "@id": "intend:ApplicationShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b1"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b2"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b3"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b4"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b5"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b6"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b7"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b8"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b9"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b10"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b11"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Application"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b1",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "An Application must have exactly one name.",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:name"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b2",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:description"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b3",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:applicationDomain"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b4",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:type"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b5",
+      "sh:datatype": {
+        "@id": "xsd:duration"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:executionTime"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b6",
+      "sh:class": {
+        "@id": "intend:Status"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:status"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b7",
+      "sh:class": {
+        "@id": "intend:Resource"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:executesOn"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b8",
+      "sh:class": {
+        "@id": "intend:Application"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:dependsOn"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b9",
+      "sh:class": {
+        "@id": "intend:Latency"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:hasLatency"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b10",
+      "sh:class": {
+        "@id": "intend:Bandwidth"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:requiresBandwidth"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b11",
+      "sh:class": {
+        "@id": "intend:PacketLossRate"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:hasAcceptablePacketLossRate"
+      }
+    },
+    {
+      "@id": "intend:PacketLossRateShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b18"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b19"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:PacketLossRate"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b18",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:maxInclusive": 100,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:minPacketLossRate"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b19",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:maxInclusive": 100,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:maxPacketLossRate"
+      }
+    },
+    {
+      "@id": "intend:LatencyShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b14"
+        },
+        {
+          "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b15"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Latency"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b14",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:uplinkLatency"
+      }
+    },
+    {
+      "@id": "_:na7a38d3dff5e488e8eea0a1e07ff1de2b15",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:downlinkLatency"
+      }
+    }
+  ]
+}

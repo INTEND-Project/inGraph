@@ -1,0 +1,23 @@
+# Intent translation CQ #3 (Section 3): "How can the system determine if
+# an intent is feasible given the current state and capabilities of the
+# available edge resources?" — intents with zero deployed applications
+# (Table 5's two empty ground-truth cases: incompatible machine type vs.
+# no matching service at all).
+#
+# Restricted to LEAF intents (nothing intend:wasDerivedFrom them): in the
+# tier-1/tier-2/tier-3 refinement chain modeled for Intent 1 (Figure 7,
+# see examples/fill-instance-data.ttl), intend:deploys is only asserted
+# on the terminal, adapter-resolved tier — the raw-NL and chatbot-tier
+# intents never carry it directly. Without this second FILTER NOT EXISTS,
+# those intermediate tiers would be wrongly reported as "infeasible" even
+# though their downstream refinement was in fact fulfilled.
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?intent ?intentLabel ?reason WHERE {
+    ?intent a intend:Intent ;
+            rdfs:label ?intentLabel .
+    FILTER NOT EXISTS { ?intent intend:deploys ?anything }
+    FILTER NOT EXISTS { ?downstream intend:wasDerivedFrom ?intent }
+    OPTIONAL { ?intent rdfs:comment ?reason }
+}

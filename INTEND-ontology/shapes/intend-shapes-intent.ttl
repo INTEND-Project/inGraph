@@ -1,0 +1,103 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix tio:    <https://w3id.org/intend/external/tio#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  SHACL shapes — Intent module
+#
+#  This is where the "canonical" cardinalities that we deliberately did
+#  NOT hardwire into the OWL TBox live (see intend-intent.ttl comments on
+#  hasTarget/hasCondition). Validate example data against this file with
+#  scripts/validate.py.
+#
+#################################################################
+
+intend:IntentShape a sh:NodeShape ;
+    sh:targetClass intend:Intent ;
+    sh:property [
+        sh:path intend:hasExpectation ;
+        sh:class tio:Expectation ;
+        sh:minCount 1 ;
+        sh:message "An Intent must express at least one Expectation." ;
+    ] ;
+    sh:property [
+        sh:path intend:hasTarget ;
+        sh:class tio:Target ;
+        sh:minCount 1 ;
+        sh:message "An Intent must have at least one Target (canonical Intent -> Target reading, Section 5.1.1 prose)." ;
+    ] ;
+    sh:property [
+        sh:path intend:hasCondition ;
+        sh:class tio:Condition ;
+        sh:minCount 0 ;
+        sh:message "Conditions are optional constraints on an Intent." ;
+    ] ;
+    sh:property [
+        sh:path intend:hasIntentReport ;
+        sh:class intend:IntentReport ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:isSentTo ;
+        sh:class intend:IntentManager ;
+        sh:minCount 0 ;
+        sh:message "An unrouted Intent (not yet sent to a handler) is allowed." ;
+    ] ;
+    sh:property [
+        sh:path intend:wasAttributedTo ;
+        sh:class intend:IntentManager ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "An Intent must be attributed to exactly one responsible IntentManager (owner)." ;
+    ] ;
+    sh:property [
+        sh:path intend:wasDerivedFrom ;
+        sh:class intend:Intent ;
+        sh:minCount 0 ;
+        sh:message "Only sub-intents have a wasDerivedFrom parent." ;
+    ] .
+
+intend:IntentManagerShape a sh:NodeShape ;
+    sh:targetClass intend:IntentManager ;
+    sh:property [
+        sh:path intend:hasCapability ;
+        sh:class intend:Capability ;
+        sh:minCount 0 ;
+    ] .
+
+intend:IntentReportShape a sh:NodeShape ;
+    sh:targetClass intend:IntentReport ;
+    sh:property [
+        sh:path intend:hasExpectationReport ;
+        sh:class tio:ExpectationReport ;
+        sh:minCount 1 ;
+        sh:message "An IntentReport must trace the fulfillment of at least one Expectation." ;
+    ] ;
+    sh:property [
+        sh:path intend:hasConditionReport ;
+        sh:class tio:ConditionReport ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:hasTargetReport ;
+        sh:class tio:TargetReport ;
+        sh:minCount 1 ;
+        sh:message "An IntentReport must trace the resolution of at least one Target." ;
+    ] .
+
+# Alternative Figure-3 reading (Expectation directly scoping Target/Condition):
+# left fully optional on purpose — see intend-intent.ttl "Decision 3" comment.
+intend:ExpectationOptionalScopeShape a sh:NodeShape ;
+    sh:targetClass tio:Expectation ;
+    sh:property [
+        sh:path intend:hasTarget ;
+        sh:class tio:Target ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:hasCondition ;
+        sh:class tio:Condition ;
+        sh:minCount 0 ;
+    ] .

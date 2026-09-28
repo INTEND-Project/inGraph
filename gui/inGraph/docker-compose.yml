@@ -1,0 +1,88 @@
+services:
+  # GraphDB Service
+  graphdb:
+    image: ontotext/graphdb:10.6.2
+    container_name: graphdb-container
+    ports:
+      - "7200:7200"
+    environment:
+      - GDB_HEAP_SIZE=2g
+      - GDB_JAVA_OPTS=-Xmx2g -Xms1g
+    volumes:
+      - graphdb_data:/opt/graphdb/home
+      - graphdb_work:/opt/graphdb/work
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7200/rest/repositories"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Knowledge Graph Web Interface Service
+  kg-visualizer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # Without an explicit target, Docker builds the LAST stage in the
+      # Dockerfile when none is given -- which is `production`, not
+      # `development` (confirmed while testing this update: the image
+      # built here came out non-root and without the dev-only files that
+      # aren't COPYed in the production stage, even though this compose
+      # file sets FLASK_ENV=development and bind-mounts source for hot
+      # reload). Pinning the target to `development` makes that match
+      # what this file actually intends.
+      target: development
+    container_name: kg-visualizer-container
+    ports:
+      # Host port 5050, not 5000: on macOS, port 5000 is taken by the
+      # system AirPlay Receiver (ControlCenter) by default, which makes
+      # "port 5000 already in use" the very first thing most Mac users hit
+      # here. The app still listens on 5000 *inside* the container either
+      # way -- only the host-side mapping changed. Override with
+      # HOST_PORT=xxxx in a .env file if 5050 is also taken for you.
+      - "${HOST_PORT:-5050}:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - PYTHONUNBUFFERED=1
+      - GRAPHDB_BASE_URL=http://graphdb:7200
+      - FLASK_HOST=0.0.0.0
+      - FLASK_PORT=5000
+    volumes:
+      # Mount source code for hot reloading during development
+      - .:/app
+      # Mount uploads directory
+      - ./uploads:/app/uploads
+      # Mount static files for web interface
+      - ./static:/app/static
+      - ./templates:/app/templates
+      # Exclude __pycache__ and .git from volume mount
+      - /app/__pycache__
+      - /app/.git
+    networks:
+      - app-network
+    depends_on:
+      graphdb:
+        condition: service_healthy
+    restart: unless-stopped
+    command: python inGraphApp.py
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Named volumes for GraphDB data persistence
+volumes:
+  graphdb_data:
+    driver: local
+  graphdb_work:
+    driver: local
+
+# Custom network for service communication
+networks:
+  app-network:
+    driver: bridge

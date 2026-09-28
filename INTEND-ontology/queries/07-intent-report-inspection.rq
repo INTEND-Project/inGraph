@@ -1,0 +1,15 @@
+# Intent report inspection (Section 5.1.1/5.1.5): what does the
+# IntentReport for Intent 1 say about expectation/condition/target
+# fulfillment (the Explainer's output)?
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX data:   <https://w3id.org/intend/examples/fill-data#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?expectationNote ?conditionNote ?targetNote WHERE {
+    data:intent1Report intend:hasExpectationReport ?er ;
+                        intend:hasConditionReport ?cr ;
+                        intend:hasTargetReport ?tr .
+    ?er rdfs:label ?expectationNote .
+    ?cr rdfs:label ?conditionNote .
+    ?tr rdfs:label ?targetNote .
+}

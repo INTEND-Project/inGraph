@@ -1,0 +1,2220 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix gate:   <https://w3id.org/intend/extensions/gate#> .
+@prefix data:   <https://w3id.org/intend/examples/gate-data#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  GATE microservices data — migrated verbatim from a real GATE
+#  Institute knowledge graph (JSON-LD export,
+#  https://gate-ai.eu/intend/*, supplied 2026-08-25): 16
+#  Kubernetes/Helm microservices forming a Kafka-connected LiDAR/
+#  traffic-analytics pipeline (Sofia city deployment). Unrelated to
+#  examples/fill-*.ttl and examples/telenor-*.ttl: no shared
+#  individuals with either, per the user's own description of the
+#  three source KGs as "completamente scollegati".
+#
+#  KNOWN SOURCE ANOMALIES/OBSERVATIONS (present in the original
+#  JSON-LD, kept visible here rather than silently patched):
+#   - Two apparent topic-name mismatches: producers write
+#     "object_in_zone_detection" (singular) / consumers read
+#     "object_in_zone_detections" (plural); producer writes
+#     "traffic_jam_detector" / consumer reads
+#     "traffic_jam_detections". Modeled as the DISTINCT topics the
+#     source actually names (not silently merged/renamed) — this is
+#     exactly why data:traffic-jam-alert's intend:dependsOn on
+#     data:traffic-jam-detector is NOT reproducible by following the
+#     produces/consumes topic graph alone (verified
+#     programmatically: the only case where explicit dependsOn and
+#     topic-flow-implied dependency disagree). See
+#     queries/13-gate-topic-flow-anomalies.rq and
+#     queries/14-gate-dependson-vs-topic-flow.rq.
+#   - gate:chartRepository is present on exactly 8 of the 16
+#     microservices, and empirically these are exactly the 8 that
+#     are the intend:dependsOn target of at least one other
+#     microservice — preserved as-is, not filled in for the other 8.
+#   - Many gate:Parameter individuals carry more than one
+#     gate:description value (the same parameter name recurs across
+#     microservices and the source appears to merge each
+#     recurrence's description into every occurrence) — all
+#     description strings are kept, none dropped or picked as "the"
+#     canonical one.
+#   - gate:chartType/gate:maintainer/gate:imageRepository/
+#     gate:imageTag are constant across all 16 microservices in the
+#     source data (non-discriminating), migrated verbatim for
+#     fidelity.
+#   - Kubernetes CPU/memory requests+limits are also identical
+#     across all 16 microservices (0.1/1 CPU cores, 512Mi/4Gi
+#     memory) in this snapshot of the source.
+#
+#################################################################
+
+<https://w3id.org/intend/examples/gate-data> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - GATE microservices data (from real KG)"@en ;
+    owl:imports <https://w3id.org/intend/extensions/gate> .
+
+#################################################################
+# Kafka topics
+#################################################################
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.crosswalk_safety_alert> a gate:KafkaTopic ;
+    rdfs:label "Crosswalk Safety Alert"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.crosswalk_safety_alert"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.flow_alert> a gate:KafkaTopic ;
+    rdfs:label "Flow Alert"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.flow_alert"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_counting> a gate:KafkaTopic ;
+    rdfs:label "Object Counting"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.object_counting"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detection> a gate:KafkaTopic ;
+    rdfs:label "Object In Zone Detection"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.object_in_zone_detection"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detections> a gate:KafkaTopic ;
+    rdfs:label "Object In Zone Detections"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.object_in_zone_detections"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_speeds> a gate:KafkaTopic ;
+    rdfs:label "Object Speeds"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.object_speeds"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.augmented_cloud_dict> a gate:KafkaTopic ;
+    rdfs:label "Augmented Cloud Dict"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.osef.augmented_cloud_dict"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.data_streamer> a gate:KafkaTopic ;
+    rdfs:label "Data Streamer"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.osef.data_streamer"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict> a gate:KafkaTopic ;
+    rdfs:label "Scan Frame Dict"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.tracked_objects> a gate:KafkaTopic ;
+    rdfs:label "Tracked Objects"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.osef.tracked_objects"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.zones> a gate:KafkaTopic ;
+    rdfs:label "Zones"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.osef.zones"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.overspeed_alert> a gate:KafkaTopic ;
+    rdfs:label "Overspeed Alert"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.overspeed_alert"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.traffic_jam_alert> a gate:KafkaTopic ;
+    rdfs:label "Traffic Jam Alert"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.traffic_jam_alert"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.traffic_jam_detections> a gate:KafkaTopic ;
+    rdfs:label "Traffic Jam Detections"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.traffic_jam_detections"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.traffic_jam_detector> a gate:KafkaTopic ;
+    rdfs:label "Traffic Jam Detector"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.traffic_jam_detector"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.underspeed_alert> a gate:KafkaTopic ;
+    rdfs:label "Underspeed Alert"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.underspeed_alert"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.zones_passing> a gate:KafkaTopic ;
+    rdfs:label "Zones Passing"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.zones_passing"^^xsd:string .
+
+<https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.zones_passing_alert> a gate:KafkaTopic ;
+    rdfs:label "Zones Passing Alert"@en ;
+    gate:topicName "city_lab.paradise_mall_sofia.lidar.zones_passing_alert"^^xsd:string .
+
+#################################################################
+# Microservices
+#################################################################
+
+data:crosswalk-safety-alert a gate:Microservice ;
+    rdfs:label "Crosswalk Safety Alert"@en ;
+    intend:name "crosswalk-safety-alert"^^xsd:string ;
+    intend:description "A microservice processing OSEF Zones data from LiDAR sensors. The processed data includes zone information such as zones definitions and bindings. The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of OSEF Zones data."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "osef-streamer"^^xsd:string ;
+    gate:keyword "test"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "crosswalk_safety_alert"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:object-in-zone-detection, data:object-speeds ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.crosswalk_safety_alert> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_speeds>, <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detection> ;
+    gate:hasRequiredParameter data:crosswalk-safety-alert--CROSSWALK_ZONE, data:crosswalk-safety-alert--APPROACH_ZONES, data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER, data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER, data:crosswalk-safety-alert--KAFKA_DEST_BOOTSTRAP_SERVER, data:crosswalk-safety-alert--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:crosswalk-safety-alert--VEHICLE_SPEED_THRESHOLD, data:crosswalk-safety-alert--MAKE_MOCK, data:crosswalk-safety-alert--MAX_SOURCE_EMPTY_POLLS, data:crosswalk-safety-alert--SOURCE_AUTO_OFFSET_RESET, data:crosswalk-safety-alert--BUCKET_TIME_WINDOW_MS, data:crosswalk-safety-alert--BUCKET_MAX_AGE_SECONDS, data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC, data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT, data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC, data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:crosswalk-safety-alert--KAFKA_CONSUMER_GROUP_ID, data:crosswalk-safety-alert--KAFKA_DEST_TOPIC, data:crosswalk-safety-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:crosswalk-safety-alert--CROSSWALK_ZONE a gate:Parameter ;
+    rdfs:label "CROSSWALK_ZONE"@en ;
+    gate:parameterName "CROSSWALK_ZONE"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "ID or name of the target crosswalk zone. Can be numeric (e.g., '5') or a string (e.g., 'C5_main'). If numeric, it will be compared to the zone_id field of the detection message. If string, it will be compared to the zone_name field. This logic is handled automatically in the engine."^^xsd:string .
+
+data:crosswalk-safety-alert--APPROACH_ZONES a gate:Parameter ;
+    rdfs:label "APPROACH_ZONES"@en ;
+    gate:parameterName "APPROACH_ZONES"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Comma-separated list of zone names or zone ids before the crosswalk (approach zones). Example: 'C5_before_1,C5_before_2', or '1,2'. Each entry can be a zone name (string) or a zone id (numeric as string). If numeric, it will be compared to the zone_id field of the detection message. If string, it will be compared to the zone_name field. This logic is handled automatically in the engine."^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object speeds topic in the format `host:port`. This is the server from which the service will consume speed messages."^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:crosswalk-safety-alert--VEHICLE_SPEED_THRESHOLD a gate:Parameter ;
+    rdfs:label "VEHICLE_SPEED_THRESHOLD"@en ;
+    gate:parameterName "VEHICLE_SPEED_THRESHOLD"^^xsd:string ;
+    gate:dataType "float"^^xsd:string
+    ; gate:description "Maximum speed (m/s) allowed for vehicles in approach zones. Default: 5.0 m/s (~18 km/h). Vehicles exceeding this speed will raise a PEDESTRIAN_VEHICLE_APPROACH alert."^^xsd:string
+    ; gate:defaultValue "5.0"^^xsd:string .
+
+data:crosswalk-safety-alert--MAKE_MOCK a gate:Parameter ;
+    rdfs:label "MAKE_MOCK"@en ;
+    gate:parameterName "MAKE_MOCK"^^xsd:string ;
+    gate:dataType "bool"^^xsd:string
+    ; gate:description "If True, use mock OSEF data from tests/test_data/osef_stream_data.bin instead of the source TCP stream. When mock data ends, restart from beginning. Default: False (use real TCP stream)."^^xsd:string
+    ; gate:description "If True, publishes random mock crosswalk safety alert messages every 1-2 seconds instead of executing the real logic. Messages are still consumed from topics. Default: False (use real logic)."^^xsd:string
+    ; gate:defaultValue "False"^^xsd:string .
+
+data:crosswalk-safety-alert--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:crosswalk-safety-alert--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:crosswalk-safety-alert--BUCKET_TIME_WINDOW_MS a gate:Parameter ;
+    rdfs:label "BUCKET_TIME_WINDOW_MS"@en ;
+    gate:parameterName "BUCKET_TIME_WINDOW_MS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second)."^^xsd:string
+    ; gate:defaultValue "1000"^^xsd:string .
+
+data:crosswalk-safety-alert--BUCKET_MAX_AGE_SECONDS a gate:Parameter ;
+    rdfs:label "BUCKET_MAX_AGE_SECONDS"@en ;
+    gate:parameterName "BUCKET_MAX_AGE_SECONDS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes)."^^xsd:string
+    ; gate:defaultValue "600"^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for object speed data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_speeds"^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object speeds topic."^^xsd:string
+    ; gate:defaultValue "lidar.object_speeds_value"^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_in_zone_detections"^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.object_in_zone_detection_value"^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.crosswalk_safety_alert"^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.crosswalk_safety_alert"^^xsd:string .
+
+data:crosswalk-safety-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.crosswalk_safety_alert_value"^^xsd:string .
+
+data:flow-alert a gate:Microservice ;
+    rdfs:label "Flow Alert"@en ;
+    intend:name "flow-alert"^^xsd:string ;
+    intend:description "A microservice detecting flow anomalies based on object counts in zones. Monitors object counting data and triggers alerts when counts exceed thresholds. Reads from object-counting Kafka stream and produces flow alert events."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "traffic-jam"^^xsd:string ;
+    gate:keyword "detection"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "flow_alert"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:object-counting ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.flow_alert> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_counting> ;
+    gate:hasRequiredParameter data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_BOOTSTRAP_SERVER, data:flow-alert--KAFKA_DEST_BOOTSTRAP_SERVER, data:flow-alert--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:flow-alert--ZONES_OF_INTEREST, data:flow-alert--OBJECT_TYPE_FILTER, data:flow-alert--MAX_SOURCE_EMPTY_POLLS, data:flow-alert--SOURCE_AUTO_OFFSET_RESET, data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_TOPIC, data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:flow-alert--KAFKA_CONSUMER_GROUP_ID, data:flow-alert--KAFKA_DEST_TOPIC, data:flow-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_COUNTING_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_COUNTING_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object counting topic in the format `host:port`. This is the server from which the service will consume counting messages."^^xsd:string .
+
+data:flow-alert--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:flow-alert--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:flow-alert--ZONES_OF_INTEREST a gate:Parameter ;
+    rdfs:label "ZONES_OF_INTEREST"@en ;
+    gate:parameterName "ZONES_OF_INTEREST"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names to keep. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:flow-alert--OBJECT_TYPE_FILTER a gate:Parameter ;
+    rdfs:label "OBJECT_TYPE_FILTER"@en ;
+    gate:parameterName "OBJECT_TYPE_FILTER"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored."^^xsd:string
+    ; gate:description "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:flow-alert--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:flow-alert--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_COUNTING_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_COUNTING_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for object counting data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_counting"^^xsd:string .
+
+data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_COUNTING_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_COUNTING_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object counting topic."^^xsd:string
+    ; gate:defaultValue "lidar.object_counting_value"^^xsd:string .
+
+data:flow-alert--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.flow_alert"^^xsd:string .
+
+data:flow-alert--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.flow_alert"^^xsd:string .
+
+data:flow-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.flow_alert_value"^^xsd:string .
+
+data:lidar-osef-data-streamer a gate:Microservice ;
+    rdfs:label "Lidar Osef Data Streamer"@en ;
+    intend:name "lidar-osef-data-streamer"^^xsd:string ;
+    intend:description "A microservice for streaming OSEF data from LiDAR sensors. The service reads OSEF blobs from a source, processes them with a specified stride, and streams the processed data to Kafka."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "osef-streamer"^^xsd:string ;
+    gate:keyword "test"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:chartRepository "oci://registry.gate-ai.eu/intend-charts"^^xsd:anyURI ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "lidar_osef_data_streamer"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.data_streamer> ;
+    gate:hasRequiredParameter data:lidar-osef-data-streamer--OSEF_SOURCE, data:lidar-osef-data-streamer--KAFKA_DEST_BOOTSTRAP_SERVER, data:lidar-osef-data-streamer--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:lidar-osef-data-streamer--MAKE_MOCK, data:lidar-osef-data-streamer--STRIDE ;
+    gate:hasFrozenParameter data:lidar-osef-data-streamer--KAFKA_DEST_TOPIC, data:lidar-osef-data-streamer--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:lidar-osef-data-streamer--OSEF_SOURCE a gate:Parameter ;
+    rdfs:label "OSEF_SOURCE"@en ;
+    gate:parameterName "OSEF_SOURCE"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Path to osef file or TCP stream. For TCP streams, use the format `tcp://hostname:port`."^^xsd:string .
+
+data:lidar-osef-data-streamer--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:lidar-osef-data-streamer--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:lidar-osef-data-streamer--MAKE_MOCK a gate:Parameter ;
+    rdfs:label "MAKE_MOCK"@en ;
+    gate:parameterName "MAKE_MOCK"^^xsd:string ;
+    gate:dataType "bool"^^xsd:string
+    ; gate:description "If True, use mock OSEF data from tests/test_data/osef_stream_data.bin instead of the source TCP stream. When mock data ends, restart from beginning. Default: False (use real TCP stream)."^^xsd:string
+    ; gate:description "If True, publishes random mock crosswalk safety alert messages every 1-2 seconds instead of executing the real logic. Messages are still consumed from topics. Default: False (use real logic)."^^xsd:string
+    ; gate:defaultValue "False"^^xsd:string .
+
+data:lidar-osef-data-streamer--STRIDE a gate:Parameter ;
+    rdfs:label "STRIDE"@en ;
+    gate:parameterName "STRIDE"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message."^^xsd:string
+    ; gate:description "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."^^xsd:string
+    ; gate:defaultValue "1"^^xsd:string .
+
+data:lidar-osef-data-streamer--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict"^^xsd:string .
+
+data:lidar-osef-data-streamer--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.osef.scan_frame_dict_value"^^xsd:string .
+
+data:object-counting a gate:Microservice ;
+    rdfs:label "Object Counting"@en ;
+    intend:name "object-counting"^^xsd:string ;
+    intend:description "A microservice counting objects within predefined areas over time intervals. Tracks object counts in zones for specified time frames (e.g., 5 minutes). Reads from object-in-zone-detection Kafka stream and produces object counting events."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "traffic-jam"^^xsd:string ;
+    gate:keyword "detection"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:chartRepository "oci://registry.gate-ai.eu/intend-charts"^^xsd:anyURI ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "object_counting"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:object-in-zone-detection ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_counting> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detections>, <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detection> ;
+    gate:hasRequiredParameter data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER, data:object-counting--KAFKA_DEST_BOOTSTRAP_SERVER, data:object-counting--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:object-counting--ZONES_OF_INTEREST, data:object-counting--OBJECT_TYPE_FILTER, data:object-counting--MAX_SOURCE_EMPTY_POLLS, data:object-counting--SOURCE_AUTO_OFFSET_RESET, data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC, data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:object-counting--KAFKA_CONSUMER_GROUP_ID, data:object-counting--KAFKA_DEST_TOPIC, data:object-counting--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:object-counting--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:object-counting--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:object-counting--ZONES_OF_INTEREST a gate:Parameter ;
+    rdfs:label "ZONES_OF_INTEREST"@en ;
+    gate:parameterName "ZONES_OF_INTEREST"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names to keep. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:object-counting--OBJECT_TYPE_FILTER a gate:Parameter ;
+    rdfs:label "OBJECT_TYPE_FILTER"@en ;
+    gate:parameterName "OBJECT_TYPE_FILTER"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored."^^xsd:string
+    ; gate:description "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:object-counting--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:object-counting--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_in_zone_detections"^^xsd:string .
+
+data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.object_in_zone_detection_value"^^xsd:string .
+
+data:object-counting--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.object_counting"^^xsd:string .
+
+data:object-counting--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_counting"^^xsd:string .
+
+data:object-counting--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.object_counting_value"^^xsd:string .
+
+data:object-in-zone-detection a gate:Microservice ;
+    rdfs:label "Object In Zone Detection"@en ;
+    intend:name "object-in-zone-detection"^^xsd:string ;
+    intend:description "A microservice processing OSEF Zones data from LiDAR sensors. The processed data includes zone information such as zones definitions and bindings. The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of OSEF Zones data."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "osef-streamer"^^xsd:string ;
+    gate:keyword "test"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:chartRepository "oci://registry.gate-ai.eu/intend-charts"^^xsd:anyURI ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "object_in_zone_detection"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:osef-tracked-objects, data:osef-zones ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detection> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.zones>, <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.tracked_objects> ;
+    gate:hasRequiredParameter data:object-in-zone-detection--KAFKA_SOURCE_ZONES_BOOTSTRAP_SERVER, data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_BOOTSTRAP_SERVER, data:object-in-zone-detection--KAFKA_DEST_BOOTSTRAP_SERVER, data:object-in-zone-detection--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:object-in-zone-detection--OBJECT_TYPE_FILTER, data:object-in-zone-detection--ZONES_OF_INTEREST, data:object-in-zone-detection--MAX_SOURCE_EMPTY_POLLS, data:object-in-zone-detection--SOURCE_AUTO_OFFSET_RESET, data:object-in-zone-detection--STRIDE, data:object-in-zone-detection--BUCKET_TIME_WINDOW_MS, data:object-in-zone-detection--BUCKET_MAX_AGE_SECONDS ;
+    gate:hasFrozenParameter data:object-in-zone-detection--KAFKA_CONSUMER_GROUP_ID, data:object-in-zone-detection--KAFKA_SOURCE_ZONES_TOPIC, data:object-in-zone-detection--KAFKA_SOURCE_ZONES_SCHEMA_VALUE_SUBJECT, data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_TOPIC, data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_SCHEMA_VALUE_SUBJECT, data:object-in-zone-detection--KAFKA_DEST_TOPIC, data:object-in-zone-detection--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:object-in-zone-detection--KAFKA_SOURCE_ZONES_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_ZONES_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_ZONES_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones topic in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECTS_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECTS_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for objects topic in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:object-in-zone-detection--OBJECT_TYPE_FILTER a gate:Parameter ;
+    rdfs:label "OBJECT_TYPE_FILTER"@en ;
+    gate:parameterName "OBJECT_TYPE_FILTER"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored."^^xsd:string
+    ; gate:description "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:object-in-zone-detection--ZONES_OF_INTEREST a gate:Parameter ;
+    rdfs:label "ZONES_OF_INTEREST"@en ;
+    gate:parameterName "ZONES_OF_INTEREST"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names to keep. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:object-in-zone-detection--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:object-in-zone-detection--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:object-in-zone-detection--STRIDE a gate:Parameter ;
+    rdfs:label "STRIDE"@en ;
+    gate:parameterName "STRIDE"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message."^^xsd:string
+    ; gate:description "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."^^xsd:string
+    ; gate:defaultValue "1"^^xsd:string .
+
+data:object-in-zone-detection--BUCKET_TIME_WINDOW_MS a gate:Parameter ;
+    rdfs:label "BUCKET_TIME_WINDOW_MS"@en ;
+    gate:parameterName "BUCKET_TIME_WINDOW_MS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second)."^^xsd:string
+    ; gate:defaultValue "1000"^^xsd:string .
+
+data:object-in-zone-detection--BUCKET_MAX_AGE_SECONDS a gate:Parameter ;
+    rdfs:label "BUCKET_MAX_AGE_SECONDS"@en ;
+    gate:parameterName "BUCKET_MAX_AGE_SECONDS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes)."^^xsd:string
+    ; gate:defaultValue "600"^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.osef.scan_frame_dict"^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_SOURCE_ZONES_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_ZONES_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_ZONES_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for zones frames."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.zones"^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_SOURCE_ZONES_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_ZONES_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_ZONES_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic for zones."^^xsd:string
+    ; gate:defaultValue "lidar.osef.zones_value"^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECTS_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECTS_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for tracked object frames."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.tracked_objects"^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECTS_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECTS_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic for objects."^^xsd:string
+    ; gate:defaultValue "lidar.osef.tracked_objects_value"^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_in_zone_detection"^^xsd:string .
+
+data:object-in-zone-detection--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.object_in_zone_detection_value"^^xsd:string .
+
+data:object-speeds a gate:Microservice ;
+    rdfs:label "Object Speeds"@en ;
+    intend:name "object-speeds"^^xsd:string ;
+    intend:description "A microservice processing OSEF tracked-object data—object IDs, classes & names; kinematics (speed vectors & norms); 3D & SLAM poses; bounding-box sizes, footprints & vertices;  and metadata (properties, age, peak heights, matching pairs, confidence). The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of tracked-object OSEF data."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "osef-streamer"^^xsd:string ;
+    gate:keyword "test"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:chartRepository "oci://registry.gate-ai.eu/intend-charts"^^xsd:anyURI ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "object_speeds"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:osef-tracked-objects ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_speeds> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.tracked_objects> ;
+    gate:hasRequiredParameter data:object-speeds--KAFKA_SOURCE_BOOTSTRAP_SERVER, data:object-speeds--KAFKA_DEST_BOOTSTRAP_SERVER, data:object-speeds--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:object-speeds--OBJECT_TYPE_FILTER, data:object-speeds--MAX_SOURCE_EMPTY_POLLS, data:object-speeds--SOURCE_AUTO_OFFSET_RESET, data:object-speeds--STRIDE ;
+    gate:hasFrozenParameter data:object-speeds--KAFKA_CONSUMER_GROUP_ID, data:object-speeds--KAFKA_SOURCE_TOPIC, data:object-speeds--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT, data:object-speeds--KAFKA_DEST_TOPIC, data:object-speeds--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:object-speeds--KAFKA_SOURCE_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:object-speeds--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:object-speeds--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:object-speeds--OBJECT_TYPE_FILTER a gate:Parameter ;
+    rdfs:label "OBJECT_TYPE_FILTER"@en ;
+    gate:parameterName "OBJECT_TYPE_FILTER"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored."^^xsd:string
+    ; gate:description "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:object-speeds--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:object-speeds--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:object-speeds--STRIDE a gate:Parameter ;
+    rdfs:label "STRIDE"@en ;
+    gate:parameterName "STRIDE"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message."^^xsd:string
+    ; gate:description "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."^^xsd:string
+    ; gate:defaultValue "1"^^xsd:string .
+
+data:object-speeds--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.object_speeds"^^xsd:string .
+
+data:object-speeds--KAFKA_SOURCE_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to consume messages from."^^xsd:string
+    ; gate:description "Kafka topic for traffic jam detection data."^^xsd:string
+    ; gate:description "Kafka topic for zones passing data."^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.data_streamer"^^xsd:string .
+
+data:object-speeds--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the traffic jam detection topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the zones passing topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.frame_dict_value"^^xsd:string .
+
+data:object-speeds--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_speeds"^^xsd:string .
+
+data:object-speeds--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.object_speeds_value"^^xsd:string .
+
+data:osef-augmented-cloud a gate:Microservice ;
+    rdfs:label "Osef Augmented Cloud"@en ;
+    intend:name "osef-augmented-cloud"^^xsd:string ;
+    intend:description "A microservice processing OSEF augmented cloud data comprising information about the point cloud which captures the environment and objects in the scene. The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of augmented OSEF data."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "osef-streamer"^^xsd:string ;
+    gate:keyword "test"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "osef_augmented_cloud"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:lidar-osef-data-streamer ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.augmented_cloud_dict> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.data_streamer> ;
+    gate:hasRequiredParameter data:osef-augmented-cloud--KAFKA_SOURCE_BOOTSTRAP_SERVER, data:osef-augmented-cloud--KAFKA_DEST_BOOTSTRAP_SERVER, data:osef-augmented-cloud--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:osef-augmented-cloud--MAX_SOURCE_EMPTY_POLLS, data:osef-augmented-cloud--SOURCE_AUTO_OFFSET_RESET, data:osef-augmented-cloud--STRIDE ;
+    gate:hasFrozenParameter data:osef-augmented-cloud--KAFKA_CONSUMER_GROUP_ID, data:osef-augmented-cloud--KAFKA_SOURCE_TOPIC, data:osef-augmented-cloud--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT, data:osef-augmented-cloud--KAFKA_DEST_TOPIC, data:osef-augmented-cloud--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:osef-augmented-cloud--KAFKA_SOURCE_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:osef-augmented-cloud--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:osef-augmented-cloud--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:osef-augmented-cloud--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:osef-augmented-cloud--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:osef-augmented-cloud--STRIDE a gate:Parameter ;
+    rdfs:label "STRIDE"@en ;
+    gate:parameterName "STRIDE"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message."^^xsd:string
+    ; gate:description "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."^^xsd:string
+    ; gate:defaultValue "1"^^xsd:string .
+
+data:osef-augmented-cloud--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.osef.scan_frame_dict"^^xsd:string .
+
+data:osef-augmented-cloud--KAFKA_SOURCE_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to consume messages from."^^xsd:string
+    ; gate:description "Kafka topic for traffic jam detection data."^^xsd:string
+    ; gate:description "Kafka topic for zones passing data."^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.data_streamer"^^xsd:string .
+
+data:osef-augmented-cloud--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the traffic jam detection topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the zones passing topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.frame_dict_value"^^xsd:string .
+
+data:osef-augmented-cloud--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict"^^xsd:string .
+
+data:osef-augmented-cloud--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.osef.scan_frame_dict_value"^^xsd:string .
+
+data:osef-scan-frame a gate:Microservice ;
+    rdfs:label "Osef Scan Frame"@en ;
+    intend:name "osef-scan-frame"^^xsd:string ;
+    intend:description "A microservice processing OSEF scan-frame data comprising information about the sensor’s 3D pose (translation and rotation), its geographic pose (latitude, longitude, heading) and geographic speed (speed and heading). The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of scan-frame OSEF data."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "osef-streamer"^^xsd:string ;
+    gate:keyword "test"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "osef_scan_frame"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:lidar-osef-data-streamer ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.data_streamer> ;
+    gate:hasRequiredParameter data:osef-scan-frame--KAFKA_SOURCE_BOOTSTRAP_SERVER, data:osef-scan-frame--KAFKA_DEST_BOOTSTRAP_SERVER, data:osef-scan-frame--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:osef-scan-frame--MAX_SOURCE_EMPTY_POLLS, data:osef-scan-frame--SOURCE_AUTO_OFFSET_RESET, data:osef-scan-frame--STRIDE ;
+    gate:hasFrozenParameter data:osef-scan-frame--KAFKA_CONSUMER_GROUP_ID, data:osef-scan-frame--KAFKA_SOURCE_TOPIC, data:osef-scan-frame--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT, data:osef-scan-frame--KAFKA_DEST_TOPIC, data:osef-scan-frame--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:osef-scan-frame--KAFKA_SOURCE_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:osef-scan-frame--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:osef-scan-frame--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:osef-scan-frame--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:osef-scan-frame--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:osef-scan-frame--STRIDE a gate:Parameter ;
+    rdfs:label "STRIDE"@en ;
+    gate:parameterName "STRIDE"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message."^^xsd:string
+    ; gate:description "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."^^xsd:string
+    ; gate:defaultValue "1"^^xsd:string .
+
+data:osef-scan-frame--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.osef.scan_frame_dict"^^xsd:string .
+
+data:osef-scan-frame--KAFKA_SOURCE_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to consume messages from."^^xsd:string
+    ; gate:description "Kafka topic for traffic jam detection data."^^xsd:string
+    ; gate:description "Kafka topic for zones passing data."^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.data_streamer"^^xsd:string .
+
+data:osef-scan-frame--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the traffic jam detection topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the zones passing topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.frame_dict_value"^^xsd:string .
+
+data:osef-scan-frame--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict"^^xsd:string .
+
+data:osef-scan-frame--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.osef.scan_frame_dict_value"^^xsd:string .
+
+data:osef-tracked-objects a gate:Microservice ;
+    rdfs:label "Osef Tracked Objects"@en ;
+    intend:name "osef-tracked-objects"^^xsd:string ;
+    intend:description "A microservice processing OSEF tracked-object data—object IDs, classes & names; kinematics (speed vectors & norms); 3D & SLAM poses; bounding-box sizes, footprints & vertices;  and metadata (properties, age, peak heights, matching pairs, confidence). The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of tracked-object OSEF data."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "osef-streamer"^^xsd:string ;
+    gate:keyword "test"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:chartRepository "oci://registry.gate-ai.eu/intend-charts"^^xsd:anyURI ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "osef_tracked_objects"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:lidar-osef-data-streamer ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.tracked_objects> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.data_streamer> ;
+    gate:hasRequiredParameter data:osef-tracked-objects--KAFKA_SOURCE_BOOTSTRAP_SERVER, data:osef-tracked-objects--KAFKA_DEST_BOOTSTRAP_SERVER, data:osef-tracked-objects--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:osef-tracked-objects--MAX_SOURCE_EMPTY_POLLS, data:osef-tracked-objects--SOURCE_AUTO_OFFSET_RESET, data:osef-tracked-objects--STRIDE ;
+    gate:hasFrozenParameter data:osef-tracked-objects--KAFKA_CONSUMER_GROUP_ID, data:osef-tracked-objects--KAFKA_SOURCE_TOPIC, data:osef-tracked-objects--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT, data:osef-tracked-objects--KAFKA_DEST_TOPIC, data:osef-tracked-objects--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:osef-tracked-objects--KAFKA_SOURCE_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:osef-tracked-objects--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:osef-tracked-objects--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:osef-tracked-objects--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:osef-tracked-objects--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:osef-tracked-objects--STRIDE a gate:Parameter ;
+    rdfs:label "STRIDE"@en ;
+    gate:parameterName "STRIDE"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message."^^xsd:string
+    ; gate:description "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."^^xsd:string
+    ; gate:defaultValue "1"^^xsd:string .
+
+data:osef-tracked-objects--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.osef.scan_frame_dict"^^xsd:string .
+
+data:osef-tracked-objects--KAFKA_SOURCE_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to consume messages from."^^xsd:string
+    ; gate:description "Kafka topic for traffic jam detection data."^^xsd:string
+    ; gate:description "Kafka topic for zones passing data."^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.data_streamer"^^xsd:string .
+
+data:osef-tracked-objects--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the traffic jam detection topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the zones passing topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.frame_dict_value"^^xsd:string .
+
+data:osef-tracked-objects--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict"^^xsd:string .
+
+data:osef-tracked-objects--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.osef.scan_frame_dict_value"^^xsd:string .
+
+data:osef-zones a gate:Microservice ;
+    rdfs:label "Osef Zones"@en ;
+    intend:name "osef-zones"^^xsd:string ;
+    intend:description "A microservice processing OSEF Zones data from LiDAR sensors. The processed data includes zone information such as zones definitions and bindings. The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of OSEF Zones data."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "osef-streamer"^^xsd:string ;
+    gate:keyword "test"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:chartRepository "oci://registry.gate-ai.eu/intend-charts"^^xsd:anyURI ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "osef_zones"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:lidar-osef-data-streamer ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.zones> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.data_streamer> ;
+    gate:hasRequiredParameter data:osef-zones--KAFKA_SOURCE_BOOTSTRAP_SERVER, data:osef-zones--KAFKA_DEST_BOOTSTRAP_SERVER, data:osef-zones--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:osef-zones--MAX_SOURCE_EMPTY_POLLS, data:osef-zones--SOURCE_AUTO_OFFSET_RESET, data:osef-zones--STRIDE ;
+    gate:hasFrozenParameter data:osef-zones--KAFKA_CONSUMER_GROUP_ID, data:osef-zones--KAFKA_SOURCE_TOPIC, data:osef-zones--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT, data:osef-zones--KAFKA_DEST_TOPIC, data:osef-zones--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:osef-zones--KAFKA_SOURCE_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:osef-zones--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:osef-zones--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:osef-zones--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:osef-zones--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:osef-zones--STRIDE a gate:Parameter ;
+    rdfs:label "STRIDE"@en ;
+    gate:parameterName "STRIDE"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message."^^xsd:string
+    ; gate:description "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."^^xsd:string
+    ; gate:defaultValue "1"^^xsd:string .
+
+data:osef-zones--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.osef.zones"^^xsd:string .
+
+data:osef-zones--KAFKA_SOURCE_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to consume messages from."^^xsd:string
+    ; gate:description "Kafka topic for traffic jam detection data."^^xsd:string
+    ; gate:description "Kafka topic for zones passing data."^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.data_streamer"^^xsd:string .
+
+data:osef-zones--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the traffic jam detection topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the zones passing topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.frame_dict_value"^^xsd:string .
+
+data:osef-zones--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.zones"^^xsd:string .
+
+data:osef-zones--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.osef.zones_value"^^xsd:string .
+
+data:overspeed-alert a gate:Microservice ;
+    rdfs:label "Overspeed Alert"@en ;
+    intend:name "overspeed-alert"^^xsd:string ;
+    intend:description "A microservice detecting vehicles exceeding speed limits. Monitors vehicle speeds and generates alerts when speed thresholds are exceeded. Reads from object-speeds Kafka stream and produces overspeed alert events."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "overspeed"^^xsd:string ;
+    gate:keyword "alert"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "overspeed_alert"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:object-speeds, data:osef-zones ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.overspeed_alert> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_speeds>, <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.zones> ;
+    gate:hasRequiredParameter data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER, data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER, data:overspeed-alert--KAFKA_DEST_BOOTSTRAP_SERVER, data:overspeed-alert--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:overspeed-alert--ZONES_OF_INTEREST, data:overspeed-alert--SPEED_LIMIT, data:overspeed-alert--MAX_SOURCE_EMPTY_POLLS, data:overspeed-alert--SOURCE_AUTO_OFFSET_RESET, data:overspeed-alert--BUCKET_TIME_WINDOW_MS, data:overspeed-alert--BUCKET_MAX_AGE_SECONDS, data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC, data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:overspeed-alert--KAFKA_CONSUMER_GROUP_ID, data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_TOPIC, data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT, data:overspeed-alert--KAFKA_DEST_TOPIC, data:overspeed-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object speeds topic in the format `host:port`. This is the server from which the service will consume speed messages."^^xsd:string .
+
+data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for OSEF zones topic in the format `host:port`. This is the server from which the service will consume zone messages."^^xsd:string .
+
+data:overspeed-alert--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:overspeed-alert--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:overspeed-alert--ZONES_OF_INTEREST a gate:Parameter ;
+    rdfs:label "ZONES_OF_INTEREST"@en ;
+    gate:parameterName "ZONES_OF_INTEREST"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names to keep. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:overspeed-alert--SPEED_LIMIT a gate:Parameter ;
+    rdfs:label "SPEED_LIMIT"@en ;
+    gate:parameterName "SPEED_LIMIT"^^xsd:string ;
+    gate:dataType "float"^^xsd:string
+    ; gate:description "Speed limit threshold in m/s (default: 13.89 m/s = 50 km/h)."^^xsd:string
+    ; gate:defaultValue "13.89"^^xsd:string .
+
+data:overspeed-alert--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:overspeed-alert--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:overspeed-alert--BUCKET_TIME_WINDOW_MS a gate:Parameter ;
+    rdfs:label "BUCKET_TIME_WINDOW_MS"@en ;
+    gate:parameterName "BUCKET_TIME_WINDOW_MS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second)."^^xsd:string
+    ; gate:defaultValue "1000"^^xsd:string .
+
+data:overspeed-alert--BUCKET_MAX_AGE_SECONDS a gate:Parameter ;
+    rdfs:label "BUCKET_MAX_AGE_SECONDS"@en ;
+    gate:parameterName "BUCKET_MAX_AGE_SECONDS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes)."^^xsd:string
+    ; gate:defaultValue "600"^^xsd:string .
+
+data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for object speed data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_speeds"^^xsd:string .
+
+data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object speeds topic."^^xsd:string
+    ; gate:defaultValue "lidar.object_speeds_value"^^xsd:string .
+
+data:overspeed-alert--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.overspeed_alert"^^xsd:string .
+
+data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OSEF_ZONES_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OSEF_ZONES_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for OSEF zones data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.zones"^^xsd:string .
+
+data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the OSEF zones topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.zones_value"^^xsd:string .
+
+data:overspeed-alert--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.overspeed_alert"^^xsd:string .
+
+data:overspeed-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.overspeed_alert_value"^^xsd:string .
+
+data:traffic-jam-alert a gate:Microservice ;
+    rdfs:label "Traffic Jam Alert"@en ;
+    intend:name "traffic-jam-alert"^^xsd:string ;
+    intend:description "A microservice generating traffic jam alerts (start and stop) for monitored zones. Monitors traffic jam detector events and generates both start and stop alerts for traffic jams. Each jam is assigned a unique ID and tracked from start to stop. Reads from traffic-jam-detector Kafka stream and produces traffic jam alert events."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "traffic-jam"^^xsd:string ;
+    gate:keyword "detection"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "traffic_jam_alert"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:traffic-jam-detector ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.traffic_jam_alert> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.traffic_jam_detections> ;
+    gate:hasRequiredParameter data:traffic-jam-alert--KAFKA_SOURCE_BOOTSTRAP_SERVER, data:traffic-jam-alert--KAFKA_DEST_BOOTSTRAP_SERVER, data:traffic-jam-alert--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:traffic-jam-alert--PATIENCE, data:traffic-jam-alert--ZONES_OF_INTEREST, data:traffic-jam-alert--ALERT_COOLDOWN_SECONDS, data:traffic-jam-alert--JAM_SEVERITY_THRESHOLD, data:traffic-jam-alert--MAX_SOURCE_EMPTY_POLLS, data:traffic-jam-alert--SOURCE_AUTO_OFFSET_RESET, data:traffic-jam-alert--KAFKA_SOURCE_TOPIC, data:traffic-jam-alert--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:traffic-jam-alert--KAFKA_CONSUMER_GROUP_ID, data:traffic-jam-alert--KAFKA_DEST_TOPIC, data:traffic-jam-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:traffic-jam-alert--KAFKA_SOURCE_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:traffic-jam-alert--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:traffic-jam-alert--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:traffic-jam-alert--PATIENCE a gate:Parameter ;
+    rdfs:label "PATIENCE"@en ;
+    gate:parameterName "PATIENCE"^^xsd:string ;
+    gate:dataType "float"^^xsd:string
+    ; gate:description "Time in seconds to wait without seeing a traffic jam ID before considering it stopped and generating a STOP alert."^^xsd:string
+    ; gate:defaultValue "5.0"^^xsd:string .
+
+data:traffic-jam-alert--ZONES_OF_INTEREST a gate:Parameter ;
+    rdfs:label "ZONES_OF_INTEREST"@en ;
+    gate:parameterName "ZONES_OF_INTEREST"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names to keep. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:traffic-jam-alert--ALERT_COOLDOWN_SECONDS a gate:Parameter ;
+    rdfs:label "ALERT_COOLDOWN_SECONDS"@en ;
+    gate:parameterName "ALERT_COOLDOWN_SECONDS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Minimum time in seconds between consecutive jam alerts for the same zone. Prevents alert spam during prolonged jams. Default: 60 seconds."^^xsd:string
+    ; gate:defaultValue "60"^^xsd:string .
+
+data:traffic-jam-alert--JAM_SEVERITY_THRESHOLD a gate:Parameter ;
+    rdfs:label "JAM_SEVERITY_THRESHOLD"@en ;
+    gate:parameterName "JAM_SEVERITY_THRESHOLD"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Minimum severity level to generate alerts. Options: 'low', 'medium', 'high'. Low: 5+ vehicles, Medium: 10+ vehicles, High: 20+ vehicles. Default: 'medium'."^^xsd:string
+    ; gate:defaultValue "medium"^^xsd:string .
+
+data:traffic-jam-alert--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:traffic-jam-alert--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:traffic-jam-alert--KAFKA_SOURCE_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to consume messages from."^^xsd:string
+    ; gate:description "Kafka topic for traffic jam detection data."^^xsd:string
+    ; gate:description "Kafka topic for zones passing data."^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.data_streamer"^^xsd:string .
+
+data:traffic-jam-alert--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the traffic jam detection topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the zones passing topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.frame_dict_value"^^xsd:string .
+
+data:traffic-jam-alert--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.traffic_jam_alert"^^xsd:string .
+
+data:traffic-jam-alert--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.traffic_jam_alert"^^xsd:string .
+
+data:traffic-jam-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.traffic_jam_alert_value"^^xsd:string .
+
+data:traffic-jam-detector a gate:Microservice ;
+    rdfs:label "Traffic Jam Detector"@en ;
+    intend:name "traffic-jam-detector"^^xsd:string ;
+    intend:description "A microservice detecting traffic jams based on vehicle speeds and zone occupancy. Monitors specified zones for low-speed, high-density vehicle patterns. Reads from object-speeds and object-in-zone-detection Kafka streams and produces traffic jam detection events."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "traffic-jam"^^xsd:string ;
+    gate:keyword "detection"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:chartRepository "oci://registry.gate-ai.eu/intend-charts"^^xsd:anyURI ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "traffic_jam_detector"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:object-in-zone-detection, data:object-speeds ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.traffic_jam_detector> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_speeds>, <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detections>, <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detection> ;
+    gate:hasRequiredParameter data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER, data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER, data:traffic-jam-detector--KAFKA_DEST_BOOTSTRAP_SERVER, data:traffic-jam-detector--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:traffic-jam-detector--ZONES_OF_INTEREST, data:traffic-jam-detector--JAM_SPEED_THRESHOLD, data:traffic-jam-detector--MIN_VEHICLE_COUNT, data:traffic-jam-detector--JAM_DURATION_THRESHOLD_SECONDS, data:traffic-jam-detector--ZONE_COVERAGE_THRESHOLD_PERCENT, data:traffic-jam-detector--MAX_SOURCE_EMPTY_POLLS, data:traffic-jam-detector--SOURCE_AUTO_OFFSET_RESET, data:traffic-jam-detector--BUCKET_TIME_WINDOW_MS, data:traffic-jam-detector--BUCKET_MAX_AGE_SECONDS, data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC, data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT, data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC, data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:traffic-jam-detector--KAFKA_CONSUMER_GROUP_ID, data:traffic-jam-detector--KAFKA_DEST_TOPIC, data:traffic-jam-detector--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object speeds topic in the format `host:port`. This is the server from which the service will consume speed messages."^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:traffic-jam-detector--ZONES_OF_INTEREST a gate:Parameter ;
+    rdfs:label "ZONES_OF_INTEREST"@en ;
+    gate:parameterName "ZONES_OF_INTEREST"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names to keep. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:traffic-jam-detector--JAM_SPEED_THRESHOLD a gate:Parameter ;
+    rdfs:label "JAM_SPEED_THRESHOLD"@en ;
+    gate:parameterName "JAM_SPEED_THRESHOLD"^^xsd:string ;
+    gate:dataType "float"^^xsd:string
+    ; gate:description "Maximum average speed (m/s) to consider as traffic jam. Default: 2.0 m/s (~7 km/h)."^^xsd:string
+    ; gate:defaultValue "2.0"^^xsd:string .
+
+data:traffic-jam-detector--MIN_VEHICLE_COUNT a gate:Parameter ;
+    rdfs:label "MIN_VEHICLE_COUNT"@en ;
+    gate:parameterName "MIN_VEHICLE_COUNT"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Minimum number of vehicles in zone to trigger jam detection. Default: 3 vehicles."^^xsd:string
+    ; gate:defaultValue "3"^^xsd:string .
+
+data:traffic-jam-detector--JAM_DURATION_THRESHOLD_SECONDS a gate:Parameter ;
+    rdfs:label "JAM_DURATION_THRESHOLD_SECONDS"@en ;
+    gate:parameterName "JAM_DURATION_THRESHOLD_SECONDS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Minimum duration in seconds that jam conditions must persist before declaring a jam. Prevents false positives from momentary slowdowns. Default: 30 seconds."^^xsd:string
+    ; gate:defaultValue "30"^^xsd:string .
+
+data:traffic-jam-detector--ZONE_COVERAGE_THRESHOLD_PERCENT a gate:Parameter ;
+    rdfs:label "ZONE_COVERAGE_THRESHOLD_PERCENT"@en ;
+    gate:parameterName "ZONE_COVERAGE_THRESHOLD_PERCENT"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Minimum percentage of zone that must be occupied for jam declaration. Range: 0-100. Default: 50%."^^xsd:string
+    ; gate:defaultValue "50"^^xsd:string .
+
+data:traffic-jam-detector--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:traffic-jam-detector--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:traffic-jam-detector--BUCKET_TIME_WINDOW_MS a gate:Parameter ;
+    rdfs:label "BUCKET_TIME_WINDOW_MS"@en ;
+    gate:parameterName "BUCKET_TIME_WINDOW_MS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second)."^^xsd:string
+    ; gate:defaultValue "1000"^^xsd:string .
+
+data:traffic-jam-detector--BUCKET_MAX_AGE_SECONDS a gate:Parameter ;
+    rdfs:label "BUCKET_MAX_AGE_SECONDS"@en ;
+    gate:parameterName "BUCKET_MAX_AGE_SECONDS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes)."^^xsd:string
+    ; gate:defaultValue "600"^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for object speed data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_speeds"^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object speeds topic."^^xsd:string
+    ; gate:defaultValue "lidar.object_speeds_value"^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_in_zone_detections"^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.object_in_zone_detection_value"^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.traffic_jam_detector"^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.traffic_jam_detector"^^xsd:string .
+
+data:traffic-jam-detector--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.traffic_jam_detector_value"^^xsd:string .
+
+data:underspeed-alert a gate:Microservice ;
+    rdfs:label "Underspeed Alert"@en ;
+    intend:name "underspeed-alert"^^xsd:string ;
+    intend:description "A microservice detecting vehicles driving too slowly (underspeed). Monitors vehicle speeds and generates alerts when vehicles fall below minimum speed thresholds. Reads from object-speeds Kafka stream and produces underspeed alert events."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "underspeed"^^xsd:string ;
+    gate:keyword "alert"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "underspeed_alert"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:object-speeds, data:osef-zones ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.underspeed_alert> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_speeds>, <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.osef.zones> ;
+    gate:hasRequiredParameter data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER, data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER, data:underspeed-alert--KAFKA_DEST_BOOTSTRAP_SERVER, data:underspeed-alert--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:underspeed-alert--ZONES_OF_INTEREST, data:underspeed-alert--MIN_SPEED_LIMIT, data:underspeed-alert--MAX_SOURCE_EMPTY_POLLS, data:underspeed-alert--SOURCE_AUTO_OFFSET_RESET, data:underspeed-alert--BUCKET_TIME_WINDOW_MS, data:underspeed-alert--BUCKET_MAX_AGE_SECONDS, data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC, data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:underspeed-alert--KAFKA_CONSUMER_GROUP_ID, data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_TOPIC, data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT, data:underspeed-alert--KAFKA_DEST_TOPIC, data:underspeed-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object speeds topic in the format `host:port`. This is the server from which the service will consume speed messages."^^xsd:string .
+
+data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for OSEF zones topic in the format `host:port`. This is the server from which the service will consume zone messages."^^xsd:string .
+
+data:underspeed-alert--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:underspeed-alert--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:underspeed-alert--ZONES_OF_INTEREST a gate:Parameter ;
+    rdfs:label "ZONES_OF_INTEREST"@en ;
+    gate:parameterName "ZONES_OF_INTEREST"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:description "List of zone names to keep. If empty, all zones are processed."^^xsd:string
+    ; gate:description "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:underspeed-alert--MIN_SPEED_LIMIT a gate:Parameter ;
+    rdfs:label "MIN_SPEED_LIMIT"@en ;
+    gate:parameterName "MIN_SPEED_LIMIT"^^xsd:string ;
+    gate:dataType "float"^^xsd:string
+    ; gate:description "Minimum speed threshold in m/s (default: 8.33 m/s = 30 km/h)."^^xsd:string
+    ; gate:defaultValue "8.33"^^xsd:string .
+
+data:underspeed-alert--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:underspeed-alert--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:underspeed-alert--BUCKET_TIME_WINDOW_MS a gate:Parameter ;
+    rdfs:label "BUCKET_TIME_WINDOW_MS"@en ;
+    gate:parameterName "BUCKET_TIME_WINDOW_MS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second)."^^xsd:string
+    ; gate:defaultValue "1000"^^xsd:string .
+
+data:underspeed-alert--BUCKET_MAX_AGE_SECONDS a gate:Parameter ;
+    rdfs:label "BUCKET_MAX_AGE_SECONDS"@en ;
+    gate:parameterName "BUCKET_MAX_AGE_SECONDS"^^xsd:string ;
+    gate:dataType "int"^^xsd:string
+    ; gate:description "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes)."^^xsd:string
+    ; gate:defaultValue "600"^^xsd:string .
+
+data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for object speed data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.object_speeds"^^xsd:string .
+
+data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object speeds topic."^^xsd:string
+    ; gate:defaultValue "lidar.object_speeds_value"^^xsd:string .
+
+data:underspeed-alert--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.underspeed_alert"^^xsd:string .
+
+data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OSEF_ZONES_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_OSEF_ZONES_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Kafka topic for OSEF zones data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.zones"^^xsd:string .
+
+data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the OSEF zones topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.zones_value"^^xsd:string .
+
+data:underspeed-alert--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.underspeed_alert"^^xsd:string .
+
+data:underspeed-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.underspeed_alert_value"^^xsd:string .
+
+data:zones-passing a gate:Microservice ;
+    rdfs:label "Zones Passing"@en ;
+    intend:name "zones-passing"^^xsd:string ;
+    intend:description "A microservice tracking objects passing between zones. Monitors zone transitions and records when objects move from one zone to another. Reads from object-in-zone-detection Kafka stream and produces zone passing events."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "traffic-jam"^^xsd:string ;
+    gate:keyword "detection"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:chartRepository "oci://registry.gate-ai.eu/intend-charts"^^xsd:anyURI ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "zones_passing"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:object-in-zone-detection ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.zones_passing> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detections>, <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.object_in_zone_detection> ;
+    gate:hasRequiredParameter data:zones-passing--KAFKA_SOURCE_BOOTSTRAP_SERVER, data:zones-passing--KAFKA_DEST_BOOTSTRAP_SERVER, data:zones-passing--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:zones-passing--FROM_ZONE, data:zones-passing--TO_ZONE, data:zones-passing--OBJECT_TYPE_FILTER, data:zones-passing--MAX_SOURCE_EMPTY_POLLS, data:zones-passing--SOURCE_AUTO_OFFSET_RESET, data:zones-passing--KAFKA_SOURCE_TOPIC, data:zones-passing--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:zones-passing--KAFKA_CONSUMER_GROUP_ID, data:zones-passing--KAFKA_DEST_TOPIC, data:zones-passing--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:zones-passing--KAFKA_SOURCE_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:zones-passing--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:zones-passing--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:zones-passing--FROM_ZONE a gate:Parameter ;
+    rdfs:label "FROM_ZONE"@en ;
+    gate:parameterName "FROM_ZONE"^^xsd:string ;
+    gate:dataType "Union[str, NoneType]"^^xsd:string
+    ; gate:description "Filter for the origin zone that triggers alerts. If specified, only alert on transitions FROM this zone. Can be combined with to_zone for exact transition monitoring. If both are None, default alert transitions will be generated."^^xsd:string
+    ; gate:description "Filter for the origin zone. If specified, only track transitions FROM this zone. Can be combined with to_zone for exact transition tracking. If both are None, default zone transitions will be generated."^^xsd:string .
+
+data:zones-passing--TO_ZONE a gate:Parameter ;
+    rdfs:label "TO_ZONE"@en ;
+    gate:parameterName "TO_ZONE"^^xsd:string ;
+    gate:dataType "Union[str, NoneType]"^^xsd:string
+    ; gate:description "Filter for the destination zone that triggers alerts. If specified, only alert on transitions TO this zone. Can be combined with from_zone for exact transition monitoring. If both are None, default alert transitions will be generated."^^xsd:string
+    ; gate:description "Filter for the destination zone. If specified, only track transitions TO this zone. Can be combined with from_zone for exact transition tracking. If both are None, default zone transitions will be generated."^^xsd:string .
+
+data:zones-passing--OBJECT_TYPE_FILTER a gate:Parameter ;
+    rdfs:label "OBJECT_TYPE_FILTER"@en ;
+    gate:parameterName "OBJECT_TYPE_FILTER"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored."^^xsd:string
+    ; gate:description "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:zones-passing--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:zones-passing--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:zones-passing--KAFKA_SOURCE_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to consume messages from."^^xsd:string
+    ; gate:description "Kafka topic for traffic jam detection data."^^xsd:string
+    ; gate:description "Kafka topic for zones passing data."^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.zones_passing"^^xsd:string .
+
+data:zones-passing--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the traffic jam detection topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the zones passing topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.zones_passing_value"^^xsd:string .
+
+data:zones-passing--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.zones_passing_alert"^^xsd:string .
+
+data:zones-passing--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.zones_passing_alert"^^xsd:string .
+
+data:zones-passing--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.zones_passing_alert_value"^^xsd:string .
+
+data:zones-passing-alert a gate:Microservice ;
+    rdfs:label "Zones Passing Alert"@en ;
+    intend:name "zones-passing-alert"^^xsd:string ;
+    intend:description "A microservice generating alerts for zone passing events. Monitors zone transitions and triggers alerts for specific crossing patterns. Reads from zones-passing Kafka stream and produces zone passing alert events."^^xsd:string ;
+    gate:chartVersion "0.1.0"^^xsd:string ;
+    gate:appVersion "0.1.0"^^xsd:string ;
+    gate:chartType "application"^^xsd:string ;
+    gate:keyword "gate"^^xsd:string ;
+    gate:keyword "intend"^^xsd:string ;
+    gate:keyword "lidar"^^xsd:string ;
+    gate:keyword "traffic-jam"^^xsd:string ;
+    gate:keyword "detection"^^xsd:string ;
+    gate:maintainer "GATE Institute"^^xsd:string ;
+    gate:imageRepository "registry.gate-ai.eu/intend"^^xsd:string ;
+    gate:imageName "zones_passing_alert"^^xsd:string ;
+    gate:imageTag "latest"^^xsd:string ;
+    gate:requestsCpuCores "0.1"^^xsd:decimal ;
+    gate:limitsCpuCores "1"^^xsd:decimal ;
+    gate:requestsMemorySpec "512Mi"^^xsd:string ;
+    gate:limitsMemorySpec "4Gi"^^xsd:string ;
+    gate:requestsMemoryMiB "512"^^xsd:decimal ;
+    gate:limitsMemoryMiB "4096"^^xsd:decimal ;
+    intend:dependsOn data:zones-passing ;
+    gate:producesToTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.zones_passing_alert> ;
+    gate:consumesFromTopic <https://w3id.org/intend/examples/gate-data#city_lab.paradise_mall_sofia.lidar.zones_passing> ;
+    gate:hasRequiredParameter data:zones-passing-alert--KAFKA_SOURCE_BOOTSTRAP_SERVER, data:zones-passing-alert--KAFKA_DEST_BOOTSTRAP_SERVER, data:zones-passing-alert--KAFKA_SCHEMA_REGISTRY_URL ;
+    gate:hasOptionalParameter data:zones-passing-alert--FROM_ZONE, data:zones-passing-alert--TO_ZONE, data:zones-passing-alert--OBJECT_TYPE_FILTER, data:zones-passing-alert--ALERT_SEVERITY, data:zones-passing-alert--MAX_SOURCE_EMPTY_POLLS, data:zones-passing-alert--SOURCE_AUTO_OFFSET_RESET, data:zones-passing-alert--KAFKA_SOURCE_TOPIC, data:zones-passing-alert--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT ;
+    gate:hasFrozenParameter data:zones-passing-alert--KAFKA_CONSUMER_GROUP_ID, data:zones-passing-alert--KAFKA_DEST_TOPIC, data:zones-passing-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT .
+
+data:zones-passing-alert--KAFKA_SOURCE_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_SOURCE_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages."^^xsd:string
+    ; gate:description "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."^^xsd:string .
+
+data:zones-passing-alert--KAFKA_DEST_BOOTSTRAP_SERVER a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_BOOTSTRAP_SERVER"@en ;
+    gate:parameterName "KAFKA_DEST_BOOTSTRAP_SERVER"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages."^^xsd:string
+    ; gate:description "Kafka bootstrap server in the format `host:port`."^^xsd:string .
+
+data:zones-passing-alert--KAFKA_SCHEMA_REGISTRY_URL a gate:Parameter ;
+    rdfs:label "KAFKA_SCHEMA_REGISTRY_URL"@en ;
+    gate:parameterName "KAFKA_SCHEMA_REGISTRY_URL"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "URL of the Schema Registry for Kafka."^^xsd:string .
+
+data:zones-passing-alert--FROM_ZONE a gate:Parameter ;
+    rdfs:label "FROM_ZONE"@en ;
+    gate:parameterName "FROM_ZONE"^^xsd:string ;
+    gate:dataType "Union[str, NoneType]"^^xsd:string
+    ; gate:description "Filter for the origin zone that triggers alerts. If specified, only alert on transitions FROM this zone. Can be combined with to_zone for exact transition monitoring. If both are None, default alert transitions will be generated."^^xsd:string
+    ; gate:description "Filter for the origin zone. If specified, only track transitions FROM this zone. Can be combined with to_zone for exact transition tracking. If both are None, default zone transitions will be generated."^^xsd:string .
+
+data:zones-passing-alert--TO_ZONE a gate:Parameter ;
+    rdfs:label "TO_ZONE"@en ;
+    gate:parameterName "TO_ZONE"^^xsd:string ;
+    gate:dataType "Union[str, NoneType]"^^xsd:string
+    ; gate:description "Filter for the destination zone that triggers alerts. If specified, only alert on transitions TO this zone. Can be combined with from_zone for exact transition monitoring. If both are None, default alert transitions will be generated."^^xsd:string
+    ; gate:description "Filter for the destination zone. If specified, only track transitions TO this zone. Can be combined with from_zone for exact transition tracking. If both are None, default zone transitions will be generated."^^xsd:string .
+
+data:zones-passing-alert--OBJECT_TYPE_FILTER a gate:Parameter ;
+    rdfs:label "OBJECT_TYPE_FILTER"@en ;
+    gate:parameterName "OBJECT_TYPE_FILTER"^^xsd:string ;
+    gate:dataType "list"^^xsd:string
+    ; gate:description "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored."^^xsd:string
+    ; gate:description "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:description "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."^^xsd:string
+    ; gate:defaultValue "[]"^^xsd:string .
+
+data:zones-passing-alert--ALERT_SEVERITY a gate:Parameter ;
+    rdfs:label "ALERT_SEVERITY"@en ;
+    gate:parameterName "ALERT_SEVERITY"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Severity level for generated alerts (LOW, MEDIUM, HIGH, CRITICAL)."^^xsd:string
+    ; gate:defaultValue "HIGH"^^xsd:string .
+
+data:zones-passing-alert--MAX_SOURCE_EMPTY_POLLS a gate:Parameter ;
+    rdfs:label "MAX_SOURCE_EMPTY_POLLS"@en ;
+    gate:parameterName "MAX_SOURCE_EMPTY_POLLS"^^xsd:string ;
+    gate:dataType "Union[int, NoneType]"^^xsd:string
+    ; gate:description "Maximum number of empty polls before timing out."^^xsd:string .
+
+data:zones-passing-alert--SOURCE_AUTO_OFFSET_RESET a gate:Parameter ;
+    rdfs:label "SOURCE_AUTO_OFFSET_RESET"@en ;
+    gate:parameterName "SOURCE_AUTO_OFFSET_RESET"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'."^^xsd:string
+    ; gate:defaultValue "latest"^^xsd:string .
+
+data:zones-passing-alert--KAFKA_SOURCE_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_TOPIC"@en ;
+    gate:parameterName "KAFKA_SOURCE_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to consume messages from."^^xsd:string
+    ; gate:description "Kafka topic for traffic jam detection data."^^xsd:string
+    ; gate:description "Kafka topic for zones passing data."^^xsd:string
+    ; gate:description "Kafka topic for object-in-zone detection data."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.osef.data_streamer"^^xsd:string .
+
+data:zones-passing-alert--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the source topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the traffic jam detection topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the zones passing topic."^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the object-in-zone detection topic."^^xsd:string
+    ; gate:defaultValue "lidar.osef.frame_dict_value"^^xsd:string .
+
+data:zones-passing-alert--KAFKA_CONSUMER_GROUP_ID a gate:Parameter ;
+    rdfs:label "KAFKA_CONSUMER_GROUP_ID"@en ;
+    gate:parameterName "KAFKA_CONSUMER_GROUP_ID"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Consumer group ID for the Kafka consumer."^^xsd:string
+    ; gate:defaultValue "lidar.zones_passing_alert"^^xsd:string .
+
+data:zones-passing-alert--KAFKA_DEST_TOPIC a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_TOPIC"@en ;
+    gate:parameterName "KAFKA_DEST_TOPIC"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the Kafka topic to produce messages to."^^xsd:string
+    ; gate:defaultValue "city_lab.paradise_mall_sofia.lidar.zones_passing_alert"^^xsd:string .
+
+data:zones-passing-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT a gate:Parameter ;
+    rdfs:label "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"@en ;
+    gate:parameterName "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"^^xsd:string ;
+    gate:dataType "str"^^xsd:string
+    ; gate:description "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory."^^xsd:string
+    ; gate:defaultValue "lidar.zones_passing_alert_value"^^xsd:string .
+

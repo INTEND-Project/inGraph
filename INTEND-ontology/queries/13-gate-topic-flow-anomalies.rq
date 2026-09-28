@@ -1,0 +1,17 @@
+# GATE pipeline CQ: which Kafka topics have no producer (external/unexplained
+# input) or no consumer (terminal output) in this snapshot of the pipeline?
+# Surfaces the two apparent singular/plural topic-name mismatches documented
+# in examples/gate-microservices-data.ttl's header
+# (object_in_zone_detection[s], traffic_jam_detect{or,ions}) as queryable
+# results rather than only a comment.
+PREFIX gate: <https://w3id.org/intend/extensions/gate#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?topic ?name ?hasProducer ?hasConsumer WHERE {
+    ?topic a gate:KafkaTopic ;
+           gate:topicName ?name .
+    BIND(EXISTS { ?ms gate:producesToTopic ?topic } AS ?hasProducer)
+    BIND(EXISTS { ?ms gate:consumesFromTopic ?topic } AS ?hasConsumer)
+    FILTER(!?hasProducer || !?hasConsumer)
+}
+ORDER BY ?name

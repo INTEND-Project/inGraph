@@ -1,0 +1,162 @@
+@prefix intend:  <https://w3id.org/intend/ontology#> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  INTEND Ontology — Application module
+#  Source: Balzotti et al., "The INTENT Ontology", Section 5.1.4 + Figure 4.
+#
+#  See ontology/modules/intend-resource.ttl header for the note on how
+#  `executesOn` (defined here, Application -> Resource) and `hosts`
+#  (defined there, Resource -> Application) reconcile the paper's two
+#  opposite definitions of "executesOn" as a single owl:inverseOf pair.
+#
+#################################################################
+
+<https://w3id.org/intend/ontology/application> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - Application module"@en ;
+    owl:imports <http://www.w3.org/ns/prov#> ;
+    owl:versionInfo "0.1.0" .
+
+#################################################################
+# Classes
+#################################################################
+
+intend:Application a owl:Class ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "Application"@en ;
+    rdfs:comment """Defines how the objectives of an Intent are achieved through sequences of
+executable operations: development, deployment, execution, monitoring, and eventual
+decommissioning (Section 5.1.4). Aligned with prov:Activity, reflecting the dynamic
+nature of applications: they are deployed, executed, monitored, scaled and
+terminated."""@en .
+
+intend:Status a owl:Class ;
+    rdfs:label "Status"@en ;
+    rdfs:comment """The current lifecycle status of an Application (e.g. deployed, running,
+stopped), including performance metrics and resource consumption indicators such as
+energy consumption per hour (Section 5.1.4). Modeled as its own class, rather than a
+plain string, because the paper explicitly describes it as bundling a lifecycle state
+together with numeric consumption indicators.""" .
+
+intend:Latency a owl:Class ;
+    rdfs:label "Latency"@en ;
+    rdfs:comment "The uplink and downlink latency of an application, in milliseconds (Figure 4)." .
+
+intend:Bandwidth a owl:Class ;
+    rdfs:label "Bandwidth"@en ;
+    rdfs:comment "The minimum and maximum bandwidth required by an application, in bits per second (Figure 4)." .
+
+intend:PacketLossRate a owl:Class ;
+    rdfs:label "Packet Loss Rate"@en ;
+    rdfs:comment "The acceptable range of packet loss rate for an application, as a percentage (Figure 4)." .
+
+#################################################################
+# Datatype properties
+#################################################################
+
+intend:name a owl:DatatypeProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range xsd:string ;
+    rdfs:label "name"@en ;
+    rdfs:comment "The name or identifier of the application. Native intend: property (tagged {intent} in the paper), distinct from foaf:name used on User." .
+
+intend:description a owl:DatatypeProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range xsd:string ;
+    rdfs:label "description"@en .
+
+intend:applicationDomain a owl:DatatypeProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range xsd:string ;
+    rdfs:label "application domain"@en ;
+    rdfs:comment "The domain to which the application belongs, providing context for intent resolution and resource matching." .
+
+intend:type a owl:DatatypeProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range xsd:string ;
+    rdfs:label "type"@en ;
+    rdfs:comment "The type of the application, characterizing its nature and operational category." .
+
+intend:executionTime a owl:DatatypeProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range xsd:duration ;
+    rdfs:label "execution time"@en ;
+    rdfs:comment "The expected or actual execution time of the application, relevant for matching temporal constraints expressed in intents." .
+
+intend:lifecycleState a owl:DatatypeProperty ;
+    rdfs:domain intend:Status ;
+    rdfs:range xsd:string ;
+    rdfs:label "lifecycle state"@en ;
+    rdfs:comment "E.g. \"deployed\", \"running\", \"stopped\"." .
+
+intend:energyConsumptionPerHour a owl:DatatypeProperty ;
+    rdfs:domain intend:Status ;
+    rdfs:range xsd:float ;
+    rdfs:label "energy consumption per hour"@en .
+
+intend:uplinkLatency a owl:DatatypeProperty ; rdfs:domain intend:Latency ; rdfs:range xsd:float ; rdfs:label "uplink latency"@en .
+intend:downlinkLatency a owl:DatatypeProperty ; rdfs:domain intend:Latency ; rdfs:range xsd:float ; rdfs:label "downlink latency"@en .
+intend:minBandwidth a owl:DatatypeProperty ; rdfs:domain intend:Bandwidth ; rdfs:range xsd:float ; rdfs:label "minimum bandwidth"@en .
+intend:maxBandwidth a owl:DatatypeProperty ; rdfs:domain intend:Bandwidth ; rdfs:range xsd:float ; rdfs:label "maximum bandwidth"@en .
+intend:minPacketLossRate a owl:DatatypeProperty ; rdfs:domain intend:PacketLossRate ; rdfs:range xsd:float ; rdfs:label "minimum packet loss rate"@en .
+intend:maxPacketLossRate a owl:DatatypeProperty ; rdfs:domain intend:PacketLossRate ; rdfs:range xsd:float ; rdfs:label "maximum packet loss rate"@en .
+
+#################################################################
+# Object properties
+#################################################################
+
+intend:status a owl:ObjectProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range intend:Status ;
+    rdfs:label "status"@en .
+
+intend:executesOn a owl:ObjectProperty ;
+    owl:inverseOf intend:hosts ;
+    rdfs:domain intend:Application ;
+    rdfs:range intend:Resource ;
+    rdfs:label "executes on"@en ;
+    rdfs:comment "Links the application to the resource(s) on which it is executed (Section 5.1.4 wording). Formal inverse of intend:hosts (Resource -> Application, defined in intend-resource.ttl)." .
+
+intend:deploys a owl:ObjectProperty ;
+    rdfs:domain intend:Intent ;
+    rdfs:range intend:Application ;
+    rdfs:label "deploys"@en ;
+    rdfs:comment "Links the intent to the application(s) that are deployed to fulfill it. Domain (intend:Intent) declared in intend-intent.ttl; combined here because the property is documented under Application in the paper." .
+
+intend:hasLatency a owl:ObjectProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range intend:Latency ;
+    rdfs:label "has latency"@en .
+
+intend:requiresBandwidth a owl:ObjectProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range intend:Bandwidth ;
+    rdfs:label "requires bandwidth"@en .
+
+intend:hasAcceptablePacketLossRate a owl:ObjectProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range intend:PacketLossRate ;
+    rdfs:label "has acceptable packet loss rate"@en .
+
+intend:dependsOn a owl:ObjectProperty ;
+    rdfs:domain intend:Application ;
+    rdfs:range intend:Application ;
+    rdfs:label "depends on"@en ;
+    rdfs:comment """Generic dependency relationship between two Applications, needed to represent
+"complex workflows and alternative execution strategies" and multi-step data
+processing pipelines (Section 5.1.4 prose; Application competency question #3). The
+paper does not give this relation an explicit {intent}-tagged name of its own — domain
+extensions (e.g. extensions/intend-fill-extension.ttl, with `requires`/`calls`) should
+declare their specific dependency kinds as rdfs:subPropertyOf intend:dependsOn.""" .
+
+#################################################################
+# Direct reuse of PROV-O (no wrapper properties — paper tags these {prov}):
+#   prov:used                — Application (as prov:Activity) -> Resource/Entity it consumes
+#   prov:wasAssociatedWith   — Application -> responsible Agent (User or Adapter)
+#   prov:wasGeneratedBy      — data product Entity -> Application activity that produced it
+#################################################################

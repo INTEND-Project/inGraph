@@ -1,0 +1,66 @@
+@prefix intend:  <https://w3id.org/intend/ontology#> .
+@prefix telenor: <https://w3id.org/intend/extensions/telenor#> .
+@prefix data:    <https://w3id.org/intend/examples/telenor-data#> .
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  SHACL shapes — Telenor edge-network domain extension
+#################################################################
+
+telenor:EdgeClusterShape a sh:NodeShape ;
+    sh:targetClass telenor:EdgeCluster ;
+    sh:property [ sh:path telenor:clusterCode ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path telenor:externalId ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path telenor:location ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path telenor:latitude ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minInclusive -90 ; sh:maxInclusive 90 ;
+    ] ;
+    sh:property [
+        sh:path telenor:longitude ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minInclusive -180 ; sh:maxInclusive 180 ;
+    ] ;
+    sh:property [ sh:path telenor:gpuSpec ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path telenor:gpuCount ; sh:datatype xsd:integer ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path telenor:cpuSpec ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path telenor:cpuCount ; sh:datatype xsd:integer ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path telenor:memorySpec ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path telenor:memoryTB ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path telenor:apiEndpoint ; sh:datatype xsd:anyURI ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path telenor:electricitySource ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
+        # Gotcha (see shapes/intend-shapes-fill-extension.ttl header): every literal
+        # in an sh:in list is explicitly ^^xsd:string-typed, or pyshacl can fail to
+        # match it against an equally-typed literal in the data graph.
+        sh:in ( "Wind Power"^^xsd:string "Hydropower"^^xsd:string "Nuclear Power"^^xsd:string "Diesel generators"^^xsd:string ) ;
+    ] ;
+    sh:property [ sh:path telenor:usesRenewableEnergy ; sh:datatype xsd:boolean ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path telenor:costOfCompute ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path telenor:infrastructureClass ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path telenor:hasNeighbor ; sh:class telenor:NetworkLink ; sh:minCount 0 ;
+        sh:message "hasNeighbor, when asserted, must point to a NetworkLink." ;
+    ] .
+
+telenor:NetworkLinkShape a sh:NodeShape ;
+    sh:targetClass telenor:NetworkLink ;
+    sh:property [ sh:path telenor:externalId ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path telenor:distanceKm ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path telenor:latencyMs ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [
+        sh:path telenor:bandwidthTbps ; sh:datatype xsd:decimal ; sh:minCount 0 ; sh:maxCount 1 ; sh:minInclusive 0 ;
+        sh:message "Absent (not zero) for links where the source has no measured bandwidth ('nan Tbit/s') — see examples/telenor-network-data.ttl header." ;
+    ] ;
+    sh:property [
+        sh:path telenor:packetErrorRatePerSecond ; sh:datatype xsd:double ; sh:minCount 0 ; sh:maxCount 1 ; sh:minInclusive 0 ;
+        sh:message "Absent (not zero) for links where the source has no measured packet error rate ('nan packets/s') — see examples/telenor-network-data.ttl header." ;
+    ] .
+
+# Opt-in aggregate binding — same reusable pattern as
+# shapes/intend-shapes-fill-extension.ttl's data:FillContinuum block: reuses
+# intend:ResourcePoolAggregateShape (shapes/intend-shapes-resource.ttl) against the
+# Telenor Nordic continuum aggregate individual instead of applying it globally.
+[] a sh:NodeShape ;
+    sh:targetNode data:TelenorNordicContinuum ;
+    sh:node intend:ResourcePoolAggregateShape .

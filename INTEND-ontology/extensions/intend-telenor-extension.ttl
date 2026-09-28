@@ -1,0 +1,229 @@
+@prefix intend:  <https://w3id.org/intend/ontology#> .
+@prefix telenor: <https://w3id.org/intend/extensions/telenor#> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  INTEND Ontology — Telenor edge-network domain extension
+#  Source: real Telenor Nordic edge-computing KG (JSON-LD export,
+#  https://intendproject.eu/telenor/*, supplied 2026-08-25) —
+#  40 GPU/CPU edge clusters across Denmark/Finland/Sweden/Norway,
+#  fully meshed by 780 measured point-to-point network links.
+#
+#  Second worked example of non-functional requirement #2 ("easy to
+#  extend... without modifying the core structure"), alongside
+#  extensions/intend-fill-extension.ttl. This dataset happens to
+#  populate two Resource competency questions from Section 3 that the
+#  FILL example could not (no GPU/CPU or renewable-energy data in FILL):
+#  see queries/10-resource-gpu-cpu.rq and
+#  queries/11-resource-renewable-energy.rq, both now backed by
+#  real data instead of being empty templates.
+#
+#  Unrelated to the FILL extension: this KG shares no individuals with
+#  examples/fill-instance-data.ttl / examples/fill-catalog-data.ttl.
+#
+#################################################################
+
+<https://w3id.org/intend/extensions/telenor> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - Telenor edge-network domain extension"@en ;
+    owl:imports <https://w3id.org/intend/ontology> ,
+                <http://www.w3.org/2003/01/geo/wgs84_pos#> ;
+    owl:versionInfo "0.1.0" .
+
+#################################################################
+# Classes
+#################################################################
+
+telenor:EdgeCluster a owl:Class ;
+    rdfs:subClassOf intend:EdgeDevice, intend:BusinessResource ;
+    rdfs:label "Edge Cluster"@en ;
+    rdfs:comment """A GPU/CPU compute cluster at a network edge location, operated by
+the provider (Telenor) as shared infrastructure. Both an edge-positioned Resource
+(intend:EdgeDevice, "position in the continuum" dimension) and provider-owned
+business infrastructure (intend:BusinessResource — whose own rdfs:comment in
+ontology/modules/intend-resource.ttl already names "network infrastructure" as a
+direct example). Contrast with fill:Machine (extensions/intend-fill-extension.ttl),
+a customer-owned industrial machine, not shared provider infrastructure — the two
+extensions model genuinely different kinds of CustomerResource vs BusinessResource
+and are not meant to interoperate."""@en .
+
+telenor:NetworkLink a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Network Link"@en ;
+    rdfs:comment """A measured point-to-point network connection between two
+EdgeClusters (bandwidth/latency/distance/packet-error-rate). Deliberately NOT
+modeled as an intend:Resource: sosa:Platform semantics ("hosts other entities")
+do not fit a link, and the ontology's existing Resource-to-Resource relation
+(intend:consistsIn) is compositional/hierarchical, not this kind of
+network-adjacency. Given a light alignment to prov:Entity (a documented,
+attributed thing) instead of being left unaligned."""@en .
+
+#################################################################
+# Object properties
+#################################################################
+
+telenor:hasNeighbor a owl:ObjectProperty ;
+    rdfs:domain telenor:EdgeCluster ;
+    rdfs:range telenor:NetworkLink ;
+    rdfs:label "has neighbor"@en ;
+    rdfs:comment """Links an EdgeCluster to a NetworkLink connecting it to another
+EdgeCluster. Mirrors the source KG's own hasNeighbor property exactly: the SAME
+NetworkLink individual is asserted from BOTH endpoint clusters (an undirected pair,
+not two directed halves) — verified programmatically against the source (every one
+of the 780 links is referenced by exactly its two endpoint clusters' hasNeighbor
+lists). A link's two endpoints are therefore recoverable as "the exactly two
+EdgeClusters that hasNeighbor this link"; no separate endpoint1/endpoint2 property
+is introduced, matching the source's own modeling choice."""@en .
+
+# NOT reused here, and deliberately not made rdfs:subPropertyOf of, any of
+# intend:hasLatency / intend:requiresBandwidth / intend:name: those properties
+# already have rdfs:domain intend:Application fixed in ontology/modules/intend-
+# application.ttl. Reusing (or sub-propertying under) them for telenor:NetworkLink
+# or telenor:EdgeCluster would let RDFS domain-entailment wrongly infer that every
+# NetworkLink/EdgeCluster individual is *also* an intend:Application — rdfs:domain
+# axioms are cumulative across the whole loaded graph, not scoped/overridable per
+# file. New, independent property IRIs are used below instead, each with its own
+# domain fixed to the relevant Telenor class — the same reasoning that keeps
+# extensions/intend-fill-extension.ttl's fill:ipAddress independent rather than
+# reusing a domain-incompatible core property.
+
+#################################################################
+# Datatype properties — EdgeCluster
+#################################################################
+
+telenor:clusterCode a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:string ;
+    rdfs:label "cluster code"@en ;
+    rdfs:comment "Short source code, e.g. \"EC_1\" (source: intend:clusterId in the JSON-LD)." .
+
+telenor:externalId a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "external id"@en ;
+    rdfs:comment """Opaque identifier as recorded by the source system (e.g.
+"ID_Nordic_EC_1", "ID_Nordic_Pair_EC_1-EC_2"). Domain intentionally left open —
+reused by both EdgeCluster and NetworkLink, the same pattern already used by
+intend:unit in ontology/modules/intend-resource.ttl. NOTE: the source tags this
+value with the predicate https://schema.org/id, which is not an actual schema.org
+term (the correct term is schema:identifier) — kept here as a local telenor:
+property instead of importing/reusing a non-existent external term."""@en .
+
+telenor:location a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:string ;
+    rdfs:label "location"@en ;
+    rdfs:comment "City/site name, e.g. \"Copenhagen\" (source: aeros:location)." .
+
+telenor:latitude a owl:DatatypeProperty ;
+    rdfs:subPropertyOf geo:lat ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:decimal ;
+    rdfs:label "latitude"@en .
+
+telenor:longitude a owl:DatatypeProperty ;
+    rdfs:subPropertyOf geo:long ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:decimal ;
+    rdfs:label "longitude"@en .
+
+telenor:gpuSpec a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:string ;
+    rdfs:label "GPU specification"@en ;
+    rdfs:comment "Full free-text GPU description as given by the source, e.g. \"64 DGX H100 GPUs each with 8x80 GB of GPU memory\" (source: intend:gpuArchitecture)." .
+
+telenor:gpuCount a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:integer ;
+    rdfs:label "GPU count"@en ;
+    rdfs:comment """Leading GPU count parsed from telenor:gpuSpec (64 or 16 across
+the source data — exactly two tiers of cluster). Populates Resource CQ #1 (Section
+3): "which edge clusters have the highest computational capabilities" — see
+queries/10-resource-gpu-cpu.rq, previously an empty template."""@en .
+
+telenor:cpuSpec a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:string ;
+    rdfs:label "CPU specification"@en ;
+    rdfs:comment "Source: aeros:cpuArchitecture." .
+
+telenor:cpuCount a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:integer ;
+    rdfs:label "CPU count"@en ;
+    rdfs:comment "Leading CPU count parsed from telenor:cpuSpec (128 or 32 across the source data)." .
+
+telenor:memorySpec a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:string ;
+    rdfs:label "memory specification"@en ;
+    rdfs:comment "Source: intend:memory." .
+
+telenor:memoryTB a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:decimal ;
+    rdfs:label "memory (TB)"@en ;
+    rdfs:comment "Numeric TB value parsed from telenor:memorySpec (128 or 32 across the source data)." .
+
+telenor:apiEndpoint a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:anyURI ;
+    rdfs:label "API endpoint"@en ;
+    rdfs:comment "Source: aeros:domain." .
+
+telenor:electricitySource a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:string ;
+    rdfs:label "electricity source"@en ;
+    rdfs:comment """Source: aeros:majorSourceOfElectricity. One of "Wind Power",
+"Hydropower", "Nuclear Power", "Diesel generators" across the source data (see
+shapes/intend-shapes-telenor-extension.ttl for the closed sh:in list)."""@en .
+
+telenor:usesRenewableEnergy a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:boolean ;
+    rdfs:label "uses renewable energy"@en ;
+    rdfs:comment """Derived from telenor:electricitySource using the standard
+energy-policy classification (wind/hydro/solar/geothermal = renewable; nuclear and
+fossil/diesel = not, despite nuclear's low carbon intensity): true for Wind
+Power/Hydropower, false for Nuclear Power/Diesel generators. Populates Resource CQ
+#5 (Section 3): "which edge resources utilize renewable energy sources" — see
+queries/11-resource-renewable-energy.rq, previously an empty
+template."""@en .
+
+telenor:costOfCompute a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:decimal ;
+    rdfs:label "cost of compute"@en ;
+    rdfs:comment "Source: aeros:costOfCompute. Currency/unit not specified by the source; preserved as a bare number, usable only for relative (cheaper/more expensive) comparison." .
+
+telenor:infrastructureClass a owl:DatatypeProperty ;
+    rdfs:domain telenor:EdgeCluster ; rdfs:range xsd:string ;
+    rdfs:label "infrastructure class"@en ;
+    rdfs:comment """Source: aeros:hasClass. Constant ("Infrastracture Element", sic
+— typo preserved verbatim from the source) across all 40 clusters in the source
+data; non-discriminating, kept only for fidelity to the source."""@en .
+
+#################################################################
+# Datatype properties — NetworkLink
+#################################################################
+
+telenor:distanceKm a owl:DatatypeProperty ;
+    rdfs:domain telenor:NetworkLink ; rdfs:range xsd:decimal ;
+    rdfs:label "distance (km)"@en ;
+    rdfs:comment "Source: intend:distance. Present on all 780 links in the source data." .
+
+telenor:latencyMs a owl:DatatypeProperty ;
+    rdfs:domain telenor:NetworkLink ; rdfs:range xsd:decimal ;
+    rdfs:label "latency (ms)"@en ;
+    rdfs:comment "Source: intend:latencies. Present on all 780 links in the source data." .
+
+telenor:bandwidthTbps a owl:DatatypeProperty ;
+    rdfs:domain telenor:NetworkLink ; rdfs:range xsd:decimal ;
+    rdfs:label "bandwidth (Tbit/s)"@en ;
+    rdfs:comment """Source: intend:bandwidth. Omitted (not asserted, not
+fabricated as e.g. 0) for the 40 links where the source records "nan Tbit/s" — see
+examples/telenor-network-data.ttl header for which links and why."""@en .
+
+telenor:packetErrorRatePerSecond a owl:DatatypeProperty ;
+    rdfs:domain telenor:NetworkLink ; rdfs:range xsd:double ;
+    rdfs:label "packet error rate (packets/s)"@en ;
+    rdfs:comment """Source: intend:packetErrorRate. Omitted (not asserted, not
+fabricated) for the 34 links where the source records "nan packets/s" — see
+examples/telenor-network-data.ttl header. Distinct from intend:PacketLossRate
+(ontology/modules/intend-application.ttl), which is explicitly documented there as
+a *percentage* metric for an Application's acceptable loss — this source metric has
+a different unit (packets/s) and a different subject (a NetworkLink, not an
+Application), so it is kept as its own property rather than reused/aligned in a way
+that would misrepresent either the unit or the subject."""@en .

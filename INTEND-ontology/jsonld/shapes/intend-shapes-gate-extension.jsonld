@@ -1,0 +1,426 @@
+{
+  "@context": {
+    "gate": "https://w3id.org/intend/extensions/gate#",
+    "intend": "https://w3id.org/intend/ontology#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "gate:MicroserviceShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b1"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b2"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b3"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b4"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b5"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b6"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b7"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b8"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b9"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b10"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b11"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b12"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b13"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b14"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b15"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b16"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b17"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b18"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b19"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b20"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b21"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b22"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b23"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "gate:Microservice"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b1",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:name"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b2",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:description"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b3",
+      "sh:class": {
+        "@id": "intend:Application"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:dependsOn"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b4",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:chartVersion"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b5",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:appVersion"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b6",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:chartType"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b7",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:keyword"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b8",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:maintainer"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b9",
+      "sh:datatype": {
+        "@id": "xsd:anyURI"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "Absent for microservices that are not the dependsOn target of any other microservice in the source — see extensions/intend-gate-extension.ttl.",
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "gate:chartRepository"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b10",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:imageRepository"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b11",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:imageName"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b12",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:imageTag"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b13",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "gate:requestsCpuCores"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b14",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "gate:limitsCpuCores"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b15",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:requestsMemorySpec"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b16",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:limitsMemorySpec"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b17",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "gate:requestsMemoryMiB"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b18",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "gate:limitsMemoryMiB"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b19",
+      "sh:class": {
+        "@id": "gate:KafkaTopic"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "gate:producesToTopic"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b20",
+      "sh:class": {
+        "@id": "gate:KafkaTopic"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "gate:consumesFromTopic"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b21",
+      "sh:class": {
+        "@id": "gate:Parameter"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "gate:hasRequiredParameter"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b22",
+      "sh:class": {
+        "@id": "gate:Parameter"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "gate:hasOptionalParameter"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b23",
+      "sh:class": {
+        "@id": "gate:Parameter"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "gate:hasFrozenParameter"
+      }
+    },
+    {
+      "@id": "gate:ParameterShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b25"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b26"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b27"
+        },
+        {
+          "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b28"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "gate:Parameter"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b25",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:parameterName"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b26",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:dataType"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b27",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:message": "Multi-valued in the source for parameters whose name recurs across several microservices — see extensions/intend-gate-extension.ttl.",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:description"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b28",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "Absent for required-tier parameters (0/55 in the source have one) and for some optional-tier parameters; always present for frozen-tier parameters (65/65 in the source).",
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "gate:defaultValue"
+      }
+    },
+    {
+      "@id": "gate:KafkaTopicShape",
+      "@type": "sh:NodeShape",
+      "sh:property": {
+        "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b24"
+      },
+      "sh:targetClass": {
+        "@id": "gate:KafkaTopic"
+      }
+    },
+    {
+      "@id": "_:nab3fd5431eb148f3aff37e0207ba76c9b24",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "gate:topicName"
+      }
+    }
+  ]
+}

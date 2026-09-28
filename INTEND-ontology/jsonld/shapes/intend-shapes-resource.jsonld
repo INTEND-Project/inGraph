@@ -1,0 +1,277 @@
+{
+  "@context": {
+    "intend": "https://w3id.org/intend/ontology#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:BusinessResourceShape",
+      "@type": "sh:NodeShape",
+      "sh:property": {
+        "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb6"
+      },
+      "sh:targetClass": {
+        "@id": "intend:BusinessResource"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb6",
+      "sh:class": {
+        "@id": "intend:Permission"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:allows"
+      }
+    },
+    {
+      "@id": "intend:ResourcePoolAggregateShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb7"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb9"
+        }
+      ]
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb7",
+      "sh:message": "The Resource-layer aggregate must consist of at least one BusinessResource (Figure 2: cardinality 1..*).",
+      "sh:path": {
+        "@id": "intend:consistsIn"
+      },
+      "sh:qualifiedMinCount": 1,
+      "sh:qualifiedValueShape": {
+        "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb8"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb8",
+      "sh:class": {
+        "@id": "intend:BusinessResource"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb9",
+      "sh:message": "The Resource-layer aggregate may consist of zero or more CustomerResources (Figure 2: cardinality 0..*).",
+      "sh:path": {
+        "@id": "intend:consistsIn"
+      },
+      "sh:qualifiedMinCount": 0,
+      "sh:qualifiedValueShape": {
+        "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb10"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb10",
+      "sh:class": {
+        "@id": "intend:CustomerResource"
+      }
+    },
+    {
+      "@id": "intend:AvailabilityShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb14"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb15"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Availability"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb14",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:maxInclusive": 100,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:minAvailability"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb15",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:maxInclusive": 100,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "intend:maxAvailability"
+      }
+    },
+    {
+      "@id": "intend:ResourceShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb1"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb2"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb3"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb4"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb5"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Resource"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb1",
+      "sh:class": {
+        "@id": "intend:Resource"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:consistsIn"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb2",
+      "sh:class": {
+        "@id": "intend:Throughput"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasThroughput"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb3",
+      "sh:class": {
+        "@id": "intend:Availability"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasAvailability"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb4",
+      "sh:class": {
+        "@id": "intend:ConnectionDensity"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasConnectionDensity"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb5",
+      "sh:class": {
+        "@id": "intend:Application"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hosts"
+      }
+    },
+    {
+      "@id": "intend:ThroughputShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb11"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb12"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb13"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Throughput"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb11",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:uplinkThroughput"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb12",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:downlinkThroughput"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb13",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:unit"
+      }
+    },
+    {
+      "@id": "intend:ConnectionDensityShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb16"
+        },
+        {
+          "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb17"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:ConnectionDensity"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb16",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:minConnectionDensity"
+      }
+    },
+    {
+      "@id": "_:nb21e0c58d8554eb98b78a833cbfa134bb17",
+      "sh:datatype": {
+        "@id": "xsd:float"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:maxConnectionDensity"
+      }
+    }
+  ]
+}

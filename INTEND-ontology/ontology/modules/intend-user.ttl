@@ -1,0 +1,137 @@
+@prefix intend:  <https://w3id.org/intend/ontology#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix org:     <http://www.w3.org/ns/org#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  INTEND Ontology — User module
+#  Source: Balzotti et al., "The INTENT Ontology", Section 5.1.2.
+#
+#  Terms tagged {foaf}/{org} in the paper are reused directly below
+#  (foaf:name, foaf:mbox, foaf:firstName, foaf:lastName, org:Organization).
+#  Terms tagged {intent} are native intend: terms.
+#
+#  intend:User rdfs:subClassOf intend:IntentManager below implements
+#  Section 5.1.1: "The User, the Chatbot, and the Adapter can all act as
+#  intent managers". intend:IntentManager itself is declared in
+#  intend-intent.ttl — this module owl:imports it so the axiom resolves
+#  even when intend-user.ttl is opened on its own.
+#
+#################################################################
+
+<https://w3id.org/intend/ontology/user> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - User module"@en ;
+    owl:imports <http://xmlns.com/foaf/0.1/> ,
+                <http://www.w3.org/ns/org#> ,
+                <https://w3id.org/intend/ontology/intent> ;
+    owl:versionInfo "0.1.0" .
+
+#################################################################
+# Classes
+#################################################################
+
+intend:User a owl:Class ;
+    rdfs:subClassOf foaf:Agent , intend:IntentManager ;
+    rdfs:label "User"@en ;
+    rdfs:comment """The diverse entities that interact with the intent-based system and initiate
+operations across the computing continuum: individual humans and organizations
+(Section 5.1.2). Aligned with foaf:Agent to reuse standard descriptive attributes
+(foaf:name, foaf:mbox) and stay compatible with existing Linked Data identity
+ecosystems."""@en .
+
+intend:Person a owl:Class ;
+    rdfs:subClassOf intend:User , foaf:Person ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "Specialization of User/foaf:Agent used when the user represents a human individual; inherits foaf:firstName and foaf:lastName." .
+
+intend:Organization a owl:Class ;
+    rdfs:subClassOf intend:User , org:Organization ;
+    rdfs:label "Organization"@en ;
+    rdfs:comment "Specialization used when the user represents an organizational actor (company, institution, or other collective entity), aligned with org:Organization." .
+
+intend:Person owl:disjointWith intend:Organization .
+# Section 5.1.2 introduces Person "when the user represents a human individual" and
+# Organization "when the user represents an organizational actor": mutually exclusive readings.
+
+intend:UserInformation a owl:Class ;
+    rdfs:label "User Information"@en ;
+    rdfs:comment """Rich descriptive information about a user (demographic data, preference
+settings) used to personalize intent interpretation and fulfillment; subject to
+privacy regulations and access controls (Section 5.1.2). The paper does not specify
+its internal structure beyond this description: this class is deliberately kept
+minimal (two illustrative properties) as an EXTENSION POINT — add domain-specific
+datatype/object properties here rather than modifying the core User class, in line
+with non-functional requirement #2 (easy to extend without touching core structure).""" .
+
+intend:Role a owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment """The role within which a user operates, determining capabilities and
+responsibilities. The paper deliberately leaves the concrete role vocabulary
+domain-specific (e.g. administrator/operator/end-user, or data-scientist/
+application-developer/business-analyst): this project does not hardcode a fixed
+role taxonomy in the TBox. See examples/fill-instance-data.ttl for a worked set of
+Role individuals for the FILL scenario.""" .
+
+intend:Permission a owl:Class ;
+    rdfs:label "Permission"@en ;
+    rdfs:comment """The permissions conferred by a user's role, establishing the boundaries within
+which users can formulate intents and request operations: what data can be accessed,
+what operations can be requested, what resources can be used (Section 5.1.2). Kept
+minimal (action/scope) as an extension point, same rationale as UserInformation.""" .
+
+#################################################################
+# Datatype properties (extension-point properties for UserInformation/Permission)
+#################################################################
+
+intend:demographics a owl:DatatypeProperty ;
+    rdfs:domain intend:UserInformation ;
+    rdfs:range xsd:string ;
+    rdfs:label "demographics"@en .
+
+intend:preferences a owl:DatatypeProperty ;
+    rdfs:domain intend:UserInformation ;
+    rdfs:range xsd:string ;
+    rdfs:label "preferences"@en .
+
+intend:action a owl:DatatypeProperty ;
+    rdfs:domain intend:Permission ;
+    rdfs:range xsd:string ;
+    rdfs:label "action"@en ;
+    rdfs:comment "E.g. \"deploy\", \"manage\", \"read\"." .
+
+intend:scope a owl:DatatypeProperty ;
+    rdfs:domain intend:Permission ;
+    rdfs:range xsd:string ;
+    rdfs:label "scope"@en ;
+    rdfs:comment "E.g. a production line or maintenance zone identifier the permission is limited to." .
+
+#################################################################
+# Object properties
+#################################################################
+
+intend:userInformation a owl:ObjectProperty ;
+    rdfs:domain intend:User ;
+    rdfs:range intend:UserInformation ;
+    rdfs:label "user information"@en .
+
+intend:hasRole a owl:ObjectProperty ;
+    rdfs:domain intend:User ;
+    rdfs:range intend:Role ;
+    rdfs:label "has role"@en .
+
+intend:hasPermission a owl:ObjectProperty ;
+    rdfs:domain intend:User ;
+    rdfs:range intend:Permission ;
+    rdfs:label "has permission"@en .
+
+intend:hasCustomerResource a owl:ObjectProperty ;
+    rdfs:domain intend:User ;
+    rdfs:comment """The user-associated resources (personal devices, or in the FILL extension,
+owned machines), fundamentally different from the shared business resources that
+form the infrastructure backbone. Range (intend:CustomerResource) is declared in
+ontology/modules/intend-resource.ttl; both modules are combined by ontology/intend.ttl.""" ;
+    rdfs:label "has customer resource"@en .
