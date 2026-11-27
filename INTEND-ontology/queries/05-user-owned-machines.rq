@@ -1,0 +1,22 @@
+# Supports the Resource competency questions generically (Section 3):
+# which machines does a given user own, and what type are they?
+#
+# NOTE: intentionally does NOT filter on "?user a intend:User". Users in
+# examples/fill-instance-data.ttl are asserted as intend:Person (a
+# subclass of intend:User), and plain SPARQL basic graph pattern matching
+# does not walk the rdfs:subClassOf chain unless the engine performs
+# RDFS/OWL entailment first (scripts/validate.py's --queries mode does
+# not). foaf:name + fill:owns is already an unambiguous selector for
+# "user" in this dataset, so the type triple is simply omitted rather
+# than written in a way that would silently return zero rows.
+PREFIX fill: <https://w3id.org/intend/extensions/fill#>
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT ?user ?userName ?machine ?machineTypeName WHERE {
+    ?user foaf:name ?userName ;
+          fill:owns ?machine .
+    ?machine fill:hasMachineType ?machineType .
+    ?machineType intend:name ?machineTypeName .
+}
+ORDER BY ?userName

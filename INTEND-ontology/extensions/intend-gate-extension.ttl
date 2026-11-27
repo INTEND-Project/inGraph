@@ -1,0 +1,242 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix gate:   <https://w3id.org/intend/extensions/gate#> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  INTEND Ontology — GATE microservices domain extension
+#  Source: real GATE Institute Kubernetes/Helm microservices KG
+#  (JSON-LD export, https://gate-ai.eu/intend/*, supplied
+#  2026-08-25) — 16 LiDAR/traffic-analytics microservices forming a
+#  Kafka-connected processing pipeline (Sofia city deployment).
+#
+#  Third worked example of non-functional requirement #2 ("easy to
+#  extend... without modifying the core structure"), alongside
+#  extensions/intend-fill-extension.ttl and
+#  extensions/intend-telenor-extension.ttl. Unrelated to both: this KG
+#  shares no individuals with either.
+#
+#  Unlike FILL (dependsOn needed narrower Service/ProductComponent/
+#  Container sub-properties) and Telenor (bandwidth/latency needed new
+#  independent properties to avoid domain-pollution — see that
+#  extension's header), GATE's own dependsOn relation (Microservice ->
+#  Microservice) has *exactly* the same domain/range shape as the core
+#  intend:dependsOn (Application -> Application) once gate:Microservice
+#  is declared a subclass of intend:Application: it is reused directly
+#  below with no new property at all — the cleanest possible case of
+#  the core ontology's own genericity already fitting.
+#
+#################################################################
+
+<https://w3id.org/intend/extensions/gate> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - GATE microservices domain extension"@en ;
+    owl:imports <https://w3id.org/intend/ontology> ;
+    owl:versionInfo "0.1.0" .
+
+#################################################################
+# Classes
+#################################################################
+
+gate:Microservice a owl:Class ;
+    rdfs:subClassOf intend:Application ;
+    rdfs:label "Microservice"@en ;
+    rdfs:comment """A containerized, independently deployable processing unit in the
+GATE LiDAR/traffic-analytics pipeline, packaged as a Helm chart. Aligned as an
+intend:Application (development/deployment/execution lifecycle, Section 5.1.4) —
+this lets gate:Microservice reuse intend:name, intend:description and
+intend:dependsOn directly, safely, with no domain-pollution risk (see the
+extension header note and extensions/intend-telenor-extension.ttl for the
+contrasting case where direct reuse is NOT safe)."""@en .
+
+gate:KafkaTopic a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Kafka Topic"@en ;
+    rdfs:comment """A named Kafka topic connecting producer and consumer
+Microservices — promoted from the source's plain string literals
+(consumesFromTopic/producesToTopic) to a first-class individual so the
+producer/consumer dataflow graph is queryable (e.g. "which topics have no
+producer", queries/13-gate-topic-flow-anomalies.rq) rather than only readable off
+two string-valued property lists. Given a light alignment to prov:Entity, the same
+choice made for telenor:NetworkLink."""@en .
+
+gate:Parameter a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Parameter"@en ;
+    rdfs:comment """A single configuration parameter of a Microservice, in one of
+three tiers (gate:hasRequiredParameter / gate:hasOptionalParameter /
+gate:hasFrozenParameter — mirrored 1:1 from the source's own three predicates
+rather than collapsed into one generic property plus a tier flag, since the
+source already draws this distinction cleanly). Scoped to its owning Microservice
+(examples/gate-microservices-data.ttl uses one Parameter individual per
+(microservice, parameter name) pair — the same parameter name legitimately
+recurs across many microservices, e.g. KAFKA_DEST_BOOTSTRAP_SERVER appears,
+separately, in all 16)."""@en .
+
+#################################################################
+# Object properties
+#################################################################
+
+# NOT declared here: dependsOn. gate:Microservice individuals use the core
+# intend:dependsOn (ontology/modules/intend-application.ttl) directly — see the
+# extension header note.
+
+gate:producesToTopic a owl:ObjectProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range gate:KafkaTopic ;
+    rdfs:label "produces to topic"@en .
+
+gate:consumesFromTopic a owl:ObjectProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range gate:KafkaTopic ;
+    rdfs:label "consumes from topic"@en .
+
+gate:hasRequiredParameter a owl:ObjectProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range gate:Parameter ;
+    rdfs:label "has required parameter"@en ;
+    rdfs:comment "A parameter that must be supplied with no built-in default — verified against the source: 0 of 55 required-tier parameter occurrences carry a gate:defaultValue." .
+
+gate:hasOptionalParameter a owl:ObjectProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range gate:Parameter ;
+    rdfs:label "has optional parameter"@en ;
+    rdfs:comment "A parameter the deployer may override; usually (80 of 99 occurrences) carries a gate:defaultValue, but not always — some optional parameters have no stated default in the source." .
+
+gate:hasFrozenParameter a owl:ObjectProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range gate:Parameter ;
+    rdfs:label "has frozen parameter"@en ;
+    rdfs:comment "A parameter fixed to a default value not meant to be overridden by the deployer — verified against the source: 65 of 65 frozen-tier parameter occurrences carry a gate:defaultValue." .
+
+#################################################################
+# Datatype properties — Microservice (Helm/chart/container metadata)
+#################################################################
+
+gate:chartVersion a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "chart version"@en ;
+    rdfs:comment "Source: hasVersion (the Helm chart's own version — distinct from gate:appVersion, the version of the application it packages, which may differ in general even though both happen to read \"0.1.0\" for every microservice in this dataset)." .
+
+gate:appVersion a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "application version"@en ;
+    rdfs:comment "Source: hasAppVersion." .
+
+gate:chartType a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "chart type"@en ;
+    rdfs:comment "Source: hasChartType. Constant (\"application\") across all 16 microservices in the source data; non-discriminating, kept for fidelity." .
+
+gate:keyword a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "keyword"@en ;
+    rdfs:comment "Source: hasKeyword. Multi-valued." .
+
+gate:maintainer a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "maintainer"@en ;
+    rdfs:comment "Source: hasMaintainer. Constant (\"GATE Institute\") across all 16 microservices in the source data." .
+
+gate:chartRepository a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:anyURI ;
+    rdfs:label "chart repository"@en ;
+    rdfs:comment """Source: hasRepository. Present in exactly 8 of 16
+microservices in the source data, always the same value when present
+("oci://registry.gate-ai.eu/intend-charts") — verified programmatically to
+correlate exactly with "is the target of at least one other microservice's
+dependsOn" (i.e. non-terminal pipeline stages get it, terminal/leaf alert
+services don't). Kept as an observed correlation, not asserted as a modeling
+rule — see examples/gate-microservices-data.ttl header."""@en .
+
+gate:imageRepository a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "image repository"@en ;
+    rdfs:comment "Source: hasImageRepository. Constant across all 16 microservices in the source data." .
+
+gate:imageName a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "image name"@en ;
+    rdfs:comment "Source: usesImage. Distinct per microservice." .
+
+gate:imageTag a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "image tag"@en ;
+    rdfs:comment "Source: hasImageTag. Constant (\"latest\") across all 16 microservices in the source data." .
+
+#################################################################
+# Datatype properties — Microservice (Kubernetes resource requests/limits)
+#################################################################
+
+gate:requestsCpuCores a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:decimal ;
+    rdfs:label "requests CPU (cores)"@en ;
+    rdfs:comment "Source: requestsCPU, in Kubernetes CPU-core units." .
+
+gate:limitsCpuCores a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:decimal ;
+    rdfs:label "limits CPU (cores)"@en ;
+    rdfs:comment "Source: limitsCPU, in Kubernetes CPU-core units." .
+
+gate:requestsMemorySpec a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "requests memory (raw)"@en ;
+    rdfs:comment "Source: requestsMemory, verbatim Kubernetes resource-quantity string (e.g. \"512Mi\")." .
+
+gate:limitsMemorySpec a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:string ;
+    rdfs:label "limits memory (raw)"@en ;
+    rdfs:comment "Source: limitsMemory, verbatim Kubernetes resource-quantity string (e.g. \"4Gi\")." .
+
+gate:requestsMemoryMiB a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:decimal ;
+    rdfs:label "requests memory (MiB)"@en ;
+    rdfs:comment "gate:requestsMemorySpec normalized to mebibytes (Mi as-is, Gi *1024 — the only two suffixes present in the source data) for numeric comparison/sorting." .
+
+gate:limitsMemoryMiB a owl:DatatypeProperty ;
+    rdfs:domain gate:Microservice ; rdfs:range xsd:decimal ;
+    rdfs:label "limits memory (MiB)"@en ;
+    rdfs:comment "gate:limitsMemorySpec normalized to mebibytes, same rule as gate:requestsMemoryMiB." .
+
+#################################################################
+# Datatype properties — KafkaTopic
+#################################################################
+
+gate:topicName a owl:DatatypeProperty ;
+    rdfs:domain gate:KafkaTopic ; rdfs:range xsd:string ;
+    rdfs:label "topic name"@en ;
+    rdfs:comment "The full dotted Kafka topic name as given by the source, e.g. \"city_lab.paradise_mall_sofia.lidar.object_speeds\"." .
+
+#################################################################
+# Datatype properties — Parameter
+#################################################################
+
+gate:parameterName a owl:DatatypeProperty ;
+    rdfs:domain gate:Parameter ; rdfs:range xsd:string ;
+    rdfs:label "parameter name"@en ;
+    rdfs:comment "Source: name (a Parameter blank node's own name property in the source JSON-LD; not reused as intend:name since gate:Parameter is not an intend:Application)." .
+
+gate:dataType a owl:DatatypeProperty ;
+    rdfs:domain gate:Parameter ; rdfs:range xsd:string ;
+    rdfs:label "data type"@en ;
+    rdfs:comment """Source: dataType. Verbatim Python type-annotation string as
+recorded by the source (e.g. "str", "int", "bool", "list",
+"Union[int, NoneType]") — NOT an XSD datatype IRI, kept as a free-text string
+rather than force-mapped onto xsd: types that would not faithfully represent
+values like "Union[int, NoneType]"."""@en .
+
+gate:description a owl:DatatypeProperty ;
+    rdfs:domain gate:Parameter ; rdfs:range xsd:string ;
+    rdfs:label "description"@en ;
+    rdfs:comment """Source: description. Multi-valued in the source for many
+parameters (up to 6 distinct description strings on a single Parameter
+occurrence) — same-named parameters recur across many microservices, and the
+source appears to merge each recurrence's own description text into every
+occurrence of that name rather than keeping one description per (microservice,
+parameter) pair. Kept exactly as given: every description string is preserved,
+none dropped or arbitrarily chosen as "the" description, and none disambiguated
+by microservice since there is no reliable way to do so from the data
+alone."""@en .
+
+gate:defaultValue a owl:DatatypeProperty ;
+    rdfs:domain gate:Parameter ; rdfs:range xsd:string ;
+    rdfs:label "default value"@en ;
+    rdfs:comment "Source: defaultValue, kept as a raw string exactly as given (e.g. \"False\", \"1\", \"[]\") — not parsed/typed per gate:dataType, since some default strings are not valid literals of their own stated type as a plain string (e.g. \"[]\" for dataType \"list\")." .

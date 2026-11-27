@@ -1,0 +1,170 @@
+{
+  "@context": {
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "intend": "https://w3id.org/intend/ontology#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:PersonShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b7"
+        },
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b8"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Person"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b7",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "foaf:firstName"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b8",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "foaf:lastName"
+      }
+    },
+    {
+      "@id": "intend:UserShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b1"
+        },
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b2"
+        },
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b3"
+        },
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b4"
+        },
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b5"
+        },
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b6"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:User"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b1",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:message": "A User must have a foaf:name.",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "foaf:name"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b2",
+      "sh:message": "foaf:mbox, when present, must be an IRI (e.g. mailto:...), per the FOAF specification.",
+      "sh:minCount": 0,
+      "sh:nodeKind": {
+        "@id": "sh:IRI"
+      },
+      "sh:path": {
+        "@id": "foaf:mbox"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b3",
+      "sh:class": {
+        "@id": "intend:UserInformation"
+      },
+      "sh:maxCount": 1,
+      "sh:path": {
+        "@id": "intend:userInformation"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b4",
+      "sh:class": {
+        "@id": "intend:Role"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasRole"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b5",
+      "sh:class": {
+        "@id": "intend:Permission"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasPermission"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b6",
+      "sh:class": {
+        "@id": "intend:CustomerResource"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasCustomerResource"
+      }
+    },
+    {
+      "@id": "intend:PermissionShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b9"
+        },
+        {
+          "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b10"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Permission"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b9",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:message": "A Permission must state which action it authorizes.",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:action"
+      }
+    },
+    {
+      "@id": "_:n7d27e0a90df049f1936723c4d9b4fac5b10",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:scope"
+      }
+    }
+  ]
+}

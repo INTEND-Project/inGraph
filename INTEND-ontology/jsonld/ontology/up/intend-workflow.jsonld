@@ -1,0 +1,455 @@
+{
+  "@context": {
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:hasExplainer",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Workflow"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has explainer"
+      },
+      "rdfs:range": {
+        "@id": "intend:Explainer"
+      }
+    },
+    {
+      "@id": "intend:hasAdapter",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Workflow"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has adapter"
+      },
+      "rdfs:range": {
+        "@id": "intend:Adapter"
+      }
+    },
+    {
+      "@id": "intend:hasChatbot",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Workflow"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has chatbot"
+      },
+      "rdfs:range": {
+        "@id": "intend:Chatbot"
+      }
+    },
+    {
+      "@id": "intend:accessesTo",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Generic access link to the shared BusinessKnowledge. Domain intentionally left open: used by Chatbot, Adapter, Explainer, and (per Figure 2) also by Resource and Application.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "accesses to"
+      },
+      "rdfs:range": {
+        "@id": "intend:BusinessKnowledge"
+      }
+    },
+    {
+      "@id": "intend:sendsReport",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Links the Explainer to the User to whom the generated IntentReport is delivered.",
+      "rdfs:domain": {
+        "@id": "intend:Explainer"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "sends report"
+      },
+      "rdfs:range": {
+        "@id": "intend:User"
+      }
+    },
+    {
+      "@id": "intend:hasSystemIntentGenerator",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Adapter"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has system intent generator"
+      },
+      "rdfs:range": {
+        "@id": "intend:SystemIntentGenerator"
+      }
+    },
+    {
+      "@id": "intend:AutomaticInsightGeneration",
+      "@type": [
+        "intend:Capability",
+        "owl:NamedIndividual"
+      ],
+      "rdfs:comment": "Uses semantic analysis to extract meaningful patterns and actionable insights from the knowledge graphs (central concepts, frequent relationships, anomalies).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Automatic Insight Generation"
+      }
+    },
+    {
+      "@id": "intend:OutcomeDeterminationAgent",
+      "@type": "owl:Class",
+      "rdfs:comment": "Third stage of the Explainer pipeline: evaluates whether the specified intents were successfully fulfilled.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Outcome Determination Agent"
+      }
+    },
+    {
+      "@id": "intend:hasNlu",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Chatbot"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has NLU"
+      },
+      "rdfs:range": {
+        "@id": "intend:NLU"
+      }
+    },
+    {
+      "@id": "intend:Workflow",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Organizational container that groups the four components responsible for\nprogressively translating a natural language intent into a machine-actionable system\nintent: Chatbot, Adapter, Explainer and BusinessKnowledge, linked via hasChatbot/\nhasAdapter/hasExplainer/hasBusinessKnowledge (Section 5.1.5)."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Workflow"
+      }
+    },
+    {
+      "@id": "intend:KnowledgeExtractor",
+      "@type": "owl:Class",
+      "rdfs:comment": "Retrieval-Augmented Generation (RAG) module of the Adapter: multi-agent retrieval of BusinessKnowledge context relevant to the intent being processed.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Knowledge Extractor"
+      }
+    },
+    {
+      "@id": "intend:Adapter",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Translates the clarified natural language intent produced by the Chatbot\ninto a concrete, machine-actionable system intent, specifying the application(s) to\ndeploy. Multi-agent architecture: knowledgeExtractor (RAG-based) + systemIntentGenerator.\nAligned with prov:SoftwareAgent; subclass of IntentManager."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Adapter"
+      },
+      "rdfs:subClassOf": [
+        {
+          "@id": "intend:IntentManager"
+        },
+        {
+          "@id": "prov:SoftwareAgent"
+        }
+      ]
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/workflow",
+      "@type": "owl:Ontology",
+      "owl:imports": {
+        "@id": "prov:"
+      },
+      "owl:versionInfo": "0.1.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - Workflow module"
+      }
+    },
+    {
+      "@id": "intend:LLMService",
+      "@type": "owl:Class",
+      "rdfs:comment": "External Large Language Model service (e.g. Azure OpenAI) used for understanding User requests and generating natural language answers.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "LLM Service"
+      }
+    },
+    {
+      "@id": "intend:hasDialogEngine",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Chatbot"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has dialog engine"
+      },
+      "rdfs:range": {
+        "@id": "intend:DialogEngine"
+      }
+    },
+    {
+      "@id": "intend:SystemIntentGenerator",
+      "@type": "owl:Class",
+      "rdfs:comment": "Converts the natural language intent into a concrete, machine-actionable system intent (e.g. an API invocation or application launch).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "System Intent Generator"
+      }
+    },
+    {
+      "@id": "intend:ExplanationGeneratorAgent",
+      "@type": "owl:Class",
+      "rdfs:comment": "Fourth stage of the Explainer pipeline: compiles results into an interpretable, structured, human-readable explanation.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Explanation Generator Agent"
+      }
+    },
+    {
+      "@id": "intend:hasIntentParsingStage",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Explainer"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has intent parsing stage"
+      },
+      "rdfs:range": {
+        "@id": "intend:IntentParsingAgent"
+      }
+    },
+    {
+      "@id": "intend:Chatbot",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "The user-facing component of the Workflow: understands the User's natural\nlanguage request and maps it into a structured format, resolving ambiguities and\nidentifying missing information through dialogue. Aligned with prov:SoftwareAgent;\nthe relationship to the User it acts for is captured via prov:actedOnBehalfOf.\nSubclass of IntentManager (it can act as intent owner/handler, Section 5.1.1)."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Chatbot"
+      },
+      "rdfs:subClassOf": [
+        {
+          "@id": "intend:IntentManager"
+        },
+        {
+          "@id": "prov:SoftwareAgent"
+        }
+      ]
+    },
+    {
+      "@id": "intend:IntentParsingAgent",
+      "@type": "owl:Class",
+      "rdfs:comment": "First stage of the Explainer pipeline: extracts user objectives and success metrics from intents expressed in Turtle RDF.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent Parsing Agent"
+      }
+    },
+    {
+      "@id": "intend:hasVectorStore",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Chatbot"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has vector store"
+      },
+      "rdfs:range": {
+        "@id": "intend:VectorStore"
+      }
+    },
+    {
+      "@id": "intend:LogAnalysisAgent",
+      "@type": "owl:Class",
+      "rdfs:comment": "Second stage of the Explainer pipeline: identifies relevant log entries/system behaviors associated with declared intents (code generation, tool invocation, or ML models).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Log Analysis Agent"
+      }
+    },
+    {
+      "@id": "intend:NLU",
+      "@type": "owl:Class",
+      "rdfs:comment": "Natural Language Understanding component: understands each User request, extracts parameters, identifies missing information.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "NLU"
+      }
+    },
+    {
+      "@id": "intend:hasExplanationGenerationStage",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Explainer"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has explanation generation stage"
+      },
+      "rdfs:range": {
+        "@id": "intend:ExplanationGeneratorAgent"
+      }
+    },
+    {
+      "@id": "intend:DataUpload",
+      "@type": [
+        "intend:Capability",
+        "owl:NamedIndividual"
+      ],
+      "rdfs:comment": "Allows Users to import data supporting custom ontologies, populating the knowledge base with domain-specific information.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Data Upload"
+      }
+    },
+    {
+      "@id": "intend:BusinessKnowledge",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Shared knowledge repository (knowledge graphs + databases) accessed by\nChatbot, Adapter and Explainer. Exposes dataUpload, sparqlQuerying and\nautomaticInsightGeneration as intend:Capability individuals (see below). The paper\nstates all four Workflow components are \"aligned with prov:SoftwareAgent\"; we follow\nthat literally here, though in practice BusinessKnowledge behaves more like a passive\nstore than an active agent — a reasonable target for refinement if this ontology is\nextended."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Business Knowledge"
+      },
+      "rdfs:subClassOf": {
+        "@id": "prov:SoftwareAgent"
+      }
+    },
+    {
+      "@id": "intend:hasKnowledgeExtractor",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Adapter"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has knowledge extractor"
+      },
+      "rdfs:range": {
+        "@id": "intend:KnowledgeExtractor"
+      }
+    },
+    {
+      "@id": "intend:VectorStore",
+      "@type": "owl:Class",
+      "rdfs:comment": "Stores and indexes vector representations of information relevant to driving the conversation, supporting semantic retrieval.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Vector Store"
+      }
+    },
+    {
+      "@id": "intend:hasOutcomeDeterminationStage",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Explainer"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has outcome determination stage"
+      },
+      "rdfs:range": {
+        "@id": "intend:OutcomeDeterminationAgent"
+      }
+    },
+    {
+      "@id": "intend:hasLlmServices",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Chatbot"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has LLM services"
+      },
+      "rdfs:range": {
+        "@id": "intend:LLMService"
+      }
+    },
+    {
+      "@id": "intend:hasBusinessKnowledge",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Workflow"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has business knowledge"
+      },
+      "rdfs:range": {
+        "@id": "intend:BusinessKnowledge"
+      }
+    },
+    {
+      "@id": "intend:DialogEngine",
+      "@type": "owl:Class",
+      "rdfs:comment": "Drives the dialogue with the User, leverages NLU, retrieves knowledge from BusinessKnowledge and the Vector Store, manages conversational context and generates answers.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Dialog Engine"
+      }
+    },
+    {
+      "@id": "intend:SparqlQuerying",
+      "@type": [
+        "intend:Capability",
+        "owl:NamedIndividual"
+      ],
+      "rdfs:comment": "Enables Users and Workflow components to explore the knowledge graphs via SPARQL (select, insert, update, delete) according to permissions.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SPARQL Querying"
+      }
+    },
+    {
+      "@id": "intend:Explainer",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Generates the IntentReport by accessing the sequence of intents produced by\nthe intent managers and analyzing the Chatbot/User interaction; sends the report to\nthe User via sendsReport. Aligned with prov:SoftwareAgent. Unlike Chatbot and Adapter,\nthe paper does not describe the Explainer as acting as an IntentManager, so this\nclass is NOT a subclass of intend:IntentManager."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Explainer"
+      },
+      "rdfs:subClassOf": {
+        "@id": "prov:SoftwareAgent"
+      }
+    },
+    {
+      "@id": "intend:hasLogAnalysisStage",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Explainer"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has log analysis stage"
+      },
+      "rdfs:range": {
+        "@id": "intend:LogAnalysisAgent"
+      }
+    }
+  ]
+}

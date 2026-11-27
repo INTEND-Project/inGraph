@@ -1,0 +1,171 @@
+{
+  "@context": {
+    "data": "https://w3id.org/intend/examples/fill-data#",
+    "fill": "https://w3id.org/intend/extensions/fill#",
+    "intend": "https://w3id.org/intend/ontology#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "fill:ServiceShape",
+      "@type": "sh:NodeShape",
+      "sh:property": {
+        "@id": "_:nde8f8f5f996343278730c4d88b401c88b5"
+      },
+      "sh:targetClass": {
+        "@id": "fill:Service"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b5",
+      "sh:class": {
+        "@id": "fill:ProductComponent"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "fill:requires"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b7",
+      "@type": "sh:NodeShape",
+      "sh:node": {
+        "@id": "intend:ResourcePoolAggregateShape"
+      },
+      "sh:targetNode": {
+        "@id": "data:FillContinuum"
+      }
+    },
+    {
+      "@id": "fill:ContainerShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nde8f8f5f996343278730c4d88b401c88b8"
+        },
+        {
+          "@id": "_:nde8f8f5f996343278730c4d88b401c88b9"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "fill:Container"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b8",
+      "sh:class": {
+        "@id": "fill:Machine"
+      },
+      "sh:message": "runsOn, when asserted, must point to a Machine. No fixed cardinality: a Container identifies a deployable unit, which can legitimately be deployed to zero (not-yet-scheduled), one, or several Machine individuals — the same container 'kind' can recur across different intents/machines.",
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "fill:runsOn"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b9",
+      "sh:class": {
+        "@id": "fill:MachineType"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "fill:compatibleWithMachineType"
+      }
+    },
+    {
+      "@id": "fill:MachineShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nde8f8f5f996343278730c4d88b401c88b1"
+        },
+        {
+          "@id": "_:nde8f8f5f996343278730c4d88b401c88b2"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "fill:Machine"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b1",
+      "sh:class": {
+        "@id": "fill:MachineType"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "A Machine must have exactly one MachineType.",
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "fill:hasMachineType"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b2",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "ipAddress must look like an IPv4 address.",
+      "sh:path": {
+        "@id": "fill:ipAddress"
+      },
+      "sh:pattern": "^(\\d{1,3}\\.){3}\\d{1,3}$"
+    },
+    {
+      "@id": "fill:ProductComponentShape",
+      "@type": "sh:NodeShape",
+      "sh:property": {
+        "@id": "_:nde8f8f5f996343278730c4d88b401c88b6"
+      },
+      "sh:targetClass": {
+        "@id": "fill:ProductComponent"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b6",
+      "sh:class": {
+        "@id": "fill:Container"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "fill:calls"
+      }
+    },
+    {
+      "@id": "fill:MachineTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:nde8f8f5f996343278730c4d88b401c88b3"
+        },
+        {
+          "@id": "_:nde8f8f5f996343278730c4d88b401c88b4"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "fill:MachineType"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b3",
+      "sh:class": {
+        "@id": "fill:Service"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "fill:offersService"
+      }
+    },
+    {
+      "@id": "_:nde8f8f5f996343278730c4d88b401c88b4",
+      "sh:class": {
+        "@id": "fill:Container"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "fill:hasAvailableContainer"
+      }
+    }
+  ]
+}

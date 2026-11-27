@@ -1,0 +1,47 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+
+#################################################################
+#  SHACL shapes — Workflow module
+#  Cardinalities "exactly 1" follow Figure 2, which shows hasChatbot/
+#  hasAdapter/hasExplainer/hasBusinessKnowledge and each internal
+#  sub-component wiring with cardinality 1 on both ends.
+#################################################################
+
+intend:WorkflowShape a sh:NodeShape ;
+    sh:targetClass intend:Workflow ;
+    sh:property [ sh:path intend:hasChatbot ; sh:class intend:Chatbot ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasAdapter ; sh:class intend:Adapter ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasExplainer ; sh:class intend:Explainer ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasBusinessKnowledge ; sh:class intend:BusinessKnowledge ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+intend:ChatbotShape a sh:NodeShape ;
+    sh:targetClass intend:Chatbot ;
+    sh:property [ sh:path intend:accessesTo ; sh:class intend:BusinessKnowledge ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:actedOnBehalfOf ; sh:class intend:User ; sh:minCount 0 ] ;
+    sh:property [ sh:path intend:hasDialogEngine ; sh:class intend:DialogEngine ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasNlu ; sh:class intend:NLU ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasVectorStore ; sh:class intend:VectorStore ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasLlmServices ; sh:class intend:LLMService ; sh:minCount 0 ] .
+
+intend:AdapterShape a sh:NodeShape ;
+    sh:targetClass intend:Adapter ;
+    sh:property [ sh:path intend:accessesTo ; sh:class intend:BusinessKnowledge ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:actedOnBehalfOf ; sh:class intend:User ; sh:minCount 0 ] ;
+    sh:property [ sh:path intend:hasKnowledgeExtractor ; sh:class intend:KnowledgeExtractor ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasSystemIntentGenerator ; sh:class intend:SystemIntentGenerator ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+intend:ExplainerShape a sh:NodeShape ;
+    sh:targetClass intend:Explainer ;
+    sh:property [ sh:path intend:accessesTo ; sh:class intend:BusinessKnowledge ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:actedOnBehalfOf ; sh:class intend:User ; sh:minCount 0 ] ;
+    sh:property [ sh:path intend:sendsReport ; sh:class intend:User ; sh:minCount 0 ] ;
+    sh:property [ sh:path intend:hasIntentParsingStage ; sh:class intend:IntentParsingAgent ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasLogAnalysisStage ; sh:class intend:LogAnalysisAgent ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasOutcomeDeterminationStage ; sh:class intend:OutcomeDeterminationAgent ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:hasExplanationGenerationStage ; sh:class intend:ExplanationGeneratorAgent ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+intend:BusinessKnowledgeShape a sh:NodeShape ;
+    sh:targetClass intend:BusinessKnowledge ;
+    sh:property [ sh:path intend:hasCapability ; sh:class intend:Capability ; sh:minCount 0 ] .

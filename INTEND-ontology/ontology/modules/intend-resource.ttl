@@ -1,0 +1,144 @@
+@prefix intend:  <https://w3id.org/intend/ontology#> .
+@prefix sosa:    <http://www.w3.org/ns/sosa/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  INTEND Ontology — Resource module
+#  Source: Balzotti et al., "The INTENT Ontology", Section 5.1.3 + Figure 4.
+#
+#  NOTE on `executesOn`: the paper defines this property twice with
+#  *opposite* domain/range — Resource -> Application in Section 5.1.3,
+#  Application -> Resource in Section 5.1.4. We resolve this as a single
+#  consistent owl:inverseOf pair: `intend:executesOn` (Application ->
+#  Resource, defined in intend-application.ttl, "the application executes
+#  on the resource") and `intend:hosts` (Resource -> Application, defined
+#  here, "the resource hosts the application"). Both directions from the
+#  paper are therefore queryable; see the comment on intend:hosts below.
+#
+#################################################################
+
+<https://w3id.org/intend/ontology/resource> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - Resource module"@en ;
+    owl:imports <http://www.w3.org/ns/sosa/> ;
+    owl:versionInfo "0.1.0" .
+
+#################################################################
+# Classes
+#################################################################
+
+intend:Resource a owl:Class ;
+    rdfs:subClassOf sosa:Platform ;
+    rdfs:label "Resource"@en ;
+    rdfs:comment """The fundamental substrate upon which intent-based operations are realized in
+the computing continuum: cloud data centers, edge nodes and IoT devices (Section
+5.1.3). Aligned with sosa:Platform, an entity that hosts or supports other entities,
+which naturally captures the role of computational resources as hosts for
+applications and data operations."""@en .
+
+intend:BusinessResource a owl:Class ;
+    rdfs:subClassOf intend:Resource ;
+    rdfs:label "Business Resource"@en ;
+    rdfs:comment "Infrastructure resources made available to all users according to their roles and permissions: edge servers, cloud instances, network infrastructure. Managed by specific organizations and implementing defined policies." .
+
+intend:CustomerResource a owl:Class ;
+    rdfs:subClassOf intend:Resource ;
+    rdfs:label "Customer Resource"@en ;
+    rdfs:comment "User-owned or user-managed resources (industrial machines, personal devices, sensors), linked to specific users via intend:hasCustomerResource (see intend-user.ttl)." .
+
+intend:BusinessResource owl:disjointWith intend:CustomerResource .
+# "The Resources are split into two parts: customer-resources and business-resources" (Section 5.1) —
+# made an explicit disjointness axiom: a given Resource individual is one or the other, not both.
+
+intend:CloudDataCenter a owl:Class ;
+    rdfs:subClassOf intend:Resource ;
+    rdfs:label "Cloud Data Center"@en ;
+    rdfs:comment "Specialization of Resource/sosa:Platform for centralized cloud computing resources, according to their nature and position in the continuum." .
+
+intend:EdgeDevice a owl:Class ;
+    rdfs:subClassOf intend:Resource ;
+    rdfs:label "Edge Device"@en ;
+    rdfs:comment "Specialization of Resource/sosa:Platform for edge-positioned computing resources, according to their nature and position in the continuum." .
+
+intend:Throughput a owl:Class ;
+    rdfs:subClassOf sosa:ObservableProperty ;
+    rdfs:label "Throughput"@en ;
+    rdfs:comment "The amount of data a resource can process or transmit, expressed as uplink/downlink values (Figure 4)." .
+
+intend:Availability a owl:Class ;
+    rdfs:subClassOf sosa:ObservableProperty ;
+    rdfs:label "Availability"@en ;
+    rdfs:comment "The percentage of the resource that is available, expressed as a min/max range (Figure 4)." .
+
+intend:ConnectionDensity a owl:Class ;
+    rdfs:subClassOf sosa:ObservableProperty ;
+    rdfs:label "Connection Density"@en ;
+    rdfs:comment "The number of simultaneous connections the resource can support, expressed as a min/max range (Figure 4)." .
+
+#################################################################
+# Datatype properties (value-class fields, Figure 4)
+#################################################################
+
+intend:uplinkThroughput a owl:DatatypeProperty ; rdfs:domain intend:Throughput ; rdfs:range xsd:float ; rdfs:label "uplink throughput"@en .
+intend:downlinkThroughput a owl:DatatypeProperty ; rdfs:domain intend:Throughput ; rdfs:range xsd:float ; rdfs:label "downlink throughput"@en .
+intend:minAvailability a owl:DatatypeProperty ; rdfs:domain intend:Availability ; rdfs:range xsd:float ; rdfs:label "minimum availability"@en .
+intend:maxAvailability a owl:DatatypeProperty ; rdfs:domain intend:Availability ; rdfs:range xsd:float ; rdfs:label "maximum availability"@en .
+intend:minConnectionDensity a owl:DatatypeProperty ; rdfs:domain intend:ConnectionDensity ; rdfs:range xsd:float ; rdfs:label "minimum connection density"@en .
+intend:maxConnectionDensity a owl:DatatypeProperty ; rdfs:domain intend:ConnectionDensity ; rdfs:range xsd:float ; rdfs:label "maximum connection density"@en .
+
+intend:unit a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "unit"@en ;
+    rdfs:comment "Measurement unit for a value class instance, e.g. \"Mbit/s\", \"%\", \"ms\", \"bps\". Domain intentionally left open: reused by every value class in Resource and Application modules (Throughput, Availability, ConnectionDensity, Latency, Bandwidth, PacketLossRate)." .
+
+#################################################################
+# Object properties
+#################################################################
+
+intend:hasObservableProperty a owl:ObjectProperty ;
+    rdfs:domain intend:Resource ;
+    rdfs:range sosa:ObservableProperty ;
+    rdfs:label "has observable property"@en ;
+    rdfs:comment "Generic link from a Resource to an intrinsic, runtime-monitorable characteristic (sosa:ObservableProperty). hasThroughput/hasAvailability/hasConnectionDensity are convenience sub-properties for the three kinds named in the paper." .
+
+intend:hasThroughput a owl:ObjectProperty ;
+    rdfs:subPropertyOf intend:hasObservableProperty ;
+    rdfs:domain intend:Resource ;
+    rdfs:range intend:Throughput ;
+    rdfs:label "has throughput"@en .
+
+intend:hasAvailability a owl:ObjectProperty ;
+    rdfs:subPropertyOf intend:hasObservableProperty ;
+    rdfs:domain intend:Resource ;
+    rdfs:range intend:Availability ;
+    rdfs:label "has availability"@en .
+
+intend:hasConnectionDensity a owl:ObjectProperty ;
+    rdfs:subPropertyOf intend:hasObservableProperty ;
+    rdfs:domain intend:Resource ;
+    rdfs:range intend:ConnectionDensity ;
+    rdfs:label "has connection density"@en .
+
+intend:consistsIn a owl:ObjectProperty ;
+    rdfs:domain intend:Resource ;
+    rdfs:range intend:Resource ;
+    rdfs:label "consists in"@en ;
+    rdfs:comment "Composition relationship linking a Resource to its constituent BusinessResource(s) (cardinality >=1) or CustomerResource(s) (cardinality >=0) — see shapes/intend-shapes-resource.ttl for the exact cardinalities." .
+
+intend:hosts a owl:ObjectProperty ;
+    owl:inverseOf intend:executesOn ;
+    rdfs:domain intend:Resource ;
+    rdfs:label "hosts"@en ;
+    rdfs:comment """Links a Resource to the Application(s) executed on it, connecting the
+infrastructure layer to the application layer (Section 5.1.3 wording). Formal inverse
+of intend:executesOn (Application -> Resource, defined in intend-application.ttl,
+Section 5.1.4 wording) — see the module header note on how the paper's two opposite
+definitions of "executesOn" are reconciled.""" .
+
+intend:allows a owl:ObjectProperty ;
+    rdfs:domain intend:BusinessResource ;
+    rdfs:comment "Links a business resource to the permissions (intend:Permission, see intend-user.ttl) that regulate its usage by different users." ;
+    rdfs:label "allows"@en .

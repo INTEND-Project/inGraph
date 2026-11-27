@@ -1,0 +1,28 @@
+# Resource CQ #1 (Section 3): "Which edge clusters have the highest
+# computational capabilities (in terms of GPU and CPU resources) for
+# executing computationally intensive applications?"
+#
+# UPDATED 2026-08-25: previously an empty template (the paper does not
+# name specific GPU/CPU properties and FILL's own data does not carry
+# them). Now backed by real data: extensions/intend-telenor-extension.ttl
+# defines telenor:gpuCount/telenor:cpuCount, populated in
+# examples/telenor-network-data.ttl from a real Telenor edge-cluster KG
+# (40 clusters, Denmark/Finland/Sweden/Norway).
+#
+# Filters on telenor:EdgeCluster rather than intend:BusinessResource:
+# individuals are asserted with the specific type only (a telenor:
+# EdgeCluster, itself rdfs:subClassOf intend:BusinessResource), and plain
+# SPARQL basic graph pattern matching does not walk rdfs:subClassOf
+# unless the engine performs RDFS/OWL entailment first (scripts/
+# validate.py's --queries mode does not) — same root cause already noted
+# in queries/05-user-owned-machines.rq.
+PREFIX telenor: <https://w3id.org/intend/extensions/telenor#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?resource ?name ?gpuCount ?cpuCount WHERE {
+    ?resource a telenor:EdgeCluster ;
+              rdfs:label ?name ;
+              telenor:gpuCount ?gpuCount ;
+              telenor:cpuCount ?cpuCount .
+}
+ORDER BY DESC(?gpuCount) DESC(?cpuCount)

@@ -1,0 +1,70 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  SHACL shapes — User module
+#################################################################
+
+intend:UserShape a sh:NodeShape ;
+    sh:targetClass intend:User ;
+    sh:property [
+        sh:path foaf:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:message "A User must have a foaf:name." ;
+    ] ;
+    sh:property [
+        sh:path foaf:mbox ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 0 ;
+        sh:message "foaf:mbox, when present, must be an IRI (e.g. mailto:...), per the FOAF specification." ;
+    ] ;
+    sh:property [
+        sh:path intend:userInformation ;
+        sh:class intend:UserInformation ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path intend:hasRole ;
+        sh:class intend:Role ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:hasPermission ;
+        sh:class intend:Permission ;
+        sh:minCount 0 ;
+    ] ;
+    sh:property [
+        sh:path intend:hasCustomerResource ;
+        sh:class intend:CustomerResource ;
+        sh:minCount 0 ;
+    ] .
+
+intend:PersonShape a sh:NodeShape ;
+    sh:targetClass intend:Person ;
+    sh:property [
+        sh:path foaf:firstName ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path foaf:lastName ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+    ] .
+
+intend:PermissionShape a sh:NodeShape ;
+    sh:targetClass intend:Permission ;
+    sh:property [
+        sh:path intend:action ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:message "A Permission must state which action it authorizes." ;
+    ] ;
+    sh:property [
+        sh:path intend:scope ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+    ] .

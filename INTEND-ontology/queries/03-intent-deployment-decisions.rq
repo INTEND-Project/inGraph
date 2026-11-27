@@ -1,0 +1,23 @@
+# Intent translation CQ #1 (Section 3): "How can a high-level intent...
+# be translated into specific resource allocation and application
+# deployment decisions?" — for each Intent, which applications/
+# containers were deployed and, transitively, on which machine.
+#
+# NOTE: Container individuals represent deployable "kinds" (e.g. C1) and
+# are reused across the intents in examples/fill-instance-data.ttl, so a
+# container deployed for more than one intent can show more than one
+# candidate ?machine here (fill:runsOn has no upper cardinality — see
+# shapes/intend-shapes-fill-extension.ttl). Read each row as "a valid
+# location for this application", not as "the exclusive location for
+# this specific intent's deployment".
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX fill:   <https://w3id.org/intend/extensions/fill#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?intent ?intentLabel ?deployedApp ?machine WHERE {
+    ?intent a intend:Intent ;
+            rdfs:label ?intentLabel ;
+            intend:deploys ?deployedApp .
+    OPTIONAL { ?deployedApp fill:runsOn ?machine }
+}
+ORDER BY ?intentLabel ?deployedApp

@@ -1,0 +1,4683 @@
+{
+  "@context": {
+    "data": "https://w3id.org/intend/examples/gate-data#",
+    "gate": "https://w3id.org/intend/extensions/gate#",
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "data:object-counting--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_counting",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:object-counting--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_counting_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--KAFKA_SOURCE_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "gate:description": [
+        "Name of the Kafka topic to consume messages from.",
+        "Kafka topic for traffic jam detection data.",
+        "Kafka topic for zones passing data.",
+        "Kafka topic for object-in-zone detection data."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_TOPIC"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--BUCKET_MAX_AGE_SECONDS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "600",
+      "gate:description": "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes).",
+      "gate:parameterName": "BUCKET_MAX_AGE_SECONDS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_MAX_AGE_SECONDS"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_in_zone_detection",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:zones-passing--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.zones_passing_alert",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Scan Frame Dict"
+      }
+    },
+    {
+      "@id": "data:zones-passing--KAFKA_SOURCE_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.zones_passing",
+      "gate:description": [
+        "Name of the Kafka topic to consume messages from.",
+        "Kafka topic for traffic jam detection data.",
+        "Kafka topic for zones passing data.",
+        "Kafka topic for object-in-zone detection data."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_TOPIC"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.scan_frame_dict",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--ZONES_OF_INTEREST",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored.",
+        "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed.",
+        "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names to keep. If empty, all zones are processed.",
+        "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."
+      ],
+      "gate:parameterName": "ZONES_OF_INTEREST",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ZONES_OF_INTEREST"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for object speeds topic in the format `host:port`. This is the server from which the service will consume speed messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--KAFKA_SOURCE_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "gate:description": [
+        "Name of the Kafka topic to consume messages from.",
+        "Kafka topic for traffic jam detection data.",
+        "Kafka topic for zones passing data.",
+        "Kafka topic for object-in-zone detection data."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_TOPIC"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.overspeed_alert",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.traffic_jam_detections",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.traffic_jam_detections",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Traffic Jam Detections"
+      }
+    },
+    {
+      "@id": "data:object-counting--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_counting",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.zones",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.osef.zones",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Zones"
+      }
+    },
+    {
+      "@id": "data:flow-alert--OBJECT_TYPE_FILTER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed.",
+        "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored.",
+        "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed.",
+        "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."
+      ],
+      "gate:parameterName": "OBJECT_TYPE_FILTER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "OBJECT_TYPE_FILTER"
+      }
+    },
+    {
+      "@id": "data:object-speeds--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--JAM_DURATION_THRESHOLD_SECONDS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "30",
+      "gate:description": "Minimum duration in seconds that jam conditions must persist before declaring a jam. Prevents false positives from momentary slowdowns. Default: 30 seconds.",
+      "gate:parameterName": "JAM_DURATION_THRESHOLD_SECONDS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "JAM_DURATION_THRESHOLD_SECONDS"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.frame_dict_value",
+      "gate:description": [
+        "Name of the schema value subject to use for the source topic.",
+        "Name of the schema value subject to use for the traffic jam detection topic.",
+        "Name of the schema value subject to use for the zones passing topic.",
+        "Name of the schema value subject to use for the object-in-zone detection topic."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--VEHICLE_SPEED_THRESHOLD",
+      "@type": "gate:Parameter",
+      "gate:dataType": "float",
+      "gate:defaultValue": "5.0",
+      "gate:description": "Maximum speed (m/s) allowed for vehicles in approach zones. Default: 5.0 m/s (~18 km/h). Vehicles exceeding this speed will raise a PEDESTRIAN_VEHICLE_APPROACH alert.",
+      "gate:parameterName": "VEHICLE_SPEED_THRESHOLD",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "VEHICLE_SPEED_THRESHOLD"
+      }
+    },
+    {
+      "@id": "data:lidar-osef-data-streamer--STRIDE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1",
+      "gate:description": [
+        "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message.",
+        "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."
+      ],
+      "gate:parameterName": "STRIDE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "STRIDE"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--CROSSWALK_ZONE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "ID or name of the target crosswalk zone. Can be numeric (e.g., '5') or a string (e.g., 'C5_main'). If numeric, it will be compared to the zone_id field of the detection message. If string, it will be compared to the zone_name field. This logic is handled automatically in the engine.",
+      "gate:parameterName": "CROSSWALK_ZONE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "CROSSWALK_ZONE"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--PATIENCE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "float",
+      "gate:defaultValue": "5.0",
+      "gate:description": "Time in seconds to wait without seeing a traffic jam ID before considering it stopped and generating a STOP alert.",
+      "gate:parameterName": "PATIENCE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "PATIENCE"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.frame_dict_value",
+      "gate:description": [
+        "Name of the schema value subject to use for the source topic.",
+        "Name of the schema value subject to use for the traffic jam detection topic.",
+        "Name of the schema value subject to use for the zones passing topic.",
+        "Name of the schema value subject to use for the object-in-zone detection topic."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": [
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_speeds"
+        },
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detection"
+        }
+      ],
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:crosswalk-safety-alert--VEHICLE_SPEED_THRESHOLD"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--MAKE_MOCK"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--BUCKET_TIME_WINDOW_MS"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--BUCKET_MAX_AGE_SECONDS"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:crosswalk-safety-alert--CROSSWALK_ZONE"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--APPROACH_ZONES"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:crosswalk-safety-alert--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "crosswalk_safety_alert",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "osef-streamer",
+        "test"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.crosswalk_safety_alert"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": [
+        {
+          "@id": "data:object-in-zone-detection"
+        },
+        {
+          "@id": "data:object-speeds"
+        }
+      ],
+      "intend:description": "A microservice processing OSEF Zones data from LiDAR sensors. The processed data includes zone information such as zones definitions and bindings. The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of OSEF Zones data.",
+      "intend:name": "crosswalk-safety-alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Crosswalk Safety Alert"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--OBJECT_TYPE_FILTER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed.",
+        "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored.",
+        "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed.",
+        "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."
+      ],
+      "gate:parameterName": "OBJECT_TYPE_FILTER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "OBJECT_TYPE_FILTER"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.traffic_jam_detector_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages.",
+        "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+        "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages.",
+        "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--BUCKET_MAX_AGE_SECONDS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "600",
+      "gate:description": "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes).",
+      "gate:parameterName": "BUCKET_MAX_AGE_SECONDS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_MAX_AGE_SECONDS"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for object speeds topic in the format `host:port`. This is the server from which the service will consume speed messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--JAM_SEVERITY_THRESHOLD",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "medium",
+      "gate:description": "Minimum severity level to generate alerts. Options: 'low', 'medium', 'high'. Low: 5+ vehicles, Medium: 10+ vehicles, High: 20+ vehicles. Default: 'medium'.",
+      "gate:parameterName": "JAM_SEVERITY_THRESHOLD",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "JAM_SEVERITY_THRESHOLD"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_speeds",
+      "gate:description": "Kafka topic for object speed data.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:osef-zones--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:osef-zones--STRIDE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1",
+      "gate:description": [
+        "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message.",
+        "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."
+      ],
+      "gate:parameterName": "STRIDE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "STRIDE"
+      }
+    },
+    {
+      "@id": "data:flow-alert--ZONES_OF_INTEREST",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored.",
+        "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed.",
+        "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names to keep. If empty, all zones are processed.",
+        "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."
+      ],
+      "gate:parameterName": "ZONES_OF_INTEREST",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ZONES_OF_INTEREST"
+      }
+    },
+    {
+      "@id": "data:object-counting--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-speeds--STRIDE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1",
+      "gate:description": [
+        "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message.",
+        "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."
+      ],
+      "gate:parameterName": "STRIDE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "STRIDE"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--BUCKET_MAX_AGE_SECONDS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "600",
+      "gate:description": "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes).",
+      "gate:parameterName": "BUCKET_MAX_AGE_SECONDS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_MAX_AGE_SECONDS"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--ALERT_COOLDOWN_SECONDS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "60",
+      "gate:description": "Minimum time in seconds between consecutive jam alerts for the same zone. Prevents alert spam during prolonged jams. Default: 60 seconds.",
+      "gate:parameterName": "ALERT_COOLDOWN_SECONDS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ALERT_COOLDOWN_SECONDS"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages.",
+        "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+        "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages.",
+        "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--BUCKET_MAX_AGE_SECONDS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "600",
+      "gate:description": "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes).",
+      "gate:parameterName": "BUCKET_MAX_AGE_SECONDS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_MAX_AGE_SECONDS"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detections",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.object_in_zone_detections",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Object In Zone Detections"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--MIN_VEHICLE_COUNT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "3",
+      "gate:description": "Minimum number of vehicles in zone to trigger jam detection. Default: 3 vehicles.",
+      "gate:parameterName": "MIN_VEHICLE_COUNT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MIN_VEHICLE_COUNT"
+      }
+    },
+    {
+      "@id": "data:lidar-osef-data-streamer--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-speeds--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_speeds",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--ZONES_OF_INTEREST",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored.",
+        "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed.",
+        "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names to keep. If empty, all zones are processed.",
+        "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."
+      ],
+      "gate:parameterName": "ZONES_OF_INTEREST",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ZONES_OF_INTEREST"
+      }
+    },
+    {
+      "@id": "data:object-speeds",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartRepository": {
+        "@type": "xsd:anyURI",
+        "@value": "oci://registry.gate-ai.eu/intend-charts"
+      },
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.tracked_objects"
+      },
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:object-speeds--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:object-speeds--KAFKA_SOURCE_TOPIC"
+        },
+        {
+          "@id": "data:object-speeds--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:object-speeds--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:object-speeds--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:object-speeds--OBJECT_TYPE_FILTER"
+        },
+        {
+          "@id": "data:object-speeds--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:object-speeds--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:object-speeds--STRIDE"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:object-speeds--KAFKA_SOURCE_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:object-speeds--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:object-speeds--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "object_speeds",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "osef-streamer",
+        "test"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.object_speeds"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:osef-tracked-objects"
+      },
+      "intend:description": "A microservice processing OSEF tracked-object data—object IDs, classes & names; kinematics (speed vectors & norms); 3D & SLAM poses; bounding-box sizes, footprints & vertices;  and metadata (properties, age, peak heights, matching pairs, confidence). The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of tracked-object OSEF data.",
+      "intend:name": "object-speeds",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Object Speeds"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.zones",
+      "gate:description": "Kafka topic for OSEF zones data.",
+      "gate:parameterName": "KAFKA_SOURCE_OSEF_ZONES_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OSEF_ZONES_TOPIC"
+      }
+    },
+    {
+      "@id": "data:lidar-osef-data-streamer--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_in_zone_detections",
+      "gate:description": "Kafka topic for object-in-zone detection data.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"
+      }
+    },
+    {
+      "@id": "data:zones-passing",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartRepository": {
+        "@type": "xsd:anyURI",
+        "@value": "oci://registry.gate-ai.eu/intend-charts"
+      },
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": [
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detections"
+        },
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detection"
+        }
+      ],
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:zones-passing--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:zones-passing--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:zones-passing--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:zones-passing--FROM_ZONE"
+        },
+        {
+          "@id": "data:zones-passing--TO_ZONE"
+        },
+        {
+          "@id": "data:zones-passing--OBJECT_TYPE_FILTER"
+        },
+        {
+          "@id": "data:zones-passing--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:zones-passing--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:zones-passing--KAFKA_SOURCE_TOPIC"
+        },
+        {
+          "@id": "data:zones-passing--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:zones-passing--KAFKA_SOURCE_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:zones-passing--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:zones-passing--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "zones_passing",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "traffic-jam",
+        "detection"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.zones_passing"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:object-in-zone-detection"
+      },
+      "intend:description": "A microservice tracking objects passing between zones. Monitors zone transitions and records when objects move from one zone to another. Reads from object-in-zone-detection Kafka stream and produces zone passing events.",
+      "intend:name": "zones-passing",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Zones Passing"
+      }
+    },
+    {
+      "@id": "data:zones-passing--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.zones_passing_alert_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:object-speeds--KAFKA_SOURCE_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "gate:description": [
+        "Name of the Kafka topic to consume messages from.",
+        "Kafka topic for traffic jam detection data.",
+        "Kafka topic for zones passing data.",
+        "Kafka topic for object-in-zone detection data."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_TOPIC"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_counting",
+      "gate:description": "Kafka topic for object counting data.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_COUNTING_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_COUNTING_TOPIC"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.underspeed_alert",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:flow-alert--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.traffic_jam_alert",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.traffic_jam_alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Traffic Jam Alert"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.data_streamer"
+      },
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:osef-scan-frame--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:osef-scan-frame--KAFKA_SOURCE_TOPIC"
+        },
+        {
+          "@id": "data:osef-scan-frame--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:osef-scan-frame--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:osef-scan-frame--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:osef-scan-frame--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:osef-scan-frame--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:osef-scan-frame--STRIDE"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:osef-scan-frame--KAFKA_SOURCE_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:osef-scan-frame--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:osef-scan-frame--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "osef_scan_frame",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "osef-streamer",
+        "test"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:lidar-osef-data-streamer"
+      },
+      "intend:description": "A microservice processing OSEF scan-frame data comprising information about the sensor’s 3D pose (translation and rotation), its geographic pose (latitude, longitude, heading) and geographic speed (speed and heading). The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of scan-frame OSEF data.",
+      "intend:name": "osef-scan-frame",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Osef Scan Frame"
+      }
+    },
+    {
+      "@id": "data:object-speeds--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for object counting topic in the format `host:port`. This is the server from which the service will consume counting messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_COUNTING_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_COUNTING_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.crosswalk_safety_alert_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--STRIDE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1",
+      "gate:description": [
+        "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message.",
+        "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."
+      ],
+      "gate:parameterName": "STRIDE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "STRIDE"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:osef-zones--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartRepository": {
+        "@type": "xsd:anyURI",
+        "@value": "oci://registry.gate-ai.eu/intend-charts"
+      },
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": [
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.zones"
+        },
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.tracked_objects"
+        }
+      ],
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_SOURCE_ZONES_TOPIC"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_SOURCE_ZONES_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_TOPIC"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:object-in-zone-detection--OBJECT_TYPE_FILTER"
+        },
+        {
+          "@id": "data:object-in-zone-detection--ZONES_OF_INTEREST"
+        },
+        {
+          "@id": "data:object-in-zone-detection--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:object-in-zone-detection--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:object-in-zone-detection--STRIDE"
+        },
+        {
+          "@id": "data:object-in-zone-detection--BUCKET_TIME_WINDOW_MS"
+        },
+        {
+          "@id": "data:object-in-zone-detection--BUCKET_MAX_AGE_SECONDS"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_SOURCE_ZONES_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:object-in-zone-detection--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "object_in_zone_detection",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "osef-streamer",
+        "test"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detection"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": [
+        {
+          "@id": "data:osef-tracked-objects"
+        },
+        {
+          "@id": "data:osef-zones"
+        }
+      ],
+      "intend:description": "A microservice processing OSEF Zones data from LiDAR sensors. The processed data includes zone information such as zones definitions and bindings. The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of OSEF Zones data.",
+      "intend:name": "object-in-zone-detection",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Object In Zone Detection"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartRepository": {
+        "@type": "xsd:anyURI",
+        "@value": "oci://registry.gate-ai.eu/intend-charts"
+      },
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": [
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_speeds"
+        },
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detections"
+        },
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detection"
+        }
+      ],
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:traffic-jam-detector--ZONES_OF_INTEREST"
+        },
+        {
+          "@id": "data:traffic-jam-detector--JAM_SPEED_THRESHOLD"
+        },
+        {
+          "@id": "data:traffic-jam-detector--MIN_VEHICLE_COUNT"
+        },
+        {
+          "@id": "data:traffic-jam-detector--JAM_DURATION_THRESHOLD_SECONDS"
+        },
+        {
+          "@id": "data:traffic-jam-detector--ZONE_COVERAGE_THRESHOLD_PERCENT"
+        },
+        {
+          "@id": "data:traffic-jam-detector--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:traffic-jam-detector--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:traffic-jam-detector--BUCKET_TIME_WINDOW_MS"
+        },
+        {
+          "@id": "data:traffic-jam-detector--BUCKET_MAX_AGE_SECONDS"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:traffic-jam-detector--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "traffic_jam_detector",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "traffic-jam",
+        "detection"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.traffic_jam_detector"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": [
+        {
+          "@id": "data:object-in-zone-detection"
+        },
+        {
+          "@id": "data:object-speeds"
+        }
+      ],
+      "intend:description": "A microservice detecting traffic jams based on vehicle speeds and zone occupancy. Monitors specified zones for low-speed, high-density vehicle patterns. Reads from object-speeds and object-in-zone-detection Kafka streams and produces traffic jam detection events.",
+      "intend:name": "traffic-jam-detector",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Traffic Jam Detector"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--APPROACH_ZONES",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Comma-separated list of zone names or zone ids before the crosswalk (approach zones). Example: 'C5_before_1,C5_before_2', or '1,2'. Each entry can be a zone name (string) or a zone id (numeric as string). If numeric, it will be compared to the zone_id field of the detection message. If string, it will be compared to the zone_name field. This logic is handled automatically in the engine.",
+      "gate:parameterName": "APPROACH_ZONES",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "APPROACH_ZONES"
+      }
+    },
+    {
+      "@id": "data:osef-zones--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.zones",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.scan_frame_dict_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:lidar-osef-data-streamer",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartRepository": {
+        "@type": "xsd:anyURI",
+        "@value": "oci://registry.gate-ai.eu/intend-charts"
+      },
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:lidar-osef-data-streamer--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:lidar-osef-data-streamer--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:lidar-osef-data-streamer--MAKE_MOCK"
+        },
+        {
+          "@id": "data:lidar-osef-data-streamer--STRIDE"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:lidar-osef-data-streamer--OSEF_SOURCE"
+        },
+        {
+          "@id": "data:lidar-osef-data-streamer--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:lidar-osef-data-streamer--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "lidar_osef_data_streamer",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "osef-streamer",
+        "test"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.data_streamer"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:description": "A microservice for streaming OSEF data from LiDAR sensors. The service reads OSEF blobs from a source, processes them with a specified stride, and streams the processed data to Kafka.",
+      "intend:name": "lidar-osef-data-streamer",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Lidar Osef Data Streamer"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_in_zone_detections",
+      "gate:description": "Kafka topic for object-in-zone detection data.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.zones_passing_alert",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.scan_frame_dict",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.flow_alert",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.flow_alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Flow Alert"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--BUCKET_TIME_WINDOW_MS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1000",
+      "gate:description": "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second).",
+      "gate:parameterName": "BUCKET_TIME_WINDOW_MS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_TIME_WINDOW_MS"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--STRIDE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1",
+      "gate:description": [
+        "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message.",
+        "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."
+      ],
+      "gate:parameterName": "STRIDE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "STRIDE"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.crosswalk_safety_alert",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.crosswalk_safety_alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Crosswalk Safety Alert"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.zones_passing_alert",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.zones_passing_alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Zones Passing Alert"
+      }
+    },
+    {
+      "@id": "data:flow-alert--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.flow_alert",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:object-speeds--OBJECT_TYPE_FILTER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed.",
+        "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored.",
+        "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed.",
+        "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."
+      ],
+      "gate:parameterName": "OBJECT_TYPE_FILTER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "OBJECT_TYPE_FILTER"
+      }
+    },
+    {
+      "@id": "data:osef-zones",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartRepository": {
+        "@type": "xsd:anyURI",
+        "@value": "oci://registry.gate-ai.eu/intend-charts"
+      },
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.data_streamer"
+      },
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:osef-zones--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:osef-zones--KAFKA_SOURCE_TOPIC"
+        },
+        {
+          "@id": "data:osef-zones--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:osef-zones--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:osef-zones--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:osef-zones--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:osef-zones--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:osef-zones--STRIDE"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:osef-zones--KAFKA_SOURCE_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:osef-zones--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:osef-zones--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "osef_zones",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "osef-streamer",
+        "test"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.zones"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:lidar-osef-data-streamer"
+      },
+      "intend:description": "A microservice processing OSEF Zones data from LiDAR sensors. The processed data includes zone information such as zones definitions and bindings. The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of OSEF Zones data.",
+      "intend:name": "osef-zones",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Osef Zones"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_SOURCE_ZONES_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.zones_value",
+      "gate:description": "Name of the schema value subject to use for the source topic for zones.",
+      "gate:parameterName": "KAFKA_SOURCE_ZONES_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_ZONES_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_speeds",
+      "gate:description": "Kafka topic for object speed data.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:osef-zones--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.underspeed_alert",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for object speeds topic in the format `host:port`. This is the server from which the service will consume speed messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--MAKE_MOCK",
+      "@type": "gate:Parameter",
+      "gate:dataType": "bool",
+      "gate:defaultValue": "False",
+      "gate:description": [
+        "If True, use mock OSEF data from tests/test_data/osef_stream_data.bin instead of the source TCP stream. When mock data ends, restart from beginning. Default: False (use real TCP stream).",
+        "If True, publishes random mock crosswalk safety alert messages every 1-2 seconds instead of executing the real logic. Messages are still consumed from topics. Default: False (use real logic)."
+      ],
+      "gate:parameterName": "MAKE_MOCK",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAKE_MOCK"
+      }
+    },
+    {
+      "@id": "data:osef-zones--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.zones_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:zones-passing--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:zones-passing--TO_ZONE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[str, NoneType]",
+      "gate:description": [
+        "Filter for the destination zone that triggers alerts. If specified, only alert on transitions TO this zone. Can be combined with from_zone for exact transition monitoring. If both are None, default alert transitions will be generated.",
+        "Filter for the destination zone. If specified, only track transitions TO this zone. Can be combined with from_zone for exact transition tracking. If both are None, default zone transitions will be generated."
+      ],
+      "gate:parameterName": "TO_ZONE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "TO_ZONE"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": [
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_speeds"
+        },
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.zones"
+        }
+      ],
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:overspeed-alert--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_TOPIC"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:overspeed-alert--ZONES_OF_INTEREST"
+        },
+        {
+          "@id": "data:overspeed-alert--SPEED_LIMIT"
+        },
+        {
+          "@id": "data:overspeed-alert--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:overspeed-alert--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:overspeed-alert--BUCKET_TIME_WINDOW_MS"
+        },
+        {
+          "@id": "data:overspeed-alert--BUCKET_MAX_AGE_SECONDS"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:overspeed-alert--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "overspeed_alert",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "overspeed",
+        "alert"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.overspeed_alert"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": [
+        {
+          "@id": "data:object-speeds"
+        },
+        {
+          "@id": "data:osef-zones"
+        }
+      ],
+      "intend:description": "A microservice detecting vehicles exceeding speed limits. Monitors vehicle speeds and generates alerts when speed thresholds are exceeded. Reads from object-speeds Kafka stream and produces overspeed alert events.",
+      "intend:name": "overspeed-alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Overspeed Alert"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.traffic_jam_alert",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:zones-passing--FROM_ZONE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[str, NoneType]",
+      "gate:description": [
+        "Filter for the origin zone that triggers alerts. If specified, only alert on transitions FROM this zone. Can be combined with to_zone for exact transition monitoring. If both are None, default alert transitions will be generated.",
+        "Filter for the origin zone. If specified, only track transitions FROM this zone. Can be combined with to_zone for exact transition tracking. If both are None, default zone transitions will be generated."
+      ],
+      "gate:parameterName": "FROM_ZONE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "FROM_ZONE"
+      }
+    },
+    {
+      "@id": "data:flow-alert--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.underspeed_alert_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:flow-alert--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--ALERT_SEVERITY",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "HIGH",
+      "gate:description": "Severity level for generated alerts (LOW, MEDIUM, HIGH, CRITICAL).",
+      "gate:parameterName": "ALERT_SEVERITY",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ALERT_SEVERITY"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--STRIDE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1",
+      "gate:description": [
+        "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message.",
+        "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."
+      ],
+      "gate:parameterName": "STRIDE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "STRIDE"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_speeds_value",
+      "gate:description": "Name of the schema value subject to use for the object speeds topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:object-speeds--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_speeds_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:object-speeds--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.zones_passing",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.zones_passing",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Zones Passing"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_in_zone_detection_value",
+      "gate:description": "Name of the schema value subject to use for the object-in-zone detection topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-counting--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.traffic_jam_detector",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.traffic_jam_detector",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Traffic Jam Detector"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_in_zone_detection_value",
+      "gate:description": "Name of the schema value subject to use for the object-in-zone detection topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:flow-alert",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.object_counting"
+      },
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:flow-alert--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:flow-alert--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:flow-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:flow-alert--ZONES_OF_INTEREST"
+        },
+        {
+          "@id": "data:flow-alert--OBJECT_TYPE_FILTER"
+        },
+        {
+          "@id": "data:flow-alert--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:flow-alert--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_TOPIC"
+        },
+        {
+          "@id": "data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:flow-alert--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:flow-alert--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "flow_alert",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "traffic-jam",
+        "detection"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.flow_alert"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:object-counting"
+      },
+      "intend:description": "A microservice detecting flow anomalies based on object counts in zones. Monitors object counting data and triggers alerts when counts exceed thresholds. Reads from object-counting Kafka stream and produces flow alert events.",
+      "intend:name": "flow-alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Flow Alert"
+      }
+    },
+    {
+      "@id": "data:zones-passing--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.zones_passing_value",
+      "gate:description": [
+        "Name of the schema value subject to use for the source topic.",
+        "Name of the schema value subject to use for the traffic jam detection topic.",
+        "Name of the schema value subject to use for the zones passing topic.",
+        "Name of the schema value subject to use for the object-in-zone detection topic."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.data_streamer"
+      },
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:osef-augmented-cloud--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:osef-augmented-cloud--KAFKA_SOURCE_TOPIC"
+        },
+        {
+          "@id": "data:osef-augmented-cloud--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:osef-augmented-cloud--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:osef-augmented-cloud--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:osef-augmented-cloud--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:osef-augmented-cloud--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:osef-augmented-cloud--STRIDE"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:osef-augmented-cloud--KAFKA_SOURCE_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:osef-augmented-cloud--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:osef-augmented-cloud--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "osef_augmented_cloud",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "osef-streamer",
+        "test"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.augmented_cloud_dict"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:lidar-osef-data-streamer"
+      },
+      "intend:description": "A microservice processing OSEF augmented cloud data comprising information about the point cloud which captures the environment and objects in the scene. The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of augmented OSEF data.",
+      "intend:name": "osef-augmented-cloud",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Osef Augmented Cloud"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.zones_value",
+      "gate:description": "Name of the schema value subject to use for the OSEF zones topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.traffic_jam_alert",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for OSEF zones topic in the format `host:port`. This is the server from which the service will consume zone messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--KAFKA_SOURCE_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "gate:description": [
+        "Name of the Kafka topic to consume messages from.",
+        "Kafka topic for traffic jam detection data.",
+        "Kafka topic for zones passing data.",
+        "Kafka topic for object-in-zone detection data."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_TOPIC"
+      }
+    },
+    {
+      "@id": "data:object-counting--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.traffic_jam_detector",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_speeds_value",
+      "gate:description": "Name of the schema value subject to use for the object speeds topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--JAM_SPEED_THRESHOLD",
+      "@type": "gate:Parameter",
+      "gate:dataType": "float",
+      "gate:defaultValue": "2.0",
+      "gate:description": "Maximum average speed (m/s) to consider as traffic jam. Default: 2.0 m/s (~7 km/h).",
+      "gate:parameterName": "JAM_SPEED_THRESHOLD",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "JAM_SPEED_THRESHOLD"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.object_speeds",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.object_speeds",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Object Speeds"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.zones_value",
+      "gate:description": "Name of the schema value subject to use for the OSEF zones topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for objects topic in the format `host:port`. This is the server from which the service will consume messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECTS_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECTS_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:zones-passing--OBJECT_TYPE_FILTER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed.",
+        "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored.",
+        "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed.",
+        "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."
+      ],
+      "gate:parameterName": "OBJECT_TYPE_FILTER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "OBJECT_TYPE_FILTER"
+      }
+    },
+    {
+      "@id": "data:zones-passing--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--STRIDE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1",
+      "gate:description": [
+        "Stride for processing the KAFKA stream of OSEF data. Set to 1 to process every message. Stride of 2 will process every second message.",
+        "Stride for processing the OSEF stream. Set to 1 to process every blob. Stride of 2 will process every second blob."
+      ],
+      "gate:parameterName": "STRIDE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "STRIDE"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.underspeed_alert",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.underspeed_alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Underspeed Alert"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Data Streamer"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_SOURCE_ZONES_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for zones topic in the format `host:port`. This is the server from which the service will consume messages.",
+      "gate:parameterName": "KAFKA_SOURCE_ZONES_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_ZONES_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.scan_frame_dict_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.overspeed_alert_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.tracked_objects",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.osef.tracked_objects",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Tracked Objects"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.object_counting",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.object_counting",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Object Counting"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.crosswalk_safety_alert",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--BUCKET_TIME_WINDOW_MS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1000",
+      "gate:description": "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second).",
+      "gate:parameterName": "BUCKET_TIME_WINDOW_MS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_TIME_WINDOW_MS"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.overspeed_alert",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.overspeed_alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Overspeed Alert"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.augmented_cloud_dict",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.osef.augmented_cloud_dict",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Augmented Cloud Dict"
+      }
+    },
+    {
+      "@id": "data:flow-alert--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.flow_alert",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:osef-zones--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--BUCKET_TIME_WINDOW_MS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1000",
+      "gate:description": "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second).",
+      "gate:parameterName": "BUCKET_TIME_WINDOW_MS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_TIME_WINDOW_MS"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:lidar-osef-data-streamer--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detection",
+      "@type": "gate:KafkaTopic",
+      "gate:topicName": "city_lab.paradise_mall_sofia.lidar.object_in_zone_detection",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Object In Zone Detection"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-counting--ZONES_OF_INTEREST",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored.",
+        "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed.",
+        "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names to keep. If empty, all zones are processed.",
+        "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."
+      ],
+      "gate:parameterName": "ZONES_OF_INTEREST",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ZONES_OF_INTEREST"
+      }
+    },
+    {
+      "@id": "data:object-counting--OBJECT_TYPE_FILTER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed.",
+        "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored.",
+        "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed.",
+        "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."
+      ],
+      "gate:parameterName": "OBJECT_TYPE_FILTER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "OBJECT_TYPE_FILTER"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.traffic_jam_detections"
+      },
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:traffic-jam-alert--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:traffic-jam-alert--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:traffic-jam-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:traffic-jam-alert--PATIENCE"
+        },
+        {
+          "@id": "data:traffic-jam-alert--ZONES_OF_INTEREST"
+        },
+        {
+          "@id": "data:traffic-jam-alert--ALERT_COOLDOWN_SECONDS"
+        },
+        {
+          "@id": "data:traffic-jam-alert--JAM_SEVERITY_THRESHOLD"
+        },
+        {
+          "@id": "data:traffic-jam-alert--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:traffic-jam-alert--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:traffic-jam-alert--KAFKA_SOURCE_TOPIC"
+        },
+        {
+          "@id": "data:traffic-jam-alert--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:traffic-jam-alert--KAFKA_SOURCE_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:traffic-jam-alert--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:traffic-jam-alert--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "traffic_jam_alert",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "traffic-jam",
+        "detection"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.traffic_jam_alert"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:traffic-jam-detector"
+      },
+      "intend:description": "A microservice generating traffic jam alerts (start and stop) for monitored zones. Monitors traffic jam detector events and generates both start and stop alerts for traffic jams. Each jam is assigned a unique ID and tracked from start to stop. Reads from traffic-jam-detector Kafka stream and produces traffic jam alert events.",
+      "intend:name": "traffic-jam-alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Traffic Jam Alert"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.scan_frame_dict",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:object-speeds--KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages.",
+        "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+        "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages.",
+        "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.scan_frame_dict",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:object-speeds--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_speeds",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.tracked_objects_value",
+      "gate:description": "Name of the schema value subject to use for the source topic for objects.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECTS_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECTS_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.zones_passing"
+      },
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:zones-passing-alert--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:zones-passing-alert--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:zones-passing-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:zones-passing-alert--FROM_ZONE"
+        },
+        {
+          "@id": "data:zones-passing-alert--TO_ZONE"
+        },
+        {
+          "@id": "data:zones-passing-alert--OBJECT_TYPE_FILTER"
+        },
+        {
+          "@id": "data:zones-passing-alert--ALERT_SEVERITY"
+        },
+        {
+          "@id": "data:zones-passing-alert--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:zones-passing-alert--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:zones-passing-alert--KAFKA_SOURCE_TOPIC"
+        },
+        {
+          "@id": "data:zones-passing-alert--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:zones-passing-alert--KAFKA_SOURCE_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:zones-passing-alert--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:zones-passing-alert--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "zones_passing_alert",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "traffic-jam",
+        "detection"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.zones_passing_alert"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:zones-passing"
+      },
+      "intend:description": "A microservice generating alerts for zone passing events. Monitors zone transitions and triggers alerts for specific crossing patterns. Reads from zones-passing Kafka stream and produces zone passing alert events.",
+      "intend:name": "zones-passing-alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Zones Passing Alert"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--OBJECT_TYPE_FILTER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of object class names or IDs (as strings) to keep. Numeric entries are treated as class IDs; non-numeric entries are treated as class names. If empty, all object types are processed.",
+        "List of object types/classes to alert on (e.g., CAR, PEDESTRIAN). If empty, all types are monitored.",
+        "List of object types/classes to track (e.g., CAR, PEDESTRIAN). If empty, all types are processed.",
+        "List of object types/classes to keep (e.g., CAR, PEDESTRIAN). If empty, all types are processed."
+      ],
+      "gate:parameterName": "OBJECT_TYPE_FILTER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "OBJECT_TYPE_FILTER"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--BUCKET_TIME_WINDOW_MS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1000",
+      "gate:description": "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second).",
+      "gate:parameterName": "BUCKET_TIME_WINDOW_MS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_TIME_WINDOW_MS"
+      }
+    },
+    {
+      "@id": "data:lidar-osef-data-streamer--OSEF_SOURCE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Path to osef file or TCP stream. For TCP streams, use the format `tcp://hostname:port`.",
+      "gate:parameterName": "OSEF_SOURCE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "OSEF_SOURCE"
+      }
+    },
+    {
+      "@id": "data:lidar-osef-data-streamer--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.scan_frame_dict_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_speeds_value",
+      "gate:description": "Name of the schema value subject to use for the object speeds topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:lidar-osef-data-streamer--MAKE_MOCK",
+      "@type": "gate:Parameter",
+      "gate:dataType": "bool",
+      "gate:defaultValue": "False",
+      "gate:description": [
+        "If True, use mock OSEF data from tests/test_data/osef_stream_data.bin instead of the source TCP stream. When mock data ends, restart from beginning. Default: False (use real TCP stream).",
+        "If True, publishes random mock crosswalk safety alert messages every 1-2 seconds instead of executing the real logic. Messages are still consumed from topics. Default: False (use real logic)."
+      ],
+      "gate:parameterName": "MAKE_MOCK",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAKE_MOCK"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.frame_dict_value",
+      "gate:description": [
+        "Name of the schema value subject to use for the source topic.",
+        "Name of the schema value subject to use for the traffic jam detection topic.",
+        "Name of the schema value subject to use for the zones passing topic.",
+        "Name of the schema value subject to use for the object-in-zone detection topic."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.overspeed_alert",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_SOURCE_ZONES_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.zones",
+      "gate:description": "Kafka topic for zones frames.",
+      "gate:parameterName": "KAFKA_SOURCE_ZONES_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_ZONES_TOPIC"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/examples/gate-data",
+      "@type": "owl:Ontology",
+      "owl:imports": {
+        "@id": "https://w3id.org/intend/extensions/gate"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - GATE microservices data (from real KG)"
+      }
+    },
+    {
+      "@id": "data:flow-alert--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_speeds",
+      "gate:description": "Kafka topic for object speed data.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"
+      }
+    },
+    {
+      "@id": "data:osef-zones--KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages.",
+        "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+        "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages.",
+        "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--BUCKET_TIME_WINDOW_MS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "1000",
+      "gate:description": "Time window in milliseconds for bucket matching. Messages within this window are grouped together for synchronization. Default: 1000ms (1 second).",
+      "gate:parameterName": "BUCKET_TIME_WINDOW_MS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_TIME_WINDOW_MS"
+      }
+    },
+    {
+      "@id": "data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_in_zone_detection_value",
+      "gate:description": "Name of the schema value subject to use for the object-in-zone detection topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--SPEED_LIMIT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "float",
+      "gate:defaultValue": "13.89",
+      "gate:description": "Speed limit threshold in m/s (default: 13.89 m/s = 50 km/h).",
+      "gate:parameterName": "SPEED_LIMIT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SPEED_LIMIT"
+      }
+    },
+    {
+      "@id": "data:zones-passing--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.zones_passing_alert",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--TO_ZONE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[str, NoneType]",
+      "gate:description": [
+        "Filter for the destination zone that triggers alerts. If specified, only alert on transitions TO this zone. Can be combined with from_zone for exact transition monitoring. If both are None, default alert transitions will be generated.",
+        "Filter for the destination zone. If specified, only track transitions TO this zone. Can be combined with from_zone for exact transition tracking. If both are None, default zone transitions will be generated."
+      ],
+      "gate:parameterName": "TO_ZONE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "TO_ZONE"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.scan_frame_dict",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_in_zone_detections",
+      "gate:description": "Kafka topic for object-in-zone detection data.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.object_speeds",
+      "gate:description": "Kafka topic for object speed data.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.zones_passing_alert_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-zones--KAFKA_SOURCE_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "gate:description": [
+        "Name of the Kafka topic to consume messages from.",
+        "Kafka topic for traffic jam detection data.",
+        "Kafka topic for zones passing data.",
+        "Kafka topic for object-in-zone detection data."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_TOPIC"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--ZONES_OF_INTEREST",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored.",
+        "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed.",
+        "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names to keep. If empty, all zones are processed.",
+        "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."
+      ],
+      "gate:parameterName": "ZONES_OF_INTEREST",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ZONES_OF_INTEREST"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.zones_passing_alert",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:osef-zones--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.frame_dict_value",
+      "gate:description": [
+        "Name of the schema value subject to use for the source topic.",
+        "Name of the schema value subject to use for the traffic jam detection topic.",
+        "Name of the schema value subject to use for the zones passing topic.",
+        "Name of the schema value subject to use for the object-in-zone detection topic."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.frame_dict_value",
+      "gate:description": [
+        "Name of the schema value subject to use for the source topic.",
+        "Name of the schema value subject to use for the traffic jam detection topic.",
+        "Name of the schema value subject to use for the zones passing topic.",
+        "Name of the schema value subject to use for the object-in-zone detection topic."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-zones--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.zones",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--ZONES_OF_INTEREST",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored.",
+        "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed.",
+        "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names to keep. If empty, all zones are processed.",
+        "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."
+      ],
+      "gate:parameterName": "ZONES_OF_INTEREST",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ZONES_OF_INTEREST"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:object-counting",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartRepository": {
+        "@type": "xsd:anyURI",
+        "@value": "oci://registry.gate-ai.eu/intend-charts"
+      },
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": [
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detections"
+        },
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_in_zone_detection"
+        }
+      ],
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:object-counting--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:object-counting--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:object-counting--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:object-counting--ZONES_OF_INTEREST"
+        },
+        {
+          "@id": "data:object-counting--OBJECT_TYPE_FILTER"
+        },
+        {
+          "@id": "data:object-counting--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:object-counting--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_TOPIC"
+        },
+        {
+          "@id": "data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:object-counting--KAFKA_SOURCE_OBJECT_IN_ZONE_DETECTION_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:object-counting--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:object-counting--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "object_counting",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "traffic-jam",
+        "detection"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.object_counting"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:object-in-zone-detection"
+      },
+      "intend:description": "A microservice counting objects within predefined areas over time intervals. Tracks object counts in zones for specified time frames (e.g., 5 minutes). Reads from object-in-zone-detection Kafka stream and produces object counting events.",
+      "intend:name": "object-counting",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Object Counting"
+      }
+    },
+    {
+      "@id": "data:flow-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.flow_alert_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:object-speeds--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:object-speeds--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.frame_dict_value",
+      "gate:description": [
+        "Name of the schema value subject to use for the source topic.",
+        "Name of the schema value subject to use for the traffic jam detection topic.",
+        "Name of the schema value subject to use for the zones passing topic.",
+        "Name of the schema value subject to use for the object-in-zone detection topic."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:zones-passing--KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages.",
+        "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+        "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages.",
+        "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--KAFKA_SCHEMA_REGISTRY_URL",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "URL of the Schema Registry for Kafka.",
+      "gate:parameterName": "KAFKA_SCHEMA_REGISTRY_URL",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SCHEMA_REGISTRY_URL"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for OSEF zones topic in the format `host:port`. This is the server from which the service will consume zone messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": "Source Kafka bootstrap server for object speeds topic in the format `host:port`. This is the server from which the service will consume speed messages.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:zones-passing--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": [
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.object_speeds"
+        },
+        {
+          "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.zones"
+        }
+      ],
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:underspeed-alert--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_TOPIC"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:underspeed-alert--ZONES_OF_INTEREST"
+        },
+        {
+          "@id": "data:underspeed-alert--MIN_SPEED_LIMIT"
+        },
+        {
+          "@id": "data:underspeed-alert--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:underspeed-alert--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:underspeed-alert--BUCKET_TIME_WINDOW_MS"
+        },
+        {
+          "@id": "data:underspeed-alert--BUCKET_MAX_AGE_SECONDS"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_TOPIC"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:underspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_SOURCE_OSEF_ZONES_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:underspeed-alert--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "underspeed_alert",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "underspeed",
+        "alert"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.underspeed_alert"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": [
+        {
+          "@id": "data:object-speeds"
+        },
+        {
+          "@id": "data:osef-zones"
+        }
+      ],
+      "intend:description": "A microservice detecting vehicles driving too slowly (underspeed). Monitors vehicle speeds and generates alerts when vehicles fall below minimum speed thresholds. Reads from object-speeds Kafka stream and produces underspeed alert events.",
+      "intend:name": "underspeed-alert",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Underspeed Alert"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--BUCKET_MAX_AGE_SECONDS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "600",
+      "gate:description": "Maximum age in seconds to keep time buckets before dropping them. Older buckets are discarded to prevent memory buildup. Default: 600 seconds (10 minutes).",
+      "gate:parameterName": "BUCKET_MAX_AGE_SECONDS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "BUCKET_MAX_AGE_SECONDS"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--KAFKA_SOURCE_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "gate:description": [
+        "Name of the Kafka topic to consume messages from.",
+        "Kafka topic for traffic jam detection data.",
+        "Kafka topic for zones passing data.",
+        "Kafka topic for object-in-zone detection data."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_TOPIC"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_SOURCE_OSEF_ZONES_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.zones",
+      "gate:description": "Kafka topic for OSEF zones data.",
+      "gate:parameterName": "KAFKA_SOURCE_OSEF_ZONES_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OSEF_ZONES_TOPIC"
+      }
+    },
+    {
+      "@id": "data:osef-augmented-cloud--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.scan_frame_dict_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-scan-frame--KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages.",
+        "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+        "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages.",
+        "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_speeds_value",
+      "gate:description": "Name of the schema value subject to use for the object speeds topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_SPEEDS_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--ZONE_COVERAGE_THRESHOLD_PERCENT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "int",
+      "gate:defaultValue": "50",
+      "gate:description": "Minimum percentage of zone that must be occupied for jam declaration. Range: 0-100. Default: 50%.",
+      "gate:parameterName": "ZONE_COVERAGE_THRESHOLD_PERCENT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ZONE_COVERAGE_THRESHOLD_PERCENT"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--KAFKA_DEST_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Destination Kafka bootstrap server in the format `host:port`. This is the server to which the service will produce messages.",
+        "Kafka bootstrap server in the format `host:port`."
+      ],
+      "gate:parameterName": "KAFKA_DEST_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:object-counting--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:overspeed-alert--ZONES_OF_INTEREST",
+      "@type": "gate:Parameter",
+      "gate:dataType": "list",
+      "gate:defaultValue": "[]",
+      "gate:description": [
+        "List of zone IDs or zone names to monitor. Numeric entries are treated as IDs; non-numeric entries as names. If empty, all zones will be monitored.",
+        "List of zone names or IDs (as strings) for which to generate mock detections. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names or IDs (as strings) to keep. Numeric entries are treated as zone IDs; non-numeric entries are treated as zone names. If empty, all zones are processed.",
+        "List of zone names or IDs (as strings) for which to generate mock alerts. Numeric entries are treated as zone IDs; non-numeric entries as zone names. If empty, defaults to ['zone_1'] for mock data generation.",
+        "List of zone names to keep. If empty, all zones are processed.",
+        "List of zone names or zone IDs (as strings) for which to generate mock alerts. Numeric entries are treated as IDs; non-numeric entries as names. If empty, defaults to ['zone_1'] for mock data generation."
+      ],
+      "gate:parameterName": "ZONES_OF_INTEREST",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ZONES_OF_INTEREST"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--FROM_ZONE",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[str, NoneType]",
+      "gate:description": [
+        "Filter for the origin zone that triggers alerts. If specified, only alert on transitions FROM this zone. Can be combined with to_zone for exact transition monitoring. If both are None, default alert transitions will be generated.",
+        "Filter for the origin zone. If specified, only track transitions FROM this zone. Can be combined with to_zone for exact transition tracking. If both are None, default zone transitions will be generated."
+      ],
+      "gate:parameterName": "FROM_ZONE",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "FROM_ZONE"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects",
+      "@type": "gate:Microservice",
+      "gate:appVersion": "0.1.0",
+      "gate:chartRepository": {
+        "@type": "xsd:anyURI",
+        "@value": "oci://registry.gate-ai.eu/intend-charts"
+      },
+      "gate:chartType": "application",
+      "gate:chartVersion": "0.1.0",
+      "gate:consumesFromTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.data_streamer"
+      },
+      "gate:hasFrozenParameter": [
+        {
+          "@id": "data:osef-tracked-objects--KAFKA_CONSUMER_GROUP_ID"
+        },
+        {
+          "@id": "data:osef-tracked-objects--KAFKA_SOURCE_TOPIC"
+        },
+        {
+          "@id": "data:osef-tracked-objects--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+        },
+        {
+          "@id": "data:osef-tracked-objects--KAFKA_DEST_TOPIC"
+        },
+        {
+          "@id": "data:osef-tracked-objects--KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+        }
+      ],
+      "gate:hasOptionalParameter": [
+        {
+          "@id": "data:osef-tracked-objects--MAX_SOURCE_EMPTY_POLLS"
+        },
+        {
+          "@id": "data:osef-tracked-objects--SOURCE_AUTO_OFFSET_RESET"
+        },
+        {
+          "@id": "data:osef-tracked-objects--STRIDE"
+        }
+      ],
+      "gate:hasRequiredParameter": [
+        {
+          "@id": "data:osef-tracked-objects--KAFKA_SOURCE_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:osef-tracked-objects--KAFKA_DEST_BOOTSTRAP_SERVER"
+        },
+        {
+          "@id": "data:osef-tracked-objects--KAFKA_SCHEMA_REGISTRY_URL"
+        }
+      ],
+      "gate:imageName": "osef_tracked_objects",
+      "gate:imageRepository": "registry.gate-ai.eu/intend",
+      "gate:imageTag": "latest",
+      "gate:keyword": [
+        "gate",
+        "intend",
+        "lidar",
+        "osef-streamer",
+        "test"
+      ],
+      "gate:limitsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "1"
+      },
+      "gate:limitsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "4096"
+      },
+      "gate:limitsMemorySpec": "4Gi",
+      "gate:maintainer": "GATE Institute",
+      "gate:producesToTopic": {
+        "@id": "data:city_lab.paradise_mall_sofia.lidar.osef.tracked_objects"
+      },
+      "gate:requestsCpuCores": {
+        "@type": "xsd:decimal",
+        "@value": "0.1"
+      },
+      "gate:requestsMemoryMiB": {
+        "@type": "xsd:decimal",
+        "@value": "512"
+      },
+      "gate:requestsMemorySpec": "512Mi",
+      "intend:dependsOn": {
+        "@id": "data:lidar-osef-data-streamer"
+      },
+      "intend:description": "A microservice processing OSEF tracked-object data—object IDs, classes & names; kinematics (speed vectors & norms); 3D & SLAM poses; bounding-box sizes, footprints & vertices;  and metadata (properties, age, peak heights, matching pairs, confidence). The service reads a KAFKA stream of OSEF data from LiDAR sensors and produces a KAFKA stream of tracked-object OSEF data.",
+      "intend:name": "osef-tracked-objects",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Osef Tracked Objects"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_SOURCE_OBJECTS_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.tracked_objects",
+      "gate:description": "Kafka topic for tracked object frames.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECTS_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECTS_TOPIC"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-detector--KAFKA_CONSUMER_GROUP_ID",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.traffic_jam_detector",
+      "gate:description": "Consumer group ID for the Kafka consumer.",
+      "gate:parameterName": "KAFKA_CONSUMER_GROUP_ID",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_CONSUMER_GROUP_ID"
+      }
+    },
+    {
+      "@id": "data:object-in-zone-detection--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_in_zone_detection_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.traffic_jam_alert_value",
+      "gate:description": "Name of the schema value subject to use for the destination topic. This should match the schema file name in the schemas directory.",
+      "gate:parameterName": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:osef-tracked-objects--KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages.",
+        "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+        "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages.",
+        "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--KAFKA_SOURCE_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.osef.data_streamer",
+      "gate:description": [
+        "Name of the Kafka topic to consume messages from.",
+        "Kafka topic for traffic jam detection data.",
+        "Kafka topic for zones passing data.",
+        "Kafka topic for object-in-zone detection data."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_TOPIC"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:traffic-jam-alert--MAX_SOURCE_EMPTY_POLLS",
+      "@type": "gate:Parameter",
+      "gate:dataType": "Union[int, NoneType]",
+      "gate:description": "Maximum number of empty polls before timing out.",
+      "gate:parameterName": "MAX_SOURCE_EMPTY_POLLS",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MAX_SOURCE_EMPTY_POLLS"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.osef.frame_dict_value",
+      "gate:description": [
+        "Name of the schema value subject to use for the source topic.",
+        "Name of the schema value subject to use for the traffic jam detection topic.",
+        "Name of the schema value subject to use for the zones passing topic.",
+        "Name of the schema value subject to use for the object-in-zone detection topic."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_SCHEMA_VALUE_SUBJECT"
+      }
+    },
+    {
+      "@id": "data:zones-passing-alert--KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:description": [
+        "Source Kafka bootstrap server in the format `host:port`. This is the server from which the service will consume messages.",
+        "Source Kafka bootstrap server for traffic jam detection topic in the format `host:port`. This is the server from which the service will consume detection messages.",
+        "Source Kafka bootstrap server for zones passing topic in the format `host:port`. This is the server from which the service will consume zone passing messages.",
+        "Source Kafka bootstrap server for object-in-zone detection topic in the format `host:port`. This is the server from which the service will consume detection messages."
+      ],
+      "gate:parameterName": "KAFKA_SOURCE_BOOTSTRAP_SERVER",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_BOOTSTRAP_SERVER"
+      }
+    },
+    {
+      "@id": "data:underspeed-alert--MIN_SPEED_LIMIT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "float",
+      "gate:defaultValue": "8.33",
+      "gate:description": "Minimum speed threshold in m/s (default: 8.33 m/s = 30 km/h).",
+      "gate:parameterName": "MIN_SPEED_LIMIT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MIN_SPEED_LIMIT"
+      }
+    },
+    {
+      "@id": "data:zones-passing--SOURCE_AUTO_OFFSET_RESET",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "latest",
+      "gate:description": "Where to start consuming messages if no committed offsets are found. Options are 'earliest' or 'latest'.",
+      "gate:parameterName": "SOURCE_AUTO_OFFSET_RESET",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "SOURCE_AUTO_OFFSET_RESET"
+      }
+    },
+    {
+      "@id": "data:crosswalk-safety-alert--KAFKA_DEST_TOPIC",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "city_lab.paradise_mall_sofia.lidar.crosswalk_safety_alert",
+      "gate:description": "Name of the Kafka topic to produce messages to.",
+      "gate:parameterName": "KAFKA_DEST_TOPIC",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_DEST_TOPIC"
+      }
+    },
+    {
+      "@id": "data:flow-alert--KAFKA_SOURCE_OBJECT_COUNTING_SCHEMA_VALUE_SUBJECT",
+      "@type": "gate:Parameter",
+      "gate:dataType": "str",
+      "gate:defaultValue": "lidar.object_counting_value",
+      "gate:description": "Name of the schema value subject to use for the object counting topic.",
+      "gate:parameterName": "KAFKA_SOURCE_OBJECT_COUNTING_SCHEMA_VALUE_SUBJECT",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KAFKA_SOURCE_OBJECT_COUNTING_SCHEMA_VALUE_SUBJECT"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Protégé / OWL API XML catalog: maps the intend:-family ontology IRIs
+  (owl:imports targets) to local files, so the project can be opened and
+  reasoned over completely offline. Place this file at the project root
+  (where it already is) — Protégé auto-discovers catalog-v001.xml next
+  to the ontology file you open with File > Open.
+
+  FOAF, PROV-O, ORG, SOSA and the WGS84 Geo Positioning vocabulary are
+  NOT listed here on purpose: they are real, publicly dereferenceable
+  ontologies and this catalog lets Protégé fetch them over the network
+  as usual. If you need fully offline resolution for those too,
+  download their .ttl/.rdf files and add matching <uri> entries below.
+-->
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+    <uri name="https://w3id.org/intend/ontology"            uri="ontology/intend.ttl"/>
+    <uri name="https://w3id.org/intend/ontology/intent"      uri="ontology/modules/intend-intent.ttl"/>
+    <uri name="https://w3id.org/intend/ontology/user"        uri="ontology/modules/intend-user.ttl"/>
+    <uri name="https://w3id.org/intend/ontology/resource"    uri="ontology/modules/intend-resource.ttl"/>
+    <uri name="https://w3id.org/intend/ontology/application" uri="ontology/modules/intend-application.ttl"/>
+    <uri name="https://w3id.org/intend/ontology/workflow"    uri="ontology/modules/intend-workflow.ttl"/>
+    <uri name="https://w3id.org/intend/external/tio"         uri="ontology/external/tio-reference.ttl"/>
+    <uri name="https://w3id.org/intend/extensions/fill"      uri="extensions/intend-fill-extension.ttl"/>
+    <uri name="https://w3id.org/intend/examples/fill-catalog" uri="examples/fill-catalog-data.ttl"/>
+    <uri name="https://w3id.org/intend/examples/fill-data"   uri="examples/fill-instance-data.ttl"/>
+    <uri name="https://w3id.org/intend/extensions/telenor"   uri="extensions/intend-telenor-extension.ttl"/>
+    <uri name="https://w3id.org/intend/examples/telenor-data" uri="examples/telenor-network-data.ttl"/>
+    <uri name="https://w3id.org/intend/extensions/gate"      uri="extensions/intend-gate-extension.ttl"/>
+    <uri name="https://w3id.org/intend/examples/gate-data"   uri="examples/gate-microservices-data.ttl"/>
+</catalog>

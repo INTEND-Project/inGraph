@@ -1,0 +1,368 @@
+{
+  "@context": {
+    "data": "https://w3id.org/intend/examples/telenor-data#",
+    "intend": "https://w3id.org/intend/ontology#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "telenor": "https://w3id.org/intend/extensions/telenor#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "telenor:NetworkLinkShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b22"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b23"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b24"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b25"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b26"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "telenor:NetworkLink"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b22",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:externalId"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b23",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "telenor:distanceKm"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b24",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "telenor:latencyMs"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b25",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "Absent (not zero) for links where the source has no measured bandwidth ('nan Tbit/s') — see examples/telenor-network-data.ttl header.",
+      "sh:minCount": 0,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "telenor:bandwidthTbps"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b26",
+      "sh:datatype": {
+        "@id": "xsd:double"
+      },
+      "sh:maxCount": 1,
+      "sh:message": "Absent (not zero) for links where the source has no measured packet error rate ('nan packets/s') — see examples/telenor-network-data.ttl header.",
+      "sh:minCount": 0,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "telenor:packetErrorRatePerSecond"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b27",
+      "@type": "sh:NodeShape",
+      "sh:node": {
+        "@id": "intend:ResourcePoolAggregateShape"
+      },
+      "sh:targetNode": {
+        "@id": "data:TelenorNordicContinuum"
+      }
+    },
+    {
+      "@id": "telenor:EdgeClusterShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b1"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b2"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b3"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b4"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b5"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b6"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b7"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b8"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b9"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b10"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b11"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b12"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b13"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b18"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b19"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b20"
+        },
+        {
+          "@id": "_:n6fd370b2c31942f09471915d8c91d859b21"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "telenor:EdgeCluster"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b1",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:clusterCode"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b2",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:externalId"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b3",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:location"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b4",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:maxInclusive": 90,
+      "sh:minCount": 1,
+      "sh:minInclusive": -90,
+      "sh:path": {
+        "@id": "telenor:latitude"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b5",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:maxInclusive": 180,
+      "sh:minCount": 1,
+      "sh:minInclusive": -180,
+      "sh:path": {
+        "@id": "telenor:longitude"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b6",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:gpuSpec"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b7",
+      "sh:datatype": {
+        "@id": "xsd:integer"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "telenor:gpuCount"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b8",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:cpuSpec"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b9",
+      "sh:datatype": {
+        "@id": "xsd:integer"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "telenor:cpuCount"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b10",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:memorySpec"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b11",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:minInclusive": 0,
+      "sh:path": {
+        "@id": "telenor:memoryTB"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b12",
+      "sh:datatype": {
+        "@id": "xsd:anyURI"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:apiEndpoint"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b13",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:in": {
+        "@list": [
+          "Wind Power",
+          "Hydropower",
+          "Nuclear Power",
+          "Diesel generators"
+        ]
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:electricitySource"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b18",
+      "sh:datatype": {
+        "@id": "xsd:boolean"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:usesRenewableEnergy"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b19",
+      "sh:datatype": {
+        "@id": "xsd:decimal"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:costOfCompute"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b20",
+      "sh:datatype": {
+        "@id": "xsd:string"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "telenor:infrastructureClass"
+      }
+    },
+    {
+      "@id": "_:n6fd370b2c31942f09471915d8c91d859b21",
+      "sh:class": {
+        "@id": "telenor:NetworkLink"
+      },
+      "sh:message": "hasNeighbor, when asserted, must point to a NetworkLink.",
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "telenor:hasNeighbor"
+      }
+    }
+  ]
+}

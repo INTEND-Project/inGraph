@@ -1,0 +1,354 @@
+{
+  "@context": {
+    "intend": "https://w3id.org/intend/ontology#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "sh": "http://www.w3.org/ns/shacl#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:ExplainerShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb15"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb16"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb17"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb18"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb19"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb20"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb21"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Explainer"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb15",
+      "sh:class": {
+        "@id": "intend:BusinessKnowledge"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:accessesTo"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb16",
+      "sh:class": {
+        "@id": "intend:User"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "prov:actedOnBehalfOf"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb17",
+      "sh:class": {
+        "@id": "intend:User"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:sendsReport"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb18",
+      "sh:class": {
+        "@id": "intend:IntentParsingAgent"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasIntentParsingStage"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb19",
+      "sh:class": {
+        "@id": "intend:LogAnalysisAgent"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasLogAnalysisStage"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb20",
+      "sh:class": {
+        "@id": "intend:OutcomeDeterminationAgent"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasOutcomeDeterminationStage"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb21",
+      "sh:class": {
+        "@id": "intend:ExplanationGeneratorAgent"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasExplanationGenerationStage"
+      }
+    },
+    {
+      "@id": "intend:ChatbotShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb5"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb6"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb7"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb8"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb9"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb10"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Chatbot"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb5",
+      "sh:class": {
+        "@id": "intend:BusinessKnowledge"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:accessesTo"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb6",
+      "sh:class": {
+        "@id": "intend:User"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "prov:actedOnBehalfOf"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb7",
+      "sh:class": {
+        "@id": "intend:DialogEngine"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasDialogEngine"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb8",
+      "sh:class": {
+        "@id": "intend:NLU"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasNlu"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb9",
+      "sh:class": {
+        "@id": "intend:VectorStore"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasVectorStore"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb10",
+      "sh:class": {
+        "@id": "intend:LLMService"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasLlmServices"
+      }
+    },
+    {
+      "@id": "intend:AdapterShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb11"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb12"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb13"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb14"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Adapter"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb11",
+      "sh:class": {
+        "@id": "intend:BusinessKnowledge"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:accessesTo"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb12",
+      "sh:class": {
+        "@id": "intend:User"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "prov:actedOnBehalfOf"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb13",
+      "sh:class": {
+        "@id": "intend:KnowledgeExtractor"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasKnowledgeExtractor"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb14",
+      "sh:class": {
+        "@id": "intend:SystemIntentGenerator"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasSystemIntentGenerator"
+      }
+    },
+    {
+      "@id": "intend:BusinessKnowledgeShape",
+      "@type": "sh:NodeShape",
+      "sh:property": {
+        "@id": "_:n77de16e3b3944a708c4de4a450e7592eb22"
+      },
+      "sh:targetClass": {
+        "@id": "intend:BusinessKnowledge"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb22",
+      "sh:class": {
+        "@id": "intend:Capability"
+      },
+      "sh:minCount": 0,
+      "sh:path": {
+        "@id": "intend:hasCapability"
+      }
+    },
+    {
+      "@id": "intend:WorkflowShape",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb1"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb2"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb3"
+        },
+        {
+          "@id": "_:n77de16e3b3944a708c4de4a450e7592eb4"
+        }
+      ],
+      "sh:targetClass": {
+        "@id": "intend:Workflow"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb1",
+      "sh:class": {
+        "@id": "intend:Chatbot"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasChatbot"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb2",
+      "sh:class": {
+        "@id": "intend:Adapter"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasAdapter"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb3",
+      "sh:class": {
+        "@id": "intend:Explainer"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasExplainer"
+      }
+    },
+    {
+      "@id": "_:n77de16e3b3944a708c4de4a450e7592eb4",
+      "sh:class": {
+        "@id": "intend:BusinessKnowledge"
+      },
+      "sh:maxCount": 1,
+      "sh:minCount": 1,
+      "sh:path": {
+        "@id": "intend:hasBusinessKnowledge"
+      }
+    }
+  ]
+}

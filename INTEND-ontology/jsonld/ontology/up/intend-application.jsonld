@@ -1,0 +1,366 @@
+{
+  "@context": {
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:type",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "The type of the application, characterizing its nature and operational category.",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "type"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "intend:dependsOn",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Generic dependency relationship between two Applications, needed to represent\n\"complex workflows and alternative execution strategies\" and multi-step data\nprocessing pipelines (Section 5.1.4 prose; Application competency question #3). The\npaper does not give this relation an explicit {intent}-tagged name of its own — domain\nextensions (e.g. extensions/intend-fill-extension.ttl, with `requires`/`calls`) should\ndeclare their specific dependency kinds as rdfs:subPropertyOf intend:dependsOn.",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "depends on"
+      },
+      "rdfs:range": {
+        "@id": "intend:Application"
+      }
+    },
+    {
+      "@id": "intend:uplinkLatency",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Latency"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "uplink latency"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/application",
+      "@type": "owl:Ontology",
+      "owl:imports": {
+        "@id": "prov:"
+      },
+      "owl:versionInfo": "0.1.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - Application module"
+      }
+    },
+    {
+      "@id": "intend:PacketLossRate",
+      "@type": "owl:Class",
+      "rdfs:comment": "The acceptable range of packet loss rate for an application, as a percentage (Figure 4).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Packet Loss Rate"
+      }
+    },
+    {
+      "@id": "intend:description",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "description"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "intend:hasLatency",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has latency"
+      },
+      "rdfs:range": {
+        "@id": "intend:Latency"
+      }
+    },
+    {
+      "@id": "intend:lifecycleState",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "E.g. \"deployed\", \"running\", \"stopped\".",
+      "rdfs:domain": {
+        "@id": "intend:Status"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "lifecycle state"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "intend:Bandwidth",
+      "@type": "owl:Class",
+      "rdfs:comment": "The minimum and maximum bandwidth required by an application, in bits per second (Figure 4).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Bandwidth"
+      }
+    },
+    {
+      "@id": "intend:executionTime",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "The expected or actual execution time of the application, relevant for matching temporal constraints expressed in intents.",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "execution time"
+      },
+      "rdfs:range": {
+        "@id": "xsd:duration"
+      }
+    },
+    {
+      "@id": "intend:deploys",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Links the intent to the application(s) that are deployed to fulfill it. Domain (intend:Intent) declared in intend-intent.ttl; combined here because the property is documented under Application in the paper.",
+      "rdfs:domain": {
+        "@id": "intend:Intent"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "deploys"
+      },
+      "rdfs:range": {
+        "@id": "intend:Application"
+      }
+    },
+    {
+      "@id": "intend:Application",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Defines how the objectives of an Intent are achieved through sequences of\nexecutable operations: development, deployment, execution, monitoring, and eventual\ndecommissioning (Section 5.1.4). Aligned with prov:Activity, reflecting the dynamic\nnature of applications: they are deployed, executed, monitored, scaled and\nterminated."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Application"
+      },
+      "rdfs:subClassOf": {
+        "@id": "prov:Activity"
+      }
+    },
+    {
+      "@id": "intend:name",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "The name or identifier of the application. Native intend: property (tagged {intent} in the paper), distinct from foaf:name used on User.",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "name"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "intend:status",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "status"
+      },
+      "rdfs:range": {
+        "@id": "intend:Status"
+      }
+    },
+    {
+      "@id": "intend:hasAcceptablePacketLossRate",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has acceptable packet loss rate"
+      },
+      "rdfs:range": {
+        "@id": "intend:PacketLossRate"
+      }
+    },
+    {
+      "@id": "intend:minBandwidth",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Bandwidth"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "minimum bandwidth"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:downlinkLatency",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Latency"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "downlink latency"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:requiresBandwidth",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "requires bandwidth"
+      },
+      "rdfs:range": {
+        "@id": "intend:Bandwidth"
+      }
+    },
+    {
+      "@id": "intend:Latency",
+      "@type": "owl:Class",
+      "rdfs:comment": "The uplink and downlink latency of an application, in milliseconds (Figure 4).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Latency"
+      }
+    },
+    {
+      "@id": "intend:maxBandwidth",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Bandwidth"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "maximum bandwidth"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:applicationDomain",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "The domain to which the application belongs, providing context for intent resolution and resource matching.",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "application domain"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "intend:Status",
+      "@type": "owl:Class",
+      "rdfs:comment": "The current lifecycle status of an Application (e.g. deployed, running,\nstopped), including performance metrics and resource consumption indicators such as\nenergy consumption per hour (Section 5.1.4). Modeled as its own class, rather than a\nplain string, because the paper explicitly describes it as bundling a lifecycle state\ntogether with numeric consumption indicators.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Status"
+      }
+    },
+    {
+      "@id": "intend:energyConsumptionPerHour",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:Status"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "energy consumption per hour"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:maxPacketLossRate",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:PacketLossRate"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "maximum packet loss rate"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:minPacketLossRate",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:PacketLossRate"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "minimum packet loss rate"
+      },
+      "rdfs:range": {
+        "@id": "xsd:float"
+      }
+    },
+    {
+      "@id": "intend:executesOn",
+      "@type": "owl:ObjectProperty",
+      "owl:inverseOf": {
+        "@id": "intend:hosts"
+      },
+      "rdfs:comment": "Links the application to the resource(s) on which it is executed (Section 5.1.4 wording). Formal inverse of intend:hosts (Resource -> Application, defined in intend-resource.ttl).",
+      "rdfs:domain": {
+        "@id": "intend:Application"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "executes on"
+      },
+      "rdfs:range": {
+        "@id": "intend:Resource"
+      }
+    }
+  ]
+}

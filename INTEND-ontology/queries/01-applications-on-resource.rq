@@ -1,0 +1,12 @@
+# Application CQ #1 (Section 3): "What applications can be executed on a
+# specific edge cluster based on its hardware capabilities and
+# connectivity?" — here: which containers run on machine MA-01.
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX fill:   <https://w3id.org/intend/extensions/fill#>
+PREFIX data:   <https://w3id.org/intend/examples/fill-data#>
+
+SELECT ?container ?name WHERE {
+    ?container fill:runsOn data:MA01 ;
+               intend:name ?name .
+}
+ORDER BY ?name

@@ -1,0 +1,406 @@
+{
+  "@context": {
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "telenor": "https://w3id.org/intend/extensions/telenor#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "telenor:latencyMs",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: intend:latencies. Present on all 780 links in the source data.",
+      "rdfs:domain": {
+        "@id": "telenor:NetworkLink"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "latency (ms)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "telenor:apiEndpoint",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: aeros:domain.",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "API endpoint"
+      },
+      "rdfs:range": {
+        "@id": "xsd:anyURI"
+      }
+    },
+    {
+      "@id": "telenor:electricitySource",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Source: aeros:majorSourceOfElectricity. One of \"Wind Power\",\n\"Hydropower\", \"Nuclear Power\", \"Diesel generators\" across the source data (see\nshapes/intend-shapes-telenor-extension.ttl for the closed sh:in list)."
+      },
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "electricity source"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "telenor:hasNeighbor",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Links an EdgeCluster to a NetworkLink connecting it to another\nEdgeCluster. Mirrors the source KG's own hasNeighbor property exactly: the SAME\nNetworkLink individual is asserted from BOTH endpoint clusters (an undirected pair,\nnot two directed halves) — verified programmatically against the source (every one\nof the 780 links is referenced by exactly its two endpoint clusters' hasNeighbor\nlists). A link's two endpoints are therefore recoverable as \"the exactly two\nEdgeClusters that hasNeighbor this link\"; no separate endpoint1/endpoint2 property\nis introduced, matching the source's own modeling choice."
+      },
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has neighbor"
+      },
+      "rdfs:range": {
+        "@id": "telenor:NetworkLink"
+      }
+    },
+    {
+      "@id": "telenor:bandwidthTbps",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Source: intend:bandwidth. Omitted (not asserted, not\nfabricated as e.g. 0) for the 40 links where the source records \"nan Tbit/s\" — see\nexamples/telenor-network-data.ttl header for which links and why."
+      },
+      "rdfs:domain": {
+        "@id": "telenor:NetworkLink"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "bandwidth (Tbit/s)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "telenor:latitude",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "latitude"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "geo:lat"
+      }
+    },
+    {
+      "@id": "telenor:infrastructureClass",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Source: aeros:hasClass. Constant (\"Infrastracture Element\", sic\n— typo preserved verbatim from the source) across all 40 clusters in the source\ndata; non-discriminating, kept only for fidelity to the source."
+      },
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "infrastructure class"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "telenor:externalId",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Opaque identifier as recorded by the source system (e.g.\n\"ID_Nordic_EC_1\", \"ID_Nordic_Pair_EC_1-EC_2\"). Domain intentionally left open —\nreused by both EdgeCluster and NetworkLink, the same pattern already used by\nintend:unit in ontology/modules/intend-resource.ttl. NOTE: the source tags this\nvalue with the predicate https://schema.org/id, which is not an actual schema.org\nterm (the correct term is schema:identifier) — kept here as a local telenor:\nproperty instead of importing/reusing a non-existent external term."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "external id"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "telenor:costOfCompute",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: aeros:costOfCompute. Currency/unit not specified by the source; preserved as a bare number, usable only for relative (cheaper/more expensive) comparison.",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "cost of compute"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "telenor:distanceKm",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: intend:distance. Present on all 780 links in the source data.",
+      "rdfs:domain": {
+        "@id": "telenor:NetworkLink"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "distance (km)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "telenor:usesRenewableEnergy",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Derived from telenor:electricitySource using the standard\nenergy-policy classification (wind/hydro/solar/geothermal = renewable; nuclear and\nfossil/diesel = not, despite nuclear's low carbon intensity): true for Wind\nPower/Hydropower, false for Nuclear Power/Diesel generators. Populates Resource CQ\n#5 (Section 3): \"which edge resources utilize renewable energy sources\" — see\nqueries/11-resource-renewable-energy.rq, previously an empty\ntemplate."
+      },
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "uses renewable energy"
+      },
+      "rdfs:range": {
+        "@id": "xsd:boolean"
+      }
+    },
+    {
+      "@id": "telenor:longitude",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "longitude"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "geo:long"
+      }
+    },
+    {
+      "@id": "telenor:EdgeCluster",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "A GPU/CPU compute cluster at a network edge location, operated by\nthe provider (Telenor) as shared infrastructure. Both an edge-positioned Resource\n(intend:EdgeDevice, \"position in the continuum\" dimension) and provider-owned\nbusiness infrastructure (intend:BusinessResource — whose own rdfs:comment in\nontology/modules/intend-resource.ttl already names \"network infrastructure\" as a\ndirect example). Contrast with fill:Machine (extensions/intend-fill-extension.ttl),\na customer-owned industrial machine, not shared provider infrastructure — the two\nextensions model genuinely different kinds of CustomerResource vs BusinessResource\nand are not meant to interoperate."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Edge Cluster"
+      },
+      "rdfs:subClassOf": [
+        {
+          "@id": "intend:EdgeDevice"
+        },
+        {
+          "@id": "intend:BusinessResource"
+        }
+      ]
+    },
+    {
+      "@id": "telenor:gpuSpec",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Full free-text GPU description as given by the source, e.g. \"64 DGX H100 GPUs each with 8x80 GB of GPU memory\" (source: intend:gpuArchitecture).",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "GPU specification"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "telenor:memorySpec",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: intend:memory.",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "memory specification"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "telenor:memoryTB",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Numeric TB value parsed from telenor:memorySpec (128 or 32 across the source data).",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "memory (TB)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "telenor:cpuSpec",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: aeros:cpuArchitecture.",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "CPU specification"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "telenor:clusterCode",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Short source code, e.g. \"EC_1\" (source: intend:clusterId in the JSON-LD).",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "cluster code"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "telenor:location",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "City/site name, e.g. \"Copenhagen\" (source: aeros:location).",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "location"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "telenor:packetErrorRatePerSecond",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Source: intend:packetErrorRate. Omitted (not asserted, not\nfabricated) for the 34 links where the source records \"nan packets/s\" — see\nexamples/telenor-network-data.ttl header. Distinct from intend:PacketLossRate\n(ontology/modules/intend-application.ttl), which is explicitly documented there as\na *percentage* metric for an Application's acceptable loss — this source metric has\na different unit (packets/s) and a different subject (a NetworkLink, not an\nApplication), so it is kept as its own property rather than reused/aligned in a way\nthat would misrepresent either the unit or the subject."
+      },
+      "rdfs:domain": {
+        "@id": "telenor:NetworkLink"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "packet error rate (packets/s)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:double"
+      }
+    },
+    {
+      "@id": "telenor:gpuCount",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Leading GPU count parsed from telenor:gpuSpec (64 or 16 across\nthe source data — exactly two tiers of cluster). Populates Resource CQ #1 (Section\n3): \"which edge clusters have the highest computational capabilities\" — see\nqueries/10-resource-gpu-cpu.rq, previously an empty template."
+      },
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "GPU count"
+      },
+      "rdfs:range": {
+        "@id": "xsd:integer"
+      }
+    },
+    {
+      "@id": "telenor:cpuCount",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Leading CPU count parsed from telenor:cpuSpec (128 or 32 across the source data).",
+      "rdfs:domain": {
+        "@id": "telenor:EdgeCluster"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "CPU count"
+      },
+      "rdfs:range": {
+        "@id": "xsd:integer"
+      }
+    },
+    {
+      "@id": "telenor:NetworkLink",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "A measured point-to-point network connection between two\nEdgeClusters (bandwidth/latency/distance/packet-error-rate). Deliberately NOT\nmodeled as an intend:Resource: sosa:Platform semantics (\"hosts other entities\")\ndo not fit a link, and the ontology's existing Resource-to-Resource relation\n(intend:consistsIn) is compositional/hierarchical, not this kind of\nnetwork-adjacency. Given a light alignment to prov:Entity (a documented,\nattributed thing) instead of being left unaligned."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Network Link"
+      },
+      "rdfs:subClassOf": {
+        "@id": "prov:Entity"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/extensions/telenor",
+      "@type": "owl:Ontology",
+      "owl:imports": [
+        {
+          "@id": "https://w3id.org/intend/ontology"
+        },
+        {
+          "@id": "geo:"
+        }
+      ],
+      "owl:versionInfo": "0.1.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - Telenor edge-network domain extension"
+      }
+    }
+  ]
+}

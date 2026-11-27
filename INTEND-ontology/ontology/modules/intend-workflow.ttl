@@ -1,0 +1,177 @@
+@prefix intend:  <https://w3id.org/intend/ontology#> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#
+#  INTEND Ontology — Workflow module
+#  Source: Balzotti et al., "The INTENT Ontology", Section 5.1.5.
+#
+#  The internal sub-components described in Section 5.1.5 (dialogEngine,
+#  nlu, vectorStore, llmServices, knowledgeExtractor, systemIntentGenerator,
+#  and the Explainer's four pipeline stages) are modeled as plain owl:Class
+#  with no external alignment, because the paper does not claim any
+#  vocabulary alignment for them (only Chatbot/Adapter/Explainer/
+#  BusinessKnowledge are explicitly aligned with prov:SoftwareAgent).
+#
+#################################################################
+
+<https://w3id.org/intend/ontology/workflow> a owl:Ontology ;
+    rdfs:label "INTEND Ontology - Workflow module"@en ;
+    owl:imports <http://www.w3.org/ns/prov#> ;
+    owl:versionInfo "0.1.0" .
+
+#################################################################
+# Classes — top level
+#################################################################
+
+intend:Workflow a owl:Class ;
+    rdfs:label "Workflow"@en ;
+    rdfs:comment """Organizational container that groups the four components responsible for
+progressively translating a natural language intent into a machine-actionable system
+intent: Chatbot, Adapter, Explainer and BusinessKnowledge, linked via hasChatbot/
+hasAdapter/hasExplainer/hasBusinessKnowledge (Section 5.1.5)."""@en .
+
+intend:Chatbot a owl:Class ;
+    rdfs:subClassOf intend:IntentManager , prov:SoftwareAgent ;
+    rdfs:label "Chatbot"@en ;
+    rdfs:comment """The user-facing component of the Workflow: understands the User's natural
+language request and maps it into a structured format, resolving ambiguities and
+identifying missing information through dialogue. Aligned with prov:SoftwareAgent;
+the relationship to the User it acts for is captured via prov:actedOnBehalfOf.
+Subclass of IntentManager (it can act as intent owner/handler, Section 5.1.1)."""@en .
+
+intend:Adapter a owl:Class ;
+    rdfs:subClassOf intend:IntentManager , prov:SoftwareAgent ;
+    rdfs:label "Adapter"@en ;
+    rdfs:comment """Translates the clarified natural language intent produced by the Chatbot
+into a concrete, machine-actionable system intent, specifying the application(s) to
+deploy. Multi-agent architecture: knowledgeExtractor (RAG-based) + systemIntentGenerator.
+Aligned with prov:SoftwareAgent; subclass of IntentManager."""@en .
+
+intend:Explainer a owl:Class ;
+    rdfs:subClassOf prov:SoftwareAgent ;
+    rdfs:label "Explainer"@en ;
+    rdfs:comment """Generates the IntentReport by accessing the sequence of intents produced by
+the intent managers and analyzing the Chatbot/User interaction; sends the report to
+the User via sendsReport. Aligned with prov:SoftwareAgent. Unlike Chatbot and Adapter,
+the paper does not describe the Explainer as acting as an IntentManager, so this
+class is NOT a subclass of intend:IntentManager."""@en .
+
+intend:BusinessKnowledge a owl:Class ;
+    rdfs:subClassOf prov:SoftwareAgent ;
+    rdfs:label "Business Knowledge"@en ;
+    rdfs:comment """Shared knowledge repository (knowledge graphs + databases) accessed by
+Chatbot, Adapter and Explainer. Exposes dataUpload, sparqlQuerying and
+automaticInsightGeneration as intend:Capability individuals (see below). The paper
+states all four Workflow components are "aligned with prov:SoftwareAgent"; we follow
+that literally here, though in practice BusinessKnowledge behaves more like a passive
+store than an active agent — a reasonable target for refinement if this ontology is
+extended."""@en .
+
+#################################################################
+# Classes — internal sub-components (Section 5.1.5)
+#################################################################
+
+intend:DialogEngine a owl:Class ;
+    rdfs:label "Dialog Engine"@en ;
+    rdfs:comment "Drives the dialogue with the User, leverages NLU, retrieves knowledge from BusinessKnowledge and the Vector Store, manages conversational context and generates answers." .
+
+intend:NLU a owl:Class ;
+    rdfs:label "NLU"@en ;
+    rdfs:comment "Natural Language Understanding component: understands each User request, extracts parameters, identifies missing information." .
+
+intend:VectorStore a owl:Class ;
+    rdfs:label "Vector Store"@en ;
+    rdfs:comment "Stores and indexes vector representations of information relevant to driving the conversation, supporting semantic retrieval." .
+
+intend:LLMService a owl:Class ;
+    rdfs:label "LLM Service"@en ;
+    rdfs:comment "External Large Language Model service (e.g. Azure OpenAI) used for understanding User requests and generating natural language answers." .
+
+intend:KnowledgeExtractor a owl:Class ;
+    rdfs:label "Knowledge Extractor"@en ;
+    rdfs:comment "Retrieval-Augmented Generation (RAG) module of the Adapter: multi-agent retrieval of BusinessKnowledge context relevant to the intent being processed." .
+
+intend:SystemIntentGenerator a owl:Class ;
+    rdfs:label "System Intent Generator"@en ;
+    rdfs:comment "Converts the natural language intent into a concrete, machine-actionable system intent (e.g. an API invocation or application launch)." .
+
+intend:IntentParsingAgent a owl:Class ;
+    rdfs:label "Intent Parsing Agent"@en ;
+    rdfs:comment "First stage of the Explainer pipeline: extracts user objectives and success metrics from intents expressed in Turtle RDF." .
+
+intend:LogAnalysisAgent a owl:Class ;
+    rdfs:label "Log Analysis Agent"@en ;
+    rdfs:comment "Second stage of the Explainer pipeline: identifies relevant log entries/system behaviors associated with declared intents (code generation, tool invocation, or ML models)." .
+
+intend:OutcomeDeterminationAgent a owl:Class ;
+    rdfs:label "Outcome Determination Agent"@en ;
+    rdfs:comment "Third stage of the Explainer pipeline: evaluates whether the specified intents were successfully fulfilled." .
+
+intend:ExplanationGeneratorAgent a owl:Class ;
+    rdfs:label "Explanation Generator Agent"@en ;
+    rdfs:comment "Fourth stage of the Explainer pipeline: compiles results into an interpretable, structured, human-readable explanation." .
+
+#################################################################
+# Object properties — Workflow composition
+#################################################################
+
+intend:hasChatbot a owl:ObjectProperty ; rdfs:domain intend:Workflow ; rdfs:range intend:Chatbot ; rdfs:label "has chatbot"@en .
+intend:hasAdapter a owl:ObjectProperty ; rdfs:domain intend:Workflow ; rdfs:range intend:Adapter ; rdfs:label "has adapter"@en .
+intend:hasExplainer a owl:ObjectProperty ; rdfs:domain intend:Workflow ; rdfs:range intend:Explainer ; rdfs:label "has explainer"@en .
+intend:hasBusinessKnowledge a owl:ObjectProperty ; rdfs:domain intend:Workflow ; rdfs:range intend:BusinessKnowledge ; rdfs:label "has business knowledge"@en .
+
+intend:accessesTo a owl:ObjectProperty ;
+    rdfs:range intend:BusinessKnowledge ;
+    rdfs:label "accesses to"@en ;
+    rdfs:comment "Generic access link to the shared BusinessKnowledge. Domain intentionally left open: used by Chatbot, Adapter, Explainer, and (per Figure 2) also by Resource and Application." .
+
+intend:sendsReport a owl:ObjectProperty ;
+    rdfs:domain intend:Explainer ;
+    rdfs:range intend:User ;
+    rdfs:label "sends report"@en ;
+    rdfs:comment "Links the Explainer to the User to whom the generated IntentReport is delivered." .
+
+#################################################################
+# Object properties — internal architecture wiring
+#################################################################
+
+intend:hasDialogEngine a owl:ObjectProperty ; rdfs:domain intend:Chatbot ; rdfs:range intend:DialogEngine ; rdfs:label "has dialog engine"@en .
+intend:hasNlu a owl:ObjectProperty ; rdfs:domain intend:Chatbot ; rdfs:range intend:NLU ; rdfs:label "has NLU"@en .
+intend:hasVectorStore a owl:ObjectProperty ; rdfs:domain intend:Chatbot ; rdfs:range intend:VectorStore ; rdfs:label "has vector store"@en .
+intend:hasLlmServices a owl:ObjectProperty ; rdfs:domain intend:Chatbot ; rdfs:range intend:LLMService ; rdfs:label "has LLM services"@en .
+
+intend:hasKnowledgeExtractor a owl:ObjectProperty ; rdfs:domain intend:Adapter ; rdfs:range intend:KnowledgeExtractor ; rdfs:label "has knowledge extractor"@en .
+intend:hasSystemIntentGenerator a owl:ObjectProperty ; rdfs:domain intend:Adapter ; rdfs:range intend:SystemIntentGenerator ; rdfs:label "has system intent generator"@en .
+
+intend:hasIntentParsingStage a owl:ObjectProperty ; rdfs:domain intend:Explainer ; rdfs:range intend:IntentParsingAgent ; rdfs:label "has intent parsing stage"@en .
+intend:hasLogAnalysisStage a owl:ObjectProperty ; rdfs:domain intend:Explainer ; rdfs:range intend:LogAnalysisAgent ; rdfs:label "has log analysis stage"@en .
+intend:hasOutcomeDeterminationStage a owl:ObjectProperty ; rdfs:domain intend:Explainer ; rdfs:range intend:OutcomeDeterminationAgent ; rdfs:label "has outcome determination stage"@en .
+intend:hasExplanationGenerationStage a owl:ObjectProperty ; rdfs:domain intend:Explainer ; rdfs:range intend:ExplanationGeneratorAgent ; rdfs:label "has explanation generation stage"@en .
+
+#################################################################
+# Direct reuse of PROV-O (no wrapper property — paper tags this {prov}):
+#   prov:actedOnBehalfOf — Chatbot/Adapter/Explainer -> User they act on behalf of
+#################################################################
+
+#################################################################
+# BusinessKnowledge capabilities — fixed vocabulary of named individuals
+# (intend:Capability is declared in intend-intent.ttl; reused here since the
+# paper explicitly lists exactly these three exposed functions, Section 5.1.5)
+#################################################################
+
+intend:DataUpload a intend:Capability , owl:NamedIndividual ;
+    rdfs:label "Data Upload"@en ;
+    rdfs:comment "Allows Users to import data supporting custom ontologies, populating the knowledge base with domain-specific information." .
+
+intend:SparqlQuerying a intend:Capability , owl:NamedIndividual ;
+    rdfs:label "SPARQL Querying"@en ;
+    rdfs:comment "Enables Users and Workflow components to explore the knowledge graphs via SPARQL (select, insert, update, delete) according to permissions." .
+
+intend:AutomaticInsightGeneration a intend:Capability , owl:NamedIndividual ;
+    rdfs:label "Automatic Insight Generation"@en ;
+    rdfs:comment "Uses semantic analysis to extract meaningful patterns and actionable insights from the knowledge graphs (central concepts, frequent relationships, anomalies)." .

@@ -1,0 +1,77 @@
+@prefix tio:     <https://w3id.org/intend/external/tio#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+#################################################################
+#
+#  TIO REFERENCE MODULE — READ THIS FIRST
+#  ---------------------------------------
+#  The TM Forum Intent Ontology (TIO, TR292) is the intent model that the
+#  INTEND ontology specializes (see Section 4 and 5.1.1 of the INTEND
+#  paper). TM Forum only distributes the authoritative TIO RDF/OWL files
+#  to members of the TM Forum Collaboration Community; there is no public,
+#  freely dereferenceable RDF file at a stable namespace that this project
+#  can `owl:imports` the way it can for PROV-O, FOAF, ORG and SOSA.
+#
+#  To keep the INTEND ontology self-contained and usable offline, this
+#  file declares a MINIMAL, BEST-EFFORT reconstruction of the handful of
+#  TIO terms that the INTEND paper explicitly names and relies on
+#  (Sections 5.1.1 and Figure 3): Intent, IntentManager, Expectation,
+#  Target, Condition, and their three report counterparts.
+#
+#  THIS IS NOT THE OFFICIAL TM FORUM NAMESPACE. The namespace below
+#  (https://w3id.org/intend/external/tio#) is a local placeholder.
+#  If/when you obtain the official TIO v3.6.0 files from TM Forum:
+#    1. Replace this file's namespace and axioms with the official ones.
+#    2. Update the `tio:` prefix binding in every other .ttl file in this
+#       project to point at the real TM Forum namespace.
+#    3. Re-run scripts/validate.py to confirm nothing broke.
+#  Everything downstream (intend-intent.ttl, shapes, examples) only
+#  depends on the *local names* below (Intent, Expectation, Target,
+#  Condition, ...), so swapping the namespace is a find-and-replace.
+#
+#################################################################
+
+<https://w3id.org/intend/external/tio> a owl:Ontology ;
+    rdfs:label "TIO reference stub (unofficial, local reconstruction)"@en ;
+    dcterms:description "Minimal best-effort reconstruction of the TM Forum Intent Ontology (TIO, TR292 v3.6.0) terms referenced by the INTEND ontology. Not affiliated with or endorsed by TM Forum. Replace with the official TIO distribution when available." ;
+    dcterms:source "https://www.tmforum.org/resources/introductory-guide/tr292-tm-forum-intent-ontology-tio-v3-6-0/" ;
+    owl:versionInfo "0.1.0-stub" .
+
+#################################################################
+# Classes
+#################################################################
+
+tio:Intent a owl:Class ;
+    rdfs:label "Intent"@en ;
+    rdfs:comment "A statement expressing expectations, including requirements, goals and constraints, without specifying how to achieve them. Reconstructed placeholder for tio:Intent as used by TR292." .
+
+tio:IntentManager a owl:Class ;
+    rdfs:label "Intent Manager"@en ;
+    rdfs:comment "An entity that can act as owner (generator) or handler (receiver/processor) of an Intent. Reconstructed placeholder for the TIO intent-management role concept." .
+
+tio:Expectation a owl:Class ;
+    rdfs:label "Expectation"@en ;
+    rdfs:comment "A desired outcome or state that should be achieved by an Intent. Reconstructed placeholder for tio:Expectation." .
+
+tio:Target a owl:Class ;
+    rdfs:label "Target"@en ;
+    rdfs:comment "The subject(s) an Intent (or one of its Expectations) applies to. Reconstructed placeholder for tio:Target." .
+
+tio:Condition a owl:Class ;
+    rdfs:label "Condition"@en ;
+    rdfs:comment "A constraint that scopes when/how an Intent (or one of its Expectations) must be fulfilled. Reconstructed placeholder for tio:Condition." .
+
+tio:ExpectationReport a owl:Class ;
+    rdfs:label "Expectation Report"@en ;
+    rdfs:comment "Traces the fulfillment status of one Expectation. Reconstructed placeholder for tio:ExpectationReport." .
+
+tio:ConditionReport a owl:Class ;
+    rdfs:label "Condition Report"@en ;
+    rdfs:comment "Traces the satisfaction status of one Condition. Reconstructed placeholder for tio:ConditionReport." .
+
+tio:TargetReport a owl:Class ;
+    rdfs:label "Target Report"@en ;
+    rdfs:comment "Traces the resolution status of one Target. Reconstructed placeholder for tio:TargetReport." .

@@ -1,0 +1,50 @@
+@prefix intend:  <https://w3id.org/intend/ontology#> .
+@prefix tio:     <https://w3id.org/intend/external/tio#> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix org:     <http://www.w3.org/ns/org#> .
+@prefix sosa:    <http://www.w3.org/ns/sosa/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+#################################################################
+#
+#  INTEND Ontology — main entry point
+#  ------------------------------------
+#  Concrete OWL implementation of the ontology described in:
+#  Balzotti, Firmani, Leotta, Piermartini, Rossi, Pietsch, Frascolla,
+#  Song, Roman, Dautov, Toma, Joe, Kim, Ulisses. "The INTENT Ontology:
+#  An Ontology for Intent-based Data Operation in the Computing Continuum."
+#  Developed within the HORIZON project 101135576 INTEND.
+#
+#  This file only declares ontology-level metadata and owl:imports the
+#  five dimension modules (Intent, User, Resource, Application, Workflow),
+#  which in turn import their respective external vocabularies
+#  (TIO reference stub, PROV-O, FOAF, ORG, SOSA). Open THIS file in
+#  Protégé (with catalog-v001.xml on the classpath for offline resolution
+#  of the intend: modules) to get the whole ontology at once.
+#
+#################################################################
+
+<https://w3id.org/intend/ontology> a owl:Ontology ;
+    rdfs:label "INTEND Ontology"@en ;
+    dcterms:title "The INTEND Ontology: an ontology for intent-based data operation in the computing continuum"@en ;
+    dcterms:description """Standardized, machine-readable framework to express high-level intents
+that may include multiple goals and requests (data storage, processing, transfer)
+while abstracting the underlying infrastructure and technologies. Organized around
+five dimensions: Intent, User, Resource, Application, Workflow. Built upon TM Forum
+TIO, W3C PROV-O, FOAF and SOSA."""@en ;
+    dcterms:creator "Lorenzo Balzotti", "Donatella Firmani", "Francesco Leotta",
+                     "Andrea Piermartini", "Jacopo Rossi", "Verena Pietsch",
+                     "Valerio Frascolla", "Hui Song", "Dumitru Roman", "Rustem Dautov",
+                     "Ioan Toma", "Hyunwhan Joe", "Hong-Gee Kim", "Alexandre Ulisses" ;
+    dcterms:source "INTEND HORIZON Research and Innovation Action 101135576" ;
+    owl:versionInfo "0.1.0" ;
+    owl:imports <https://w3id.org/intend/ontology/intent> ,
+                <https://w3id.org/intend/ontology/user> ,
+                <https://w3id.org/intend/ontology/resource> ,
+                <https://w3id.org/intend/ontology/application> ,
+                <https://w3id.org/intend/ontology/workflow> .

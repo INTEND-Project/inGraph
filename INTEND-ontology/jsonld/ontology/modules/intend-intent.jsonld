@@ -1,0 +1,263 @@
+{
+  "@context": {
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "tio": "https://w3id.org/intend/external/tio#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:hasTargetReport",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Traces the resolution of each target.",
+      "rdfs:domain": {
+        "@id": "intend:IntentReport"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has target report"
+      },
+      "rdfs:range": {
+        "@id": "tio:TargetReport"
+      }
+    },
+    {
+      "@id": "intend:hasTarget",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "The subjects of the intent, ranging from specific data objects to computational\nprocesses or infrastructure components. Canonically used as Intent -> Target; no\nrdfs:domain is asserted so the same property can also be attached to a specific\nExpectation, matching the alternative reading shown in the paper's Figure 3. The\ncanonical Intent -> Target cardinality is enforced in shapes/intend-shapes-intent.ttl,\nnot here, precisely to keep this choice a validation-time policy rather than a\nhardwired OWL commitment.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has target"
+      },
+      "rdfs:range": {
+        "@id": "tio:Target"
+      }
+    },
+    {
+      "@id": "intend:IntentManager",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "An entity that creates or modifies an Intent. Every intent manager acts either\nas owner (it `intend:generates` the Intent) or as handler (the Intent `intend:isSentTo`\nit) — see Section 5.1.1. User, Chatbot and Adapter can all act as intent managers;\nthis class does not force a rigid Owner/Handler subclass split because the very same\nagent can be owner for one Intent and handler for another: the role is carried by\nwhich property is asserted, not by the type of the individual."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent Manager"
+      },
+      "rdfs:subClassOf": {
+        "@id": "tio:IntentManager"
+      }
+    },
+    {
+      "@id": "intend:isSentTo",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Links the intent to the IntentManager that receives and processes it (handler role).",
+      "rdfs:domain": {
+        "@id": "intend:Intent"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "is sent to"
+      },
+      "rdfs:range": {
+        "@id": "intend:IntentManager"
+      }
+    },
+    {
+      "@id": "intend:wasAttributedTo",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Links each intent instance to the agent (User, Chatbot, or Adapter) responsible for its creation or modification.",
+      "rdfs:domain": {
+        "@id": "intend:Intent"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "was attributed to"
+      },
+      "rdfs:range": {
+        "@id": "intend:IntentManager"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "prov:wasAttributedTo"
+      }
+    },
+    {
+      "@id": "intend:hasExpectation",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "The desired outcomes or states that should be achieved by the intent (e.g. \"data must be processed with high accuracy\").",
+      "rdfs:domain": {
+        "@id": "intend:Intent"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has expectation"
+      },
+      "rdfs:range": {
+        "@id": "tio:Expectation"
+      }
+    },
+    {
+      "@id": "intend:hasCondition",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "The constraints within which the intent must be fulfilled (temporal limits,\nresource boundaries, contextual requirements). Same modeling note as hasTarget above:\nno rdfs:domain asserted here on purpose; see shapes/intend-shapes-intent.ttl for the\ncanonical Intent -> Condition cardinality.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has condition"
+      },
+      "rdfs:range": {
+        "@id": "tio:Condition"
+      }
+    },
+    {
+      "@id": "intend:wasDerivedFrom",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Captures the refinement of a high-level user intent into sub-intents, ensuring traceability across intent hierarchies.",
+      "rdfs:domain": {
+        "@id": "intend:Intent"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "was derived from"
+      },
+      "rdfs:range": {
+        "@id": "intend:Intent"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "prov:wasDerivedFrom"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/intent",
+      "@type": "owl:Ontology",
+      "owl:imports": [
+        {
+          "@id": "https://w3id.org/intend/external/tio"
+        },
+        {
+          "@id": "prov:"
+        }
+      ],
+      "owl:versionInfo": "0.1.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - Intent module"
+      }
+    },
+    {
+      "@id": "intend:hasCapability",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Describes what kind of intents an IntentManager can receive and create. Domain intentionally left open: also reused by BusinessKnowledge (Workflow module) for its exposed functions.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has capability"
+      },
+      "rdfs:range": {
+        "@id": "intend:Capability"
+      }
+    },
+    {
+      "@id": "intend:IntentReport",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Documents how and why the system interpreted, translated, and satisfied (or\nnot) a user's Intent. Generated by the Explainer via prov:wasGeneratedBy (Section\n5.1.1 and 5.1.5). Consists of an ExpectationReport, a ConditionReport and a\nTargetReport."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent Report"
+      },
+      "rdfs:subClassOf": {
+        "@id": "prov:Entity"
+      }
+    },
+    {
+      "@id": "intend:hasExpectationReport",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Traces the fulfillment of each expectation.",
+      "rdfs:domain": {
+        "@id": "intend:IntentReport"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has expectation report"
+      },
+      "rdfs:range": {
+        "@id": "tio:ExpectationReport"
+      }
+    },
+    {
+      "@id": "intend:hasIntentReport",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:Intent"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has intent report"
+      },
+      "rdfs:range": {
+        "@id": "intend:IntentReport"
+      }
+    },
+    {
+      "@id": "intend:Capability",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Describes what kind of intents an IntentManager can receive and create,\nconstraining the scope of its operational role within the intent lifecycle (Section\n5.1.1). Also reused by BusinessKnowledge in the Workflow module to describe its\nexposed functions (dataUpload, sparqlQuerying, automaticInsightGeneration)."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Capability"
+      }
+    },
+    {
+      "@id": "intend:generates",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Links an IntentManager to an Intent it originates (owner role): the owner generates the intent, the handler receives it via isSentTo.",
+      "rdfs:domain": {
+        "@id": "intend:IntentManager"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "generates"
+      },
+      "rdfs:range": {
+        "@id": "intend:Intent"
+      }
+    },
+    {
+      "@id": "intend:hasConditionReport",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Traces the satisfaction of each condition.",
+      "rdfs:domain": {
+        "@id": "intend:IntentReport"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has condition report"
+      },
+      "rdfs:range": {
+        "@id": "tio:ConditionReport"
+      }
+    },
+    {
+      "@id": "intend:Intent",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "The foundational expression mechanism through which goals and requirements\nare articulated in the INTEND ontology. Intent is modeled as a specialization and\ncontextual extension of tio:Intent (TM Forum TIO), preserving the Expectation/Target/\nCondition decomposition while adding explicit links to Resources, Applications and\nWorkflow components (Section 5.1.1)."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent"
+      },
+      "rdfs:subClassOf": {
+        "@id": "tio:Intent"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+config.py
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+venv/
+.env/
+
+uploads/
+ontology_store/
+
+# inChat credentials: config.py above; a .env file next to docker-compose.yml
+.env

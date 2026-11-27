@@ -1,0 +1,452 @@
+{
+  "@context": {
+    "gate": "https://w3id.org/intend/extensions/gate#",
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "gate:defaultValue",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: defaultValue, kept as a raw string exactly as given (e.g. \"False\", \"1\", \"[]\") — not parsed/typed per gate:dataType, since some default strings are not valid literals of their own stated type as a plain string (e.g. \"[]\" for dataType \"list\").",
+      "rdfs:domain": {
+        "@id": "gate:Parameter"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "default value"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:hasRequiredParameter",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "A parameter that must be supplied with no built-in default — verified against the source: 0 of 55 required-tier parameter occurrences carry a gate:defaultValue.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has required parameter"
+      },
+      "rdfs:range": {
+        "@id": "gate:Parameter"
+      }
+    },
+    {
+      "@id": "gate:limitsMemorySpec",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: limitsMemory, verbatim Kubernetes resource-quantity string (e.g. \"4Gi\").",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "limits memory (raw)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:requestsMemorySpec",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: requestsMemory, verbatim Kubernetes resource-quantity string (e.g. \"512Mi\").",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "requests memory (raw)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:chartVersion",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: hasVersion (the Helm chart's own version — distinct from gate:appVersion, the version of the application it packages, which may differ in general even though both happen to read \"0.1.0\" for every microservice in this dataset).",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "chart version"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:keyword",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: hasKeyword. Multi-valued.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "keyword"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:topicName",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "The full dotted Kafka topic name as given by the source, e.g. \"city_lab.paradise_mall_sofia.lidar.object_speeds\".",
+      "rdfs:domain": {
+        "@id": "gate:KafkaTopic"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "topic name"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:dataType",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Source: dataType. Verbatim Python type-annotation string as\nrecorded by the source (e.g. \"str\", \"int\", \"bool\", \"list\",\n\"Union[int, NoneType]\") — NOT an XSD datatype IRI, kept as a free-text string\nrather than force-mapped onto xsd: types that would not faithfully represent\nvalues like \"Union[int, NoneType]\"."
+      },
+      "rdfs:domain": {
+        "@id": "gate:Parameter"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "data type"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:Parameter",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "A single configuration parameter of a Microservice, in one of\nthree tiers (gate:hasRequiredParameter / gate:hasOptionalParameter /\ngate:hasFrozenParameter — mirrored 1:1 from the source's own three predicates\nrather than collapsed into one generic property plus a tier flag, since the\nsource already draws this distinction cleanly). Scoped to its owning Microservice\n(examples/gate-microservices-data.ttl uses one Parameter individual per\n(microservice, parameter name) pair — the same parameter name legitimately\nrecurs across many microservices, e.g. KAFKA_DEST_BOOTSTRAP_SERVER appears,\nseparately, in all 16)."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Parameter"
+      },
+      "rdfs:subClassOf": {
+        "@id": "prov:Entity"
+      }
+    },
+    {
+      "@id": "gate:parameterName",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: name (a Parameter blank node's own name property in the source JSON-LD; not reused as intend:name since gate:Parameter is not an intend:Application).",
+      "rdfs:domain": {
+        "@id": "gate:Parameter"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "parameter name"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:imageTag",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: hasImageTag. Constant (\"latest\") across all 16 microservices in the source data.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "image tag"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:hasFrozenParameter",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "A parameter fixed to a default value not meant to be overridden by the deployer — verified against the source: 65 of 65 frozen-tier parameter occurrences carry a gate:defaultValue.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has frozen parameter"
+      },
+      "rdfs:range": {
+        "@id": "gate:Parameter"
+      }
+    },
+    {
+      "@id": "gate:limitsMemoryMiB",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "gate:limitsMemorySpec normalized to mebibytes, same rule as gate:requestsMemoryMiB.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "limits memory (MiB)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "gate:appVersion",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: hasAppVersion.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "application version"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:chartType",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: hasChartType. Constant (\"application\") across all 16 microservices in the source data; non-discriminating, kept for fidelity.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "chart type"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:hasOptionalParameter",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "A parameter the deployer may override; usually (80 of 99 occurrences) carries a gate:defaultValue, but not always — some optional parameters have no stated default in the source.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has optional parameter"
+      },
+      "rdfs:range": {
+        "@id": "gate:Parameter"
+      }
+    },
+    {
+      "@id": "gate:requestsCpuCores",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: requestsCPU, in Kubernetes CPU-core units.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "requests CPU (cores)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "gate:chartRepository",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Source: hasRepository. Present in exactly 8 of 16\nmicroservices in the source data, always the same value when present\n(\"oci://registry.gate-ai.eu/intend-charts\") — verified programmatically to\ncorrelate exactly with \"is the target of at least one other microservice's\ndependsOn\" (i.e. non-terminal pipeline stages get it, terminal/leaf alert\nservices don't). Kept as an observed correlation, not asserted as a modeling\nrule — see examples/gate-microservices-data.ttl header."
+      },
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "chart repository"
+      },
+      "rdfs:range": {
+        "@id": "xsd:anyURI"
+      }
+    },
+    {
+      "@id": "gate:limitsCpuCores",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: limitsCPU, in Kubernetes CPU-core units.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "limits CPU (cores)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "gate:imageName",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: usesImage. Distinct per microservice.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "image name"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:description",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Source: description. Multi-valued in the source for many\nparameters (up to 6 distinct description strings on a single Parameter\noccurrence) — same-named parameters recur across many microservices, and the\nsource appears to merge each recurrence's own description text into every\noccurrence of that name rather than keeping one description per (microservice,\nparameter) pair. Kept exactly as given: every description string is preserved,\nnone dropped or arbitrarily chosen as \"the\" description, and none disambiguated\nby microservice since there is no reliable way to do so from the data\nalone."
+      },
+      "rdfs:domain": {
+        "@id": "gate:Parameter"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "description"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:maintainer",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: hasMaintainer. Constant (\"GATE Institute\") across all 16 microservices in the source data.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "maintainer"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "gate:Microservice",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "A containerized, independently deployable processing unit in the\nGATE LiDAR/traffic-analytics pipeline, packaged as a Helm chart. Aligned as an\nintend:Application (development/deployment/execution lifecycle, Section 5.1.4) —\nthis lets gate:Microservice reuse intend:name, intend:description and\nintend:dependsOn directly, safely, with no domain-pollution risk (see the\nextension header note and extensions/intend-telenor-extension.ttl for the\ncontrasting case where direct reuse is NOT safe)."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Microservice"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:Application"
+      }
+    },
+    {
+      "@id": "gate:producesToTopic",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "produces to topic"
+      },
+      "rdfs:range": {
+        "@id": "gate:KafkaTopic"
+      }
+    },
+    {
+      "@id": "gate:consumesFromTopic",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "consumes from topic"
+      },
+      "rdfs:range": {
+        "@id": "gate:KafkaTopic"
+      }
+    },
+    {
+      "@id": "gate:requestsMemoryMiB",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "gate:requestsMemorySpec normalized to mebibytes (Mi as-is, Gi *1024 — the only two suffixes present in the source data) for numeric comparison/sorting.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "requests memory (MiB)"
+      },
+      "rdfs:range": {
+        "@id": "xsd:decimal"
+      }
+    },
+    {
+      "@id": "gate:KafkaTopic",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "A named Kafka topic connecting producer and consumer\nMicroservices — promoted from the source's plain string literals\n(consumesFromTopic/producesToTopic) to a first-class individual so the\nproducer/consumer dataflow graph is queryable (e.g. \"which topics have no\nproducer\", queries/13-gate-topic-flow-anomalies.rq) rather than only readable off\ntwo string-valued property lists. Given a light alignment to prov:Entity, the same\nchoice made for telenor:NetworkLink."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Kafka Topic"
+      },
+      "rdfs:subClassOf": {
+        "@id": "prov:Entity"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/extensions/gate",
+      "@type": "owl:Ontology",
+      "owl:imports": {
+        "@id": "https://w3id.org/intend/ontology"
+      },
+      "owl:versionInfo": "0.1.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - GATE microservices domain extension"
+      }
+    },
+    {
+      "@id": "gate:imageRepository",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "Source: hasImageRepository. Constant across all 16 microservices in the source data.",
+      "rdfs:domain": {
+        "@id": "gate:Microservice"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "image repository"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    }
+  ]
+}

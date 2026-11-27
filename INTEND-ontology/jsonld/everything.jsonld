@@ -1,0 +1,35 @@
+{
+  "@context": {
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@id": "https://w3id.org/intend/everything",
+  "@type": "owl:Ontology",
+  "owl:imports": [
+    {
+      "@id": "https://w3id.org/intend/ontology"
+    },
+    {
+      "@id": "https://w3id.org/intend/extensions/fill"
+    },
+    {
+      "@id": "https://w3id.org/intend/examples/fill-data"
+    },
+    {
+      "@id": "https://w3id.org/intend/extensions/telenor"
+    },
+    {
+      "@id": "https://w3id.org/intend/examples/telenor-data"
+    },
+    {
+      "@id": "https://w3id.org/intend/extensions/gate"
+    },
+    {
+      "@id": "https://w3id.org/intend/examples/gate-data"
+    }
+  ],
+  "rdfs:label": {
+    "@language": "en",
+    "@value": "INTEND Ontology - everything (Protégé exploration bundle)"
+  }
+}

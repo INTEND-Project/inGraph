@@ -1,0 +1,225 @@
+{
+  "@context": {
+    "fill": "https://w3id.org/intend/extensions/fill#",
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "fill:compatibleWithMachineType",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Which machine types a Container can be deployed on (migrated from the real FILL KG's Container.canBeDeployedOn).",
+      "rdfs:domain": {
+        "@id": "fill:Container"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "compatible with machine type"
+      },
+      "rdfs:range": {
+        "@id": "fill:MachineType"
+      }
+    },
+    {
+      "@id": "fill:hasMachineType",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Links a specific customer-owned Machine unit to its catalog MachineType, determining which services/containers are available on it.",
+      "rdfs:domain": {
+        "@id": "fill:Machine"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has machine type"
+      },
+      "rdfs:range": {
+        "@id": "fill:MachineType"
+      }
+    },
+    {
+      "@id": "fill:runsOn",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Actual deployment of one Container instance onto one specific customer Machine unit (used for per-intent deployment tracking in examples/fill-instance-data.ttl). Contrast with fill:compatibleWithMachineType, which expresses catalog-level compatibility with a MachineType, not a concrete deployment.",
+      "rdfs:domain": {
+        "@id": "fill:Container"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "runs on"
+      },
+      "rdfs:range": {
+        "@id": "fill:Machine"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "intend:executesOn"
+      }
+    },
+    {
+      "@id": "fill:calls",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "fill:ProductComponent"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "calls"
+      },
+      "rdfs:range": {
+        "@id": "fill:Container"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "intend:dependsOn"
+      }
+    },
+    {
+      "@id": "fill:Service",
+      "@type": "owl:Class",
+      "rdfs:comment": "A FILL digital service (e.g. Prod Data, Machine State, Energy Tracker), offered on compatible machine types via fill:offersService.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Service"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:Application"
+      }
+    },
+    {
+      "@id": "fill:Container",
+      "@type": "owl:Class",
+      "rdfs:comment": "A deployable container belonging to a ProductComponent, compatible with specific machine types (fill:compatibleWithMachineType).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Container"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:Application"
+      }
+    },
+    {
+      "@id": "fill:owns",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Figure 6: user --owns--> machine.",
+      "rdfs:domain": {
+        "@id": "intend:User"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "owns"
+      },
+      "rdfs:range": {
+        "@id": "fill:Machine"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "intend:hasCustomerResource"
+      }
+    },
+    {
+      "@id": "fill:hasAvailableContainer",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Container instances confirmed available on this machine type (migrated\nfrom the real FILL KG's Machine.hasContainer). NOT fully derivable from\noffersService + requires + calls + compatibleWithMachineType alone —\nempirically verified (examples/fill-catalog-data.ttl header) that the\nsource includes additional containers beyond what that chain predicts for\nevery one of the 5 machine types, so this must be asserted directly\nrather than computed from the other four properties.",
+      "rdfs:domain": {
+        "@id": "fill:MachineType"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has available container"
+      },
+      "rdfs:range": {
+        "@id": "fill:Container"
+      }
+    },
+    {
+      "@id": "fill:requires",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "fill:Service"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "requires"
+      },
+      "rdfs:range": {
+        "@id": "fill:ProductComponent"
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "intend:dependsOn"
+      }
+    },
+    {
+      "@id": "fill:ipAddress",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "fill:Machine"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "IP address"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "fill:ProductComponent",
+      "@type": "owl:Class",
+      "rdfs:comment": "A component required by a Service (fill:requires) that in turn calls one or more Containers (fill:calls).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Product Component"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:Application"
+      }
+    },
+    {
+      "@id": "fill:MachineType",
+      "@type": "owl:Class",
+      "rdfs:comment": "A FILL machine model/type (Machine1..Machine5 in the real FILL catalog, examples/fill-catalog-data.ttl), characterized by which Services it offers (fill:offersService) and which Containers are available on it (fill:hasAvailableContainer). Catalog/reference data, not itself a hosted intend:Resource — a specific fill:Machine unit references its type via fill:hasMachineType.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Machine Type"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/extensions/fill",
+      "@type": "owl:Ontology",
+      "owl:imports": {
+        "@id": "https://w3id.org/intend/ontology"
+      },
+      "owl:versionInfo": "0.1.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - FILL domain extension"
+      }
+    },
+    {
+      "@id": "fill:Machine",
+      "@type": "owl:Class",
+      "rdfs:comment": "A specific industrial machine unit owned/managed by a FILL customer (Section 6.2: \"Customer resource: machines owned/managed by specific users\"; Figure 6). An individual, concrete piece of equipment (e.g. \"MA-01\") — contrast with fill:MachineType, its catalog model.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Machine"
+      },
+      "rdfs:subClassOf": {
+        "@id": "intend:CustomerResource"
+      }
+    },
+    {
+      "@id": "fill:offersService",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "Which Services a machine type supports (migrated from the real FILL KG's Machine.hasService).",
+      "rdfs:domain": {
+        "@id": "fill:MachineType"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "offers service"
+      },
+      "rdfs:range": {
+        "@id": "fill:Service"
+      }
+    }
+  ]
+}

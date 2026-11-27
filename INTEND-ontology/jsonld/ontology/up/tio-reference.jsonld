@@ -1,0 +1,94 @@
+{
+  "@context": {
+    "dcterms": "http://purl.org/dc/terms/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "tio": "https://w3id.org/intend/external/tio#"
+  },
+  "@graph": [
+    {
+      "@id": "tio:TargetReport",
+      "@type": "owl:Class",
+      "rdfs:comment": "Traces the resolution status of one Target. Reconstructed placeholder for tio:TargetReport.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Target Report"
+      }
+    },
+    {
+      "@id": "tio:ConditionReport",
+      "@type": "owl:Class",
+      "rdfs:comment": "Traces the satisfaction status of one Condition. Reconstructed placeholder for tio:ConditionReport.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Condition Report"
+      }
+    },
+    {
+      "@id": "tio:Expectation",
+      "@type": "owl:Class",
+      "rdfs:comment": "A desired outcome or state that should be achieved by an Intent. Reconstructed placeholder for tio:Expectation.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Expectation"
+      }
+    },
+    {
+      "@id": "tio:IntentManager",
+      "@type": "owl:Class",
+      "rdfs:comment": "An entity that can act as owner (generator) or handler (receiver/processor) of an Intent. Reconstructed placeholder for the TIO intent-management role concept.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent Manager"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/external/tio",
+      "@type": "owl:Ontology",
+      "dcterms:description": "Minimal best-effort reconstruction of the TM Forum Intent Ontology (TIO, TR292 v3.6.0) terms referenced by the INTEND ontology. Not affiliated with or endorsed by TM Forum. Replace with the official TIO distribution when available.",
+      "dcterms:source": "https://www.tmforum.org/resources/introductory-guide/tr292-tm-forum-intent-ontology-tio-v3-6-0/",
+      "owl:versionInfo": "0.1.0-stub",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "TIO reference stub (unofficial, local reconstruction)"
+      }
+    },
+    {
+      "@id": "tio:Target",
+      "@type": "owl:Class",
+      "rdfs:comment": "The subject(s) an Intent (or one of its Expectations) applies to. Reconstructed placeholder for tio:Target.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Target"
+      }
+    },
+    {
+      "@id": "tio:ExpectationReport",
+      "@type": "owl:Class",
+      "rdfs:comment": "Traces the fulfillment status of one Expectation. Reconstructed placeholder for tio:ExpectationReport.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Expectation Report"
+      }
+    },
+    {
+      "@id": "tio:Condition",
+      "@type": "owl:Class",
+      "rdfs:comment": "A constraint that scopes when/how an Intent (or one of its Expectations) must be fulfilled. Reconstructed placeholder for tio:Condition.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Condition"
+      }
+    },
+    {
+      "@id": "tio:Intent",
+      "@type": "owl:Class",
+      "rdfs:comment": "A statement expressing expectations, including requirements, goals and constraints, without specifying how to achieve them. Reconstructed placeholder for tio:Intent as used by TR292.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent"
+      }
+    }
+  ]
+}

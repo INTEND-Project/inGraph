@@ -1,0 +1,16 @@
+# Traceability (Section 5.1.1: "tracking across intent hierarchies and...
+# attribution of responsibility"): full owner/handler resolution chain
+# for Intent 1 (Figure 7's worked example — raw NL -> chatbot-clarified
+# -> adapter-resolved system intent).
+PREFIX intend: <https://w3id.org/intend/ontology#>
+PREFIX data:   <https://w3id.org/intend/examples/fill-data#>
+
+SELECT ?tierLabel ?owner ?handler WHERE {
+    VALUES (?tier ?tierLabel) {
+        (data:intent1 "tier 1 (raw NL)")
+        (data:intent2 "tier 2 (chatbot-clarified)")
+        (data:intent3 "tier 3 (adapter-resolved)")
+    }
+    ?owner intend:generates ?tier .
+    OPTIONAL { ?tier intend:isSentTo ?handler }
+}

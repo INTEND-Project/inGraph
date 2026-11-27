@@ -1,0 +1,54 @@
+@prefix intend: <https://w3id.org/intend/ontology#> .
+@prefix gate:   <https://w3id.org/intend/extensions/gate#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  SHACL shapes — GATE microservices domain extension
+#################################################################
+
+gate:MicroserviceShape a sh:NodeShape ;
+    sh:targetClass gate:Microservice ;
+    sh:property [ sh:path intend:name ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:description ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path intend:dependsOn ; sh:class intend:Application ; sh:minCount 0 ] ;
+    sh:property [ sh:path gate:chartVersion ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:appVersion ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:chartType ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:keyword ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+    sh:property [ sh:path gate:maintainer ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path gate:chartRepository ; sh:datatype xsd:anyURI ; sh:minCount 0 ; sh:maxCount 1 ;
+        sh:message "Absent for microservices that are not the dependsOn target of any other microservice in the source — see extensions/intend-gate-extension.ttl." ;
+    ] ;
+    sh:property [ sh:path gate:imageRepository ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:imageName ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:imageTag ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:requestsCpuCores ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path gate:limitsCpuCores ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path gate:requestsMemorySpec ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:limitsMemorySpec ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:requestsMemoryMiB ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path gate:limitsMemoryMiB ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ] ;
+    sh:property [ sh:path gate:producesToTopic ; sh:class gate:KafkaTopic ; sh:minCount 0 ] ;
+    sh:property [ sh:path gate:consumesFromTopic ; sh:class gate:KafkaTopic ; sh:minCount 0 ] ;
+    sh:property [ sh:path gate:hasRequiredParameter ; sh:class gate:Parameter ; sh:minCount 0 ] ;
+    sh:property [ sh:path gate:hasOptionalParameter ; sh:class gate:Parameter ; sh:minCount 0 ] ;
+    sh:property [ sh:path gate:hasFrozenParameter ; sh:class gate:Parameter ; sh:minCount 0 ] .
+
+gate:KafkaTopicShape a sh:NodeShape ;
+    sh:targetClass gate:KafkaTopic ;
+    sh:property [ sh:path gate:topicName ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+gate:ParameterShape a sh:NodeShape ;
+    sh:targetClass gate:Parameter ;
+    sh:property [ sh:path gate:parameterName ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gate:dataType ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path gate:description ; sh:datatype xsd:string ; sh:minCount 1 ;
+        sh:message "Multi-valued in the source for parameters whose name recurs across several microservices — see extensions/intend-gate-extension.ttl." ;
+    ] ;
+    sh:property [
+        sh:path gate:defaultValue ; sh:datatype xsd:string ; sh:minCount 0 ; sh:maxCount 1 ;
+        sh:message "Absent for required-tier parameters (0/55 in the source have one) and for some optional-tier parameters; always present for frozen-tier parameters (65/65 in the source)." ;
+    ] .
