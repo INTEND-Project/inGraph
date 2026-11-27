@@ -22,9 +22,10 @@ gui/inGraph/
 ├── templates/index.html          web interface markup
 ├── static/css/style.css          web interface styling
 ├── static/js/app.js              web interface logic (repository browser, SPARQL editor, D3 graph, ontology panel)
-├── InGraphInChatComunication.py  standalone script syncing individual KG elements to the
-│                                 external Onlim/Semantify platform for inChat (unrelated
-│                                 to inGraphApp.py / GraphDB — separate integration)
+├── inchat_sync.py                sends a KG to inChat's knowledge graph (Onlim), node by node —
+│                                 used by the /inchat/* endpoints (see API.md, "inChat sync")
+├── InGraphInChatComunication.py  the same inChat sync from the command line
+├── config.example.py             template for config.py (inChat credentials, gitignored)
 ├── createRepoScript.py, createRepoAndUpload.py, uploadScript.py   example scripts using the API
 ├── test_api.py                   scripted smoke test against a running instance
 ├── KG/                           knowledge graphs built from the Telenor/FILL/GATE use cases
@@ -136,6 +137,10 @@ Repository** has anywhere to send a file to.
 | **GET** | **`/ontology/status`** | **Check whether an ontology is currently loaded, and basic stats** |
 | **DELETE** | **`/ontology`** | **Clear the loaded ontology** |
 | **POST** | **`/validate`** | **Check a KG file against the loaded ontology without uploading it anywhere (dry run)** |
+| GET | `/inchat/status` | Is the inChat sync configured (credentials set), recent sync jobs |
+| POST | `/inchat/sync` | Send a KG file to inChat, node by node with a 10 s pause (background job; `dry_run=true` to preview) |
+| GET | `/inchat/sync/<job_id>` | Progress of an inChat sync job |
+| DELETE | `/inchat/sync/<job_id>` | Stop an inChat sync job |
 | GET | `/examples` | This same set of examples, as JSON |
 
 ### Upload a KG

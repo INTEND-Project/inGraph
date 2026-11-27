@@ -9,6 +9,8 @@ from rdflib import Graph
 from rdflib.namespace import RDF, Namespace
 from pyshacl import validate as shacl_validate
 
+import inchat_sync
+
 app = Flask(__name__)
 
 # Configuration
@@ -422,6 +424,116 @@ def validate_kg():
         logger.error(f"Validation failed: {str(e)}")
         return jsonify({"error": f"Validation failed: {str(e)}"}), 500
 
+
+# --- inChat sync ---------------------------------------------------------
+#
+# Pushes a KG file to inChat's knowledge graph on the Onlim platform, node by
+# node (DELETE + import, then a fixed 10 s pause), as a background job. The
+# logic lives in inchat_sync.py; credentials come from INCHAT_* environment
+# variables or a gitignored config.py, and without them nothing is sent.
+inchat_jobs = inchat_sync.JobManager()
+
+INCHAT_NOT_CONFIGURED_HINT = ("Set INCHAT_API_KEY, INCHAT_PUBLISHER and INCHAT_DATASOURCE "
+                              "(environment or .env), or create config.py from config.example.py.")
+
+
+@app.route('/inchat/status', methods=['GET'])
+def inchat_status():
+    """Whether the inChat sync is configured (never returns the credentials
+    themselves), the fixed delay, and the recent sync jobs."""
+    config, missing, sources = inchat_sync.load_config()
+    return jsonify({
+        "configured": not missing,
+        "missing": missing,
+        "sources": sources,
+        "api_base_url": config["api_base_url"],
+        "delay_seconds": inchat_sync.DELAY_SECONDS,
+        "active_job": inchat_jobs.active_job_id(),
+        "jobs": inchat_jobs.summaries(),
+    }), 200
+
+
+@app.route('/inchat/sync', methods=['POST'])
+def inchat_sync_start():
+    """Send a JSON-LD KG file to inChat. With dry_run=true, nothing is sent:
+    the response lists what would be sent. Otherwise a background job starts
+    and 202 points at /inchat/sync/<job_id> for its progress."""
+    if 'file' not in request.files or not request.files['file'].filename:
+        return jsonify({"error": "No file provided"}), 400
+    file = request.files['file']
+    if file.filename.rsplit('.', 1)[-1].lower() not in ('jsonld', 'json'):
+        return jsonify({"error": "File type not allowed. Use: jsonld, json"}), 400
+    dry_run = request.form.get('dry_run', 'false').strip().lower() in ('1', 'true', 'yes', 'on')
+
+    try:
+        data = json.loads(file.read().decode('utf-8'))
+        elements, skipped = inchat_sync.prepare_elements(data)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return jsonify({"error": "Invalid JSON format"}), 400
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    if not elements:
+        return jsonify({"error": "No node with an @id found in the file: nothing to send",
+                        "skipped": skipped}), 400
+
+    config, missing, _ = inchat_sync.load_config()
+    estimated_seconds = (len(elements) - 1) * inchat_sync.DELAY_SECONDS
+
+    if dry_run:
+        return jsonify({
+            "dry_run": True,
+            "configured": not missing,
+            "missing": missing,
+            "filename": file.filename,
+            "total_elements": len(elements),
+            "skipped": skipped,
+            "delay_seconds": inchat_sync.DELAY_SECONDS,
+            "estimated_seconds": estimated_seconds,
+            "import_url": inchat_sync.import_url(config),
+            "elements": [{"id": el["id"], "delete_url": inchat_sync.delete_url(config, el)} for el in elements],
+            "sample_payload": elements[0]["payload"],
+            "status": "success",
+        }), 200
+
+    if missing:
+        return jsonify({
+            "error": "inChat sync is not configured, nothing was sent. " + INCHAT_NOT_CONFIGURED_HINT,
+            "missing": missing,
+        }), 503
+
+    try:
+        job = inchat_jobs.start(file.filename, elements, skipped, config)
+    except inchat_sync.JobAlreadyRunning as e:
+        return jsonify({"error": str(e), "active_job": e.job_id,
+                        "status_url": f"/inchat/sync/{e.job_id}"}), 409
+
+    body = job.to_dict()
+    body.update({"status_url": f"/inchat/sync/{job.id}", "estimated_seconds": estimated_seconds,
+                 "message": "inChat sync started"})
+    return jsonify(body), 202, {"Location": f"/inchat/sync/{job.id}"}
+
+
+@app.route('/inchat/sync/<job_id>', methods=['GET'])
+def inchat_sync_job(job_id: str):
+    """Progress and per-element errors of a sync job."""
+    job = inchat_jobs.get(job_id)
+    if not job:
+        return jsonify({"error": f"No sync job '{job_id}' (jobs are kept in memory and lost on restart)"}), 404
+    return jsonify(job.to_dict()), 200
+
+
+@app.route('/inchat/sync/<job_id>', methods=['DELETE'])
+def inchat_sync_cancel(job_id: str):
+    """Stop a running job after the element in progress. Elements already
+    sent stay in inChat."""
+    job = inchat_jobs.get(job_id)
+    if not job:
+        return jsonify({"error": f"No sync job '{job_id}' (jobs are kept in memory and lost on restart)"}), 404
+    if not job.active:
+        return jsonify({"error": f"Job '{job_id}' is not running (state: {job.state})"}), 409
+    job.cancel()
+    return jsonify(job.to_dict()), 202
+
 @app.route('/query', methods=['POST'])
 def execute_sparql_query():
     """Execute SPARQL SELECT/ASK/CONSTRUCT/DESCRIBE query"""
@@ -790,8 +902,14 @@ if __name__ == '__main__':
     print("  GET  /ontology/status     - Check whether an ontology is loaded")
     print("  DELETE /ontology          - Clear the loaded ontology")
     print("  POST /validate            - Check a KG against the loaded ontology (dry run)")
+    print("  GET  /inchat/status       - Is the inChat sync configured, recent sync jobs")
+    print("  POST /inchat/sync         - Send a KG file to inChat (background job; dry_run=true to preview)")
+    print("  GET  /inchat/sync/<id>    - Progress of a sync job")
+    print("  DELETE /inchat/sync/<id>  - Stop a sync job")
     print("  GET  /examples            - API usage examples")
     print(f"\n📦 Ontology store: {'loaded (' + str(len(_ontology_meta['ontology_files'])) + ' ontology + ' + str(len(_ontology_meta['shapes_files'])) + ' shapes files)' if _ontology_meta['loaded'] else 'empty -- POST /ontology/load to enable validation'}")
+    _inchat_missing = inchat_sync.load_config()[1]
+    print(f"💬 inChat sync: {'configured' if not _inchat_missing else 'NOT configured (missing ' + ', '.join(_inchat_missing) + ') -- /inchat/sync will refuse to send'}")
     print("\n✨ Open http://localhost:5000 in your browser to start visualizing!")
 
     app.run(debug=True, host='0.0.0.0', port=5000)

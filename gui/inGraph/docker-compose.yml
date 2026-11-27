@@ -50,6 +50,12 @@ services:
       - GRAPHDB_BASE_URL=http://graphdb:7200
       - FLASK_HOST=0.0.0.0
       - FLASK_PORT=5000
+      # inChat (Onlim) credentials for POST /inchat/sync, from a .env file next
+      # to this one (gitignored). Empty = not configured: nothing is sent.
+      # A config.py in this directory works too (it is bind-mounted below).
+      - INCHAT_API_KEY=${INCHAT_API_KEY:-}
+      - INCHAT_PUBLISHER=${INCHAT_PUBLISHER:-}
+      - INCHAT_DATASOURCE=${INCHAT_DATASOURCE:-}
     volumes:
       # Mount source code for hot reloading during development
       - .:/app

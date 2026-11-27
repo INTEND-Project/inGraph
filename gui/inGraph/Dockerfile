@@ -40,7 +40,7 @@ CMD ["python", "inGraphApp.py"]
 FROM base as production
 
 # Copy only necessary files for production
-COPY inGraphApp.py .
+COPY inGraphApp.py inchat_sync.py ./
 COPY static/ ./static/
 COPY templates/ ./templates/
 COPY KG/ ./KG/

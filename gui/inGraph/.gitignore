@@ -10,3 +10,6 @@ venv/
 
 uploads/
 ontology_store/
+
+# inChat credentials: config.py above; a .env file next to docker-compose.yml
+.env

@@ -10,14 +10,19 @@ info:
     Conventions:
     - **Requests are form fields** (`multipart/form-data`, or `application/x-www-form-urlencoded`
       where no file is sent). JSON request bodies are ignored.
-    - **Errors** are `{"error": "<message>"}`. Errors that come from GraphDB (unknown repository,
-      rejected data or query, repository already exists) are returned as `500`.
+    - **Errors** are `{"error": "<message>"}`. Errors that come from GraphDB are returned as `500`; the
+      message names the operation, GraphDB's status and the URL called, e.g.
+      `Upload failed: 404 Client Error:  for url: http://graphdb:7200/repositories/X/statements`.
+      GraphDB status 404 = unknown repository; 400 = invalid JSON-LD / SPARQL syntax error / repository
+      already exists; 406 = `format` not available for this query type; no status = GraphDB unreachable.
+    - A wrong HTTP method returns `405` with Flask's HTML page (not JSON).
     - **Accepted file extensions** for every file field: `.jsonld`, `.json`, `.sparql`, `.rq`.
     - **Max request size**: 16 MB (`413` above that).
     - `repository` defaults to `second-graph` on `/upload`, `/query` and `/update`: always pass it.
     - **No authentication** and **no CORS headers**.
 
-    Human-readable reference: `API.md`. Source of truth: `inGraphApp.py`.
+    Human-readable reference: `API.md`. Source of truth: `inGraphApp.py`. Status codes, bodies and
+    counts were checked against a running instance (Docker dev stack, GraphDB 10.6.2) on 2026-11-27.
   license:
     name: MIT
 servers:
@@ -33,6 +38,13 @@ tags:
     description: Upload JSON-LD, run SPARQL queries and updates
   - name: Ontology
     description: Load the ontology used for SHACL validation, validate KGs
+  - name: inChat
+    description: |
+      Send a KG file to inChat's knowledge graph (Onlim), node by node: DELETE the node, import it
+      again with the file's @context, then wait 10 seconds (fixed). Runs as a background job, one at
+      a time, kept in memory only (lost on restart). Nothing is sent unless INCHAT_API_KEY,
+      INCHAT_PUBLISHER and INCHAT_DATASOURCE are set (environment / .env, or API_KEY / PUBLISHER /
+      DATASOURCE in a gitignored config.py). Blank nodes are embedded into the node that references them.
 
 paths:
   /:
@@ -64,14 +76,24 @@ paths:
                 status: healthy
                 graphdb: connected
         '503':
-          description: GraphDB unreachable or not answering
+          description: |
+            GraphDB unreachable or answering with an error. /ontology/*, /validate and /inchat/* keep
+            working meanwhile; the endpoints that call GraphDB answer 500.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Health'
-              example:
-                status: unhealthy
-                graphdb: disconnected
+              examples:
+                unreachable:
+                  summary: GraphDB container stopped / wrong address
+                  value:
+                    status: unhealthy
+                    error: "HTTPConnectionPool(host='graphdb', port=7200): Max retries exceeded with url: /rest/repositories (Caused by NameResolutionError(...))"
+                error:
+                  summary: GraphDB reachable but answering with an error
+                  value:
+                    status: unhealthy
+                    graphdb: disconnected
 
   /examples:
     get:
@@ -115,6 +137,9 @@ paths:
     get:
       tags: [Repositories]
       summary: List repositories whose state is RUNNING
+      description: |
+        A repository that was just created is INACTIVE until its first use (a query, an upload,
+        /size), so it is not listed here yet. GET /repositories lists every repository.
       operationId: listActiveRepositories
       responses:
         '200':
@@ -132,9 +157,12 @@ paths:
       summary: Create a GraphDB repository
       description: |
         Other settings are fixed by the app: file repository, owl:sameAs disabled,
-        predicate/literal/context indexes enabled, not read-only. With a reasoning ruleset,
-        GraphDB pre-seeds a small set of axiomatic triples, so `COUNT(*)` on a fresh repository
-        is not 0; use `ruleset=empty` for counts that match your files exactly.
+        predicate/literal/context indexes enabled, not read-only.
+
+        With a reasoning ruleset GraphDB adds triples of its own: a fresh `rdfsplus-optimized`
+        repository gives `COUNT(*)` = 70 (axiomatic) while /size says 0, and after uploading the FILL
+        file (872 triples) `COUNT(*)` is 1044 (triples inferred from the data). Use `ruleset=empty`
+        for counts that match your files exactly. The new repository is INACTIVE until first used.
       operationId: createRepository
       requestBody:
         required: true
@@ -161,7 +189,13 @@ paths:
               example:
                 error: Repository ID is required
         '500':
-          $ref: '#/components/responses/ServerError'
+          description: GraphDB refused, e.g. the repository already exists (GraphDB 400)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: 'Failed to create repository: 400 Client Error:  for url: http://graphdb:7200/rest/repositories'
 
   /repository/{name}/info:
     get:
@@ -193,9 +227,9 @@ paths:
       tags: [Repositories]
       summary: Number of triples in a repository
       description: |
-        Comes from GraphDB's `/size` endpoint, which can lag a few seconds behind a write.
-        For an exact count right after an upload, use `/query` with
-        `SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }`.
+        Comes from GraphDB's `/size` endpoint: explicit triples only (what was uploaded or inserted),
+        not the ones the ruleset infers. For the total including inferred triples use `/query` with
+        `SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }`. An unknown repository gives 500 (GraphDB 404).
       operationId: getRepositorySize
       parameters:
         - $ref: '#/components/parameters/RepositoryName'
@@ -213,7 +247,10 @@ paths:
     delete:
       tags: [Repositories]
       summary: Delete all triples in a repository (not reversible)
-      description: Runs `DELETE { ?s ?p ?o } WHERE { ?s ?p ?o }`. The repository itself is kept.
+      description: |
+        Runs `DELETE { ?s ?p ?o } WHERE { ?s ?p ?o }`, which also empties named graphs. The repository
+        itself is kept: there is no inGraph endpoint to delete a repository (use GraphDB's
+        `DELETE /rest/repositories/{name}` or the Workbench). Unknown repository: 500 (GraphDB 404).
       operationId: clearRepository
       parameters:
         - $ref: '#/components/parameters/RepositoryName'
@@ -233,6 +270,7 @@ paths:
       summary: Upload a JSON-LD file to a repository
       description: |
         Adds the file's triples to the repository's default graph; existing data is kept.
+        Accepts `{"@context", "@graph"}` documents and bare arrays of nodes; non-ASCII text is kept.
         If an ontology is loaded, the file is also SHACL-validated and the report is attached
         as `validation`. Validation is informational only: a non-conforming file is still uploaded.
       operationId: uploadJsonld
@@ -259,8 +297,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadResponse'
+              examples:
+                validated:
+                  summary: Ontology loaded (core + FILL shapes), empty-ruleset repository
+                  value:
+                    message: File uploaded successfully
+                    repository: FILL
+                    filename: fill-merged-data.jsonld
+                    total_triples: '872'
+                    status: success
+                    validation:
+                      conforms: true
+                      violation_count: 0
+                      violations: []
+                      report_text: "Validation Report\nConforms: True\n..."
+                skipped:
+                  summary: No ontology loaded
+                  value:
+                    message: File uploaded successfully
+                    repository: FILL
+                    filename: fill-merged-data.jsonld
+                    total_triples: '872'
+                    status: success
+                    validation:
+                      skipped: No ontology loaded. POST to /ontology/load to enable validation.
         '400':
-          description: No file, wrong extension, or not valid JSON
+          description: |
+            No file, wrong extension, or not valid JSON (also a .rq/.sparql file, which passes the
+            extension check but is not JSON)
           content:
             application/json:
               schema:
@@ -270,7 +334,15 @@ paths:
         '413':
           $ref: '#/components/responses/TooLarge'
         '500':
-          $ref: '#/components/responses/ServerError'
+          description: |
+            GraphDB refused: valid JSON but invalid JSON-LD (GraphDB 400), or unknown repository
+            (GraphDB 404; omitting `repository` gives this on `second-graph`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: 'Upload failed: 404 Client Error:  for url: http://graphdb:7200/repositories/second-graph/statements'
 
   /query:
     post:
@@ -279,10 +351,14 @@ paths:
       description: |
         Send the query as a `.sparql`/`.rq` file (`file`) or as text (`query`); `file` wins if both are sent.
 
-        With `format=json` (default) the response wraps GraphDB's SPARQL JSON results.
+        With `format=json` (default) the response wraps GraphDB's SPARQL JSON results; for ASK,
+        `results` is `{"head": {}, "boolean": true}`.
         Any other `format` returns GraphDB's raw output with the matching Content-Type.
-        `json`, `xml`, `csv` are SPARQL *result* formats (SELECT / ASK); use `turtle` or `rdf`
-        for CONSTRUCT / DESCRIBE.
+
+        Format and query type must match: `json`, `xml`, `csv` are for SELECT / ASK; `turtle`, `rdf`
+        for CONSTRUCT / DESCRIBE. A mismatch (e.g. a CONSTRUCT with the default `json`) fails with 500
+        and GraphDB status 406. An unrecognised `format` returns the raw SPARQL JSON results, not
+        wrapped, with Content-Type application/sparql-results+json.
       operationId: runQuery
       requestBody:
         required: true
@@ -300,6 +376,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QueryResponse'
+            application/sparql-results+json:
+              schema:
+                type: object
+                description: Raw (unwrapped) SPARQL JSON results, returned for an unrecognised `format` value
+                additionalProperties: true
             application/sparql-results+xml:
               schema:
                 type: string
@@ -313,7 +394,7 @@ paths:
               schema:
                 type: string
         '400':
-          description: No `file` and no `query`, or wrong file extension
+          description: No `file` and no `query` (a JSON request body is ignored, so it also gives this), or wrong file extension
           content:
             application/json:
               schema:
@@ -323,7 +404,20 @@ paths:
         '413':
           $ref: '#/components/responses/TooLarge'
         '500':
-          $ref: '#/components/responses/ServerError'
+          description: SPARQL syntax error (GraphDB 400), unknown repository (GraphDB 404), or format not matching the query type (GraphDB 406)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                syntax:
+                  summary: SPARQL syntax error
+                  value:
+                    error: 'Query execution failed: 400 Client Error:  for url: http://graphdb:7200/repositories/FILL'
+                format:
+                  summary: CONSTRUCT with format=json
+                  value:
+                    error: 'Query execution failed: 406 Client Error:  for url: http://graphdb:7200/repositories/FILL'
 
   /update:
     post:
@@ -406,6 +500,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error: 'One or more files are not valid JSON-LD, nothing was changed: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)'
         '413':
           $ref: '#/components/responses/TooLarge'
         '500':
@@ -450,6 +546,10 @@ paths:
       description: |
         Validates the file together with the loaded TBox, not the repository's content.
         Runs without RDFS inference, so data must state its rdf:types explicitly.
+
+        With all three domains' shapes loaded, each single-domain example KG gets a violation on the
+        other domains' fixed node (FILL: TelenorNordicContinuum; Telenor: FillContinuum; GATE: both).
+        With only the core + Telenor shapes, the Telenor file conforms.
       operationId: validateKg
       requestBody:
         required: true
@@ -476,6 +576,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error: 'Could not parse file as JSON-LD: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)'
         '409':
           description: No ontology loaded
           content:
@@ -488,6 +590,175 @@ paths:
           $ref: '#/components/responses/TooLarge'
         '500':
           $ref: '#/components/responses/ServerError'
+
+  /inchat/status:
+    get:
+      tags: [inChat]
+      summary: Is the inChat sync configured, and the recent sync jobs
+      description: Never returns the credentials themselves, only where each one came from.
+      operationId: getInchatStatus
+      responses:
+        '200':
+          description: Configuration state and recent jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InchatStatus'
+
+  /inchat/sync:
+    post:
+      tags: [inChat]
+      summary: Send a KG file to inChat (background job), or preview it with dry_run
+      description: |
+        With `dry_run=true` nothing is sent and no credentials are needed: the response lists every
+        node with the DELETE URL it would call, and the first import payload.
+        Otherwise a background job starts (202, `Location: /inchat/sync/{job_id}`), or 503 if the
+        credentials are not configured (nothing is sent or started).
+      operationId: startInchatSync
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'JSON-LD (.jsonld / .json): {"@context", "@graph"} document or array of nodes'
+                dry_run:
+                  type: boolean
+                  default: false
+                  description: true = send nothing, only show what would be sent
+      responses:
+        '200':
+          description: Dry run
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InchatDryRun'
+        '202':
+          description: Job started
+          headers:
+            Location:
+              description: /inchat/sync/{job_id}
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/InchatJob'
+                  - type: object
+                    properties:
+                      status_url:
+                        type: string
+                        example: /inchat/sync/e487360218a8
+                      estimated_seconds:
+                        type: integer
+                      message:
+                        type: string
+                        example: inChat sync started
+        '400':
+          description: No file, wrong extension, not valid JSON, not a JSON-LD object/array, or no node with an IRI
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                not_jsonld:
+                  summary: JSON that is not an object or array
+                  value:
+                    error: Expected a JSON-LD object or an array of nodes
+                no_iri:
+                  summary: No node with an IRI
+                  value:
+                    error: 'No node with an @id found in the file: nothing to send'
+                    skipped:
+                      - index: 0
+                        reason: 'node without an IRI that no other node references: it cannot be deleted before re-import, so it is not sent'
+        '409':
+          description: Another sync is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  active_job:
+                    type: string
+                  status_url:
+                    type: string
+        '413':
+          $ref: '#/components/responses/TooLarge'
+        '503':
+          description: Not configured, nothing was sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  missing:
+                    type: array
+                    items:
+                      type: string
+              example:
+                error: inChat sync is not configured, nothing was sent. Set INCHAT_API_KEY, INCHAT_PUBLISHER and INCHAT_DATASOURCE (environment or .env), or create config.py from config.example.py.
+                missing: [INCHAT_API_KEY, INCHAT_PUBLISHER, INCHAT_DATASOURCE]
+
+  /inchat/sync/{job_id}:
+    parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: e487360218a8
+    get:
+      tags: [inChat]
+      summary: Progress and per-node errors of a sync job
+      operationId: getInchatSyncJob
+      responses:
+        '200':
+          description: The job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InchatJob'
+        '404':
+          description: Unknown job (jobs are kept in memory and lost on restart)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags: [inChat]
+      summary: Stop a running sync job
+      description: The job stops after the node in progress. Nodes already sent stay in inChat.
+      operationId: cancelInchatSyncJob
+      responses:
+        '202':
+          description: Stop requested (state `cancelling`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InchatJob'
+        '404':
+          description: Unknown job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: The job is not running
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
   parameters:
@@ -549,23 +820,39 @@ components:
 
     GraphDBRepository:
       type: object
-      description: GraphDB's own repository record (fields as returned by GraphDB's /rest/repositories)
+      description: GraphDB's own repository record, passed through unchanged (GraphDB 10.6.2 fields)
       additionalProperties: true
       properties:
         id:
           type: string
+          example: FILL
         title:
-          type: string
-        uri:
-          type: string
-        type:
           type: string
         state:
           type: string
+          description: INACTIVE for a repository created and not used yet, RUNNING once used
           example: RUNNING
+        type:
+          type: string
+          example: graphdb
+        sesameType:
+          type: string
+          example: graphdb:SailRepository
+        uri:
+          type: string
+          example: http://graphdb:7200/repositories/FILL
+        externalUrl:
+          type: string
+          example: http://graphdb:7200/repositories/FILL
+        location:
+          type: string
+        local:
+          type: boolean
         readable:
           type: boolean
         writable:
+          type: boolean
+        unsupported:
           type: boolean
 
     RepositoryList:
@@ -688,8 +975,9 @@ components:
           type: string
           description: |
             Live COUNT(*) over the whole repository after the upload, returned as a string.
-            Includes earlier data and triples added by the ruleset.
-          example: '990'
+            Includes earlier data and triples added by the ruleset: the FILL file gives '872' in an
+            empty `ruleset=empty` repository and '1044' in a fresh `rdfsplus-optimized` one.
+          example: '872'
         status:
           type: string
           example: success
@@ -848,6 +1136,21 @@ components:
 
     ValidationReport:
       type: object
+      required: [conforms, violation_count, violations, report_text]
+      example:
+        conforms: false
+        violation_count: 1
+        violations:
+          - focusNode: https://w3id.org/intend/examples/fill-data#FillContinuum
+            resultPath: null
+            value: https://w3id.org/intend/examples/fill-data#FillContinuum
+            resultMessage: Value does not conform to Shape intend:ResourcePoolAggregateShape. See details for more information.
+            resultSeverity: http://www.w3.org/ns/shacl#Violation
+            sourceConstraintComponent: http://www.w3.org/ns/shacl#NodeConstraintComponent
+            sourceShape: nde8f8f5f996343278730c4d88b401c88b7
+            details:
+              - 'The Resource-layer aggregate must consist of at least one BusinessResource (Figure 2: cardinality 1..*).'
+        report_text: "Validation Report\nConforms: False\n..."
       properties:
         conforms:
           type: boolean
@@ -889,6 +1192,7 @@ components:
         sourceShape:
           type: string
           nullable: true
+          description: The shape's IRI, or an internal blank-node ID (changes from run to run) when the shape has none
         details:
           type: array
           description: Messages of nested sh:detail results explaining why a qualified constraint failed
@@ -910,3 +1214,189 @@ components:
         error:
           type: string
           example: 'Validation could not run: ...'
+
+    InchatStatus:
+      type: object
+      properties:
+        configured:
+          type: boolean
+        missing:
+          type: array
+          description: Environment variable names of the settings that are not set
+          items:
+            type: string
+          example: [INCHAT_API_KEY, INCHAT_PUBLISHER, INCHAT_DATASOURCE]
+        sources:
+          type: object
+          description: Where each setting that is set came from
+          additionalProperties:
+            type: string
+            enum: [env, config.py]
+        api_base_url:
+          type: string
+          example: https://proxy.onlim.com/api/ts/v1/kg/things
+        delay_seconds:
+          type: number
+          example: 10
+        active_job:
+          type: string
+          nullable: true
+        jobs:
+          type: array
+          description: Recent jobs, newest first
+          items:
+            type: object
+            properties:
+              job_id:
+                type: string
+              state:
+                $ref: '#/components/schemas/InchatJobState'
+              filename:
+                type: string
+              total_elements:
+                type: integer
+              processed:
+                type: integer
+              succeeded:
+                type: integer
+              failed:
+                type: integer
+              created_at:
+                type: string
+                format: date-time
+              finished_at:
+                type: string
+                format: date-time
+                nullable: true
+
+    InchatSkipped:
+      type: object
+      description: A node of the file that is not sent, with the reason
+      properties:
+        index:
+          type: integer
+          description: Position of the node in the file's @graph (or array)
+        id:
+          type: string
+        reason:
+          type: string
+
+    InchatDryRun:
+      type: object
+      properties:
+        dry_run:
+          type: boolean
+          example: true
+        configured:
+          type: boolean
+        missing:
+          type: array
+          items:
+            type: string
+        filename:
+          type: string
+        total_elements:
+          type: integer
+          example: 126
+        skipped:
+          type: array
+          items:
+            $ref: '#/components/schemas/InchatSkipped'
+        delay_seconds:
+          type: number
+          example: 10
+        estimated_seconds:
+          type: integer
+          example: 1250
+        import_url:
+          type: string
+          example: https://proxy.onlim.com/api/ts/v1/kg/things/imports
+        elements:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              delete_url:
+                type: string
+        sample_payload:
+          type: array
+          description: The first import request body (one node, with the file's @context)
+          items:
+            type: object
+            additionalProperties: true
+        status:
+          type: string
+          example: success
+
+    InchatJobState:
+      type: string
+      enum: [queued, running, cancelling, completed, cancelled, failed]
+      description: |
+        completed = every node processed (check `failed` / `errors`); cancelled = stopped on request;
+        failed = stopped by an error, see `error` (e.g. Onlim answered 401/403).
+
+    InchatJob:
+      type: object
+      properties:
+        job_id:
+          type: string
+        state:
+          $ref: '#/components/schemas/InchatJobState'
+        filename:
+          type: string
+        total_elements:
+          type: integer
+        processed:
+          type: integer
+        succeeded:
+          type: integer
+        failed:
+          type: integer
+        skipped:
+          type: array
+          items:
+            $ref: '#/components/schemas/InchatSkipped'
+        current_element:
+          type: string
+          nullable: true
+        delay_seconds:
+          type: number
+        estimated_remaining_seconds:
+          type: number
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        finished_at:
+          type: string
+          format: date-time
+          nullable: true
+        error:
+          type: string
+          nullable: true
+          description: Why the job stopped, when state is failed
+        errors:
+          type: array
+          description: One entry per node that failed
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              ok:
+                type: boolean
+              delete_status:
+                type: integer
+              delete_error:
+                type: string
+              import_status:
+                type: integer
+              import_error:
+                type: string
+              network_error:
+                type: string
