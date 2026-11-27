@@ -912,4 +912,11 @@ if __name__ == '__main__':
     print(f"💬 inChat sync: {'configured' if not _inchat_missing else 'NOT configured (missing ' + ', '.join(_inchat_missing) + ') -- /inchat/sync will refuse to send'}")
     print("\n✨ Open http://localhost:5000 in your browser to start visualizing!")
 
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # FLASK_DEBUG / FLASK_HOST / FLASK_PORT come from the environment (the
+    # Dockerfile's production stage sets FLASK_DEBUG=0). Without them, the
+    # defaults keep the old behaviour of `python inGraphApp.py`: debug on,
+    # all interfaces, port 5000. Never expose debug mode publicly: the
+    # Werkzeug debugger can run code.
+    debug = os.getenv("FLASK_DEBUG", "1").strip().lower() in ("1", "true", "yes", "on")
+    app.run(debug=debug, host=os.getenv("FLASK_HOST", "0.0.0.0"), port=int(os.getenv("FLASK_PORT", "5000")))
+    #    app.run(debug=True, host='0.0.0.0', port=5000)
