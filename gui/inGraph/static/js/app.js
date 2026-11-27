@@ -59,6 +59,8 @@ class KnowledgeGraphApp {
             this.uploadKg();
         });
 
+        this.setupFileDropZones();
+
         document.getElementById('executeQuery').addEventListener('click', () => {
             this.executeQuery();
         });
@@ -224,6 +226,173 @@ class KnowledgeGraphApp {
         }
     }
 
+    // =============================================
+    // FILE DROP ZONES (drag & drop or click to browse)
+    // The hidden <input type="file"> stays the source of truth: every change
+    // is written back to input.files, so the upload code just reads .files.
+    // =============================================
+    setupFileDropZones() {
+        this.fileSelections = {};
+
+        document.querySelectorAll('.file-drop-zone').forEach((zone) => {
+            const input = document.getElementById(zone.dataset.input);
+            this.fileSelections[input.id] = [];
+
+            zone.addEventListener('click', (e) => {
+                if (e.target.closest('button')) return; // remove / clear buttons
+                input.click();
+            });
+            zone.addEventListener('keydown', (e) => {
+                if (e.target === zone && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault();
+                    input.click();
+                }
+            });
+            input.addEventListener('change', () => {
+                this.addFilesToZone(input.id, Array.from(input.files));
+            });
+
+            ['dragenter', 'dragover'].forEach((type) => {
+                zone.addEventListener(type, (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'copy';
+                    zone.classList.add('dragover');
+                });
+            });
+            zone.addEventListener('dragleave', (e) => {
+                if (!zone.contains(e.relatedTarget)) zone.classList.remove('dragover');
+            });
+            zone.addEventListener('drop', async (e) => {
+                e.preventDefault();
+                zone.classList.remove('dragover');
+                const files = await this.filesFromDataTransfer(e.dataTransfer);
+                this.addFilesToZone(input.id, files);
+            });
+
+            this.renderDropZone(input.id);
+        });
+
+        // A file dropped outside a zone would make the browser navigate away
+        // to open it, losing the page state: swallow those drops.
+        const hasFiles = (e) => e.dataTransfer && Array.from(e.dataTransfer.types).includes('Files');
+        window.addEventListener('dragover', (e) => { if (hasFiles(e)) e.preventDefault(); });
+        window.addEventListener('drop', (e) => { if (hasFiles(e)) e.preventDefault(); });
+    }
+
+    // Expands dropped folders recursively, so e.g. the whole jsonld/shapes/
+    // folder can be dropped at once. Entries must be read synchronously in
+    // the drop handler, before the first await.
+    async filesFromDataTransfer(dataTransfer) {
+        const items = Array.from(dataTransfer.items || []).filter((item) => item.kind === 'file');
+        const entries = items.map((item) => (item.webkitGetAsEntry ? item.webkitGetAsEntry() : null));
+        if (entries.length === 0 || entries.some((entry) => !entry)) {
+            return Array.from(dataTransfer.files);
+        }
+
+        const files = [];
+        const walk = async (entry) => {
+            if (entry.isFile) {
+                files.push(await new Promise((resolve, reject) => entry.file(resolve, reject)));
+            } else if (entry.isDirectory) {
+                const reader = entry.createReader();
+                let batch;
+                do { // readEntries returns at most ~100 entries per call
+                    batch = await new Promise((resolve, reject) => reader.readEntries(resolve, reject));
+                    for (const child of batch) await walk(child);
+                } while (batch.length > 0);
+            }
+        };
+        for (const entry of entries) await walk(entry);
+        return files;
+    }
+
+    addFilesToZone(inputId, files) {
+        const input = document.getElementById(inputId);
+        const extensions = input.accept.split(',').map((ext) => ext.trim().toLowerCase()).filter(Boolean);
+        const accepted = files.filter((file) => {
+            const name = file.name.toLowerCase();
+            return !name.startsWith('.') && (extensions.length === 0 || extensions.some((ext) => name.endsWith(ext)));
+        });
+
+        if (files.length > 0 && accepted.length === 0) {
+            this.showError(`Only ${extensions.join(' / ')} files can be used here`);
+        }
+
+        let selection;
+        if (input.multiple) {
+            // Add to what is already selected; a file with the same name replaces the old one
+            const names = new Set(accepted.map((file) => file.name));
+            selection = this.fileSelections[inputId]
+                .filter((file) => !names.has(file.name))
+                .concat(accepted)
+                .sort((a, b) => a.name.localeCompare(b.name));
+        } else {
+            selection = accepted.length > 0 ? [accepted[0]] : this.fileSelections[inputId];
+        }
+        this.setZoneFiles(inputId, selection);
+    }
+
+    setZoneFiles(inputId, files) {
+        const input = document.getElementById(inputId);
+        this.fileSelections[inputId] = files;
+        const dataTransfer = new DataTransfer();
+        files.forEach((file) => dataTransfer.items.add(file));
+        input.files = dataTransfer.files;
+        this.renderDropZone(inputId);
+    }
+
+    renderDropZone(inputId) {
+        const input = document.getElementById(inputId);
+        const zone = document.querySelector(`.file-drop-zone[data-input="${inputId}"]`);
+        const files = this.fileSelections[inputId];
+        const text = zone.querySelector('.file-drop-text');
+        const list = zone.querySelector('.file-drop-list');
+
+        zone.classList.toggle('has-files', files.length > 0);
+        if (files.length === 0) {
+            text.innerHTML = input.multiple
+                ? 'Drag files or folders here, or <u>browse</u>'
+                : 'Drag a file here, or <u>browse</u>';
+        } else if (input.multiple) {
+            text.innerHTML = `${files.length} file${files.length === 1 ? '' : 's'} selected · drop or <u>browse</u> to add more`;
+        } else {
+            text.innerHTML = 'Drop another file or <u>browse</u> to replace it';
+        }
+
+        list.innerHTML = '';
+        files.forEach((file) => {
+            const li = document.createElement('li');
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-file-code';
+            const name = document.createElement('span');
+            name.className = 'file-drop-name';
+            name.textContent = file.name;
+            name.title = file.name;
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'file-drop-remove';
+            remove.setAttribute('aria-label', `Remove ${file.name}`);
+            remove.innerHTML = '<i class="fas fa-xmark"></i>';
+            remove.addEventListener('click', () => {
+                this.setZoneFiles(inputId, this.fileSelections[inputId].filter((f) => f !== file));
+            });
+            li.append(icon, name, remove);
+            list.appendChild(li);
+        });
+
+        if (files.length > 1) {
+            const li = document.createElement('li');
+            li.className = 'file-drop-clear-row';
+            const clear = document.createElement('button');
+            clear.type = 'button';
+            clear.className = 'file-drop-clear';
+            clear.textContent = 'Clear all';
+            clear.addEventListener('click', () => this.setZoneFiles(inputId, []));
+            li.appendChild(clear);
+            list.appendChild(li);
+        }
+    }
+
     async loadOntology() {
         const ontologyFiles = document.getElementById('ontologyFilesInput').files;
         const shapesFiles = document.getElementById('shapesFilesInput').files;
@@ -250,8 +419,8 @@ class KnowledgeGraphApp {
             const data = await response.json();
 
             if (response.ok) {
-                document.getElementById('ontologyFilesInput').value = '';
-                document.getElementById('shapesFilesInput').value = '';
+                this.setZoneFiles('ontologyFilesInput', []);
+                this.setZoneFiles('shapesFilesInput', []);
                 document.getElementById('validationReport').innerHTML = '';
                 await this.loadOntologyStatus();
             } else {

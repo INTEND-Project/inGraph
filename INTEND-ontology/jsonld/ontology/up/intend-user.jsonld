@@ -1,0 +1,229 @@
+{
+  "@context": {
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "intend": "https://w3id.org/intend/ontology#",
+    "org": "http://www.w3.org/ns/org#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "intend:Organization",
+      "@type": "owl:Class",
+      "rdfs:comment": "Specialization used when the user represents an organizational actor (company, institution, or other collective entity), aligned with org:Organization.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Organization"
+      },
+      "rdfs:subClassOf": [
+        {
+          "@id": "intend:User"
+        },
+        {
+          "@id": "org:Organization"
+        }
+      ]
+    },
+    {
+      "@id": "intend:Permission",
+      "@type": "owl:Class",
+      "rdfs:comment": "The permissions conferred by a user's role, establishing the boundaries within\nwhich users can formulate intents and request operations: what data can be accessed,\nwhat operations can be requested, what resources can be used (Section 5.1.2). Kept\nminimal (action/scope) as an extension point, same rationale as UserInformation.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Permission"
+      }
+    },
+    {
+      "@id": "intend:Person",
+      "@type": "owl:Class",
+      "owl:disjointWith": {
+        "@id": "intend:Organization"
+      },
+      "rdfs:comment": "Specialization of User/foaf:Agent used when the user represents a human individual; inherits foaf:firstName and foaf:lastName.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Person"
+      },
+      "rdfs:subClassOf": [
+        {
+          "@id": "intend:User"
+        },
+        {
+          "@id": "foaf:Person"
+        }
+      ]
+    },
+    {
+      "@id": "intend:hasPermission",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:User"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has permission"
+      },
+      "rdfs:range": {
+        "@id": "intend:Permission"
+      }
+    },
+    {
+      "@id": "intend:UserInformation",
+      "@type": "owl:Class",
+      "rdfs:comment": "Rich descriptive information about a user (demographic data, preference\nsettings) used to personalize intent interpretation and fulfillment; subject to\nprivacy regulations and access controls (Section 5.1.2). The paper does not specify\nits internal structure beyond this description: this class is deliberately kept\nminimal (two illustrative properties) as an EXTENSION POINT — add domain-specific\ndatatype/object properties here rather than modifying the core User class, in line\nwith non-functional requirement #2 (easy to extend without touching core structure).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "User Information"
+      }
+    },
+    {
+      "@id": "intend:action",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "E.g. \"deploy\", \"manage\", \"read\".",
+      "rdfs:domain": {
+        "@id": "intend:Permission"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "action"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "intend:scope",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:comment": "E.g. a production line or maintenance zone identifier the permission is limited to.",
+      "rdfs:domain": {
+        "@id": "intend:Permission"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "scope"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "intend:userInformation",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:User"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "user information"
+      },
+      "rdfs:range": {
+        "@id": "intend:UserInformation"
+      }
+    },
+    {
+      "@id": "intend:User",
+      "@type": "owl:Class",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "The diverse entities that interact with the intent-based system and initiate\noperations across the computing continuum: individual humans and organizations\n(Section 5.1.2). Aligned with foaf:Agent to reuse standard descriptive attributes\n(foaf:name, foaf:mbox) and stay compatible with existing Linked Data identity\necosystems."
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "User"
+      },
+      "rdfs:subClassOf": [
+        {
+          "@id": "foaf:Agent"
+        },
+        {
+          "@id": "intend:IntentManager"
+        }
+      ]
+    },
+    {
+      "@id": "intend:Role",
+      "@type": "owl:Class",
+      "rdfs:comment": "The role within which a user operates, determining capabilities and\nresponsibilities. The paper deliberately leaves the concrete role vocabulary\ndomain-specific (e.g. administrator/operator/end-user, or data-scientist/\napplication-developer/business-analyst): this project does not hardcode a fixed\nrole taxonomy in the TBox. See examples/fill-instance-data.ttl for a worked set of\nRole individuals for the FILL scenario.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Role"
+      }
+    },
+    {
+      "@id": "intend:preferences",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:UserInformation"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "preferences"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/user",
+      "@type": "owl:Ontology",
+      "owl:imports": [
+        {
+          "@id": "foaf:"
+        },
+        {
+          "@id": "org:"
+        },
+        {
+          "@id": "https://w3id.org/intend/ontology/intent"
+        }
+      ],
+      "owl:versionInfo": "0.1.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - User module"
+      }
+    },
+    {
+      "@id": "intend:hasRole",
+      "@type": "owl:ObjectProperty",
+      "rdfs:domain": {
+        "@id": "intend:User"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has role"
+      },
+      "rdfs:range": {
+        "@id": "intend:Role"
+      }
+    },
+    {
+      "@id": "intend:hasCustomerResource",
+      "@type": "owl:ObjectProperty",
+      "rdfs:comment": "The user-associated resources (personal devices, or in the FILL extension,\nowned machines), fundamentally different from the shared business resources that\nform the infrastructure backbone. Range (intend:CustomerResource) is declared in\nontology/modules/intend-resource.ttl; both modules are combined by ontology/intend.ttl.",
+      "rdfs:domain": {
+        "@id": "intend:User"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "has customer resource"
+      }
+    },
+    {
+      "@id": "intend:demographics",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:domain": {
+        "@id": "intend:UserInformation"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "demographics"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    }
+  ]
+}

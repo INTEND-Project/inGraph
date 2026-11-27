@@ -1,0 +1,64 @@
+{
+  "@context": {
+    "dcterms": "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "intend": "https://w3id.org/intend/ontology#",
+    "org": "http://www.w3.org/ns/org#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sosa": "http://www.w3.org/ns/sosa/",
+    "tio": "https://w3id.org/intend/external/tio#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "https://w3id.org/intend/ontology",
+  "@type": "owl:Ontology",
+  "dcterms:creator": [
+    "Lorenzo Balzotti",
+    "Donatella Firmani",
+    "Francesco Leotta",
+    "Andrea Piermartini",
+    "Jacopo Rossi",
+    "Verena Pietsch",
+    "Valerio Frascolla",
+    "Hui Song",
+    "Dumitru Roman",
+    "Rustem Dautov",
+    "Ioan Toma",
+    "Hyunwhan Joe",
+    "Hong-Gee Kim",
+    "Alexandre Ulisses"
+  ],
+  "dcterms:description": {
+    "@language": "en",
+    "@value": "Standardized, machine-readable framework to express high-level intents\nthat may include multiple goals and requests (data storage, processing, transfer)\nwhile abstracting the underlying infrastructure and technologies. Organized around\nfive dimensions: Intent, User, Resource, Application, Workflow. Built upon TM Forum\nTIO, W3C PROV-O, FOAF and SOSA."
+  },
+  "dcterms:source": "INTEND HORIZON Research and Innovation Action 101135576",
+  "dcterms:title": {
+    "@language": "en",
+    "@value": "The INTEND Ontology: an ontology for intent-based data operation in the computing continuum"
+  },
+  "owl:imports": [
+    {
+      "@id": "https://w3id.org/intend/ontology/intent"
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/user"
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/resource"
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/application"
+    },
+    {
+      "@id": "https://w3id.org/intend/ontology/workflow"
+    }
+  ],
+  "owl:versionInfo": "0.1.0",
+  "rdfs:label": {
+    "@language": "en",
+    "@value": "INTEND Ontology"
+  }
+}

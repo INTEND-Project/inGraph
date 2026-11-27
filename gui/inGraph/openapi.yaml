@@ -1,0 +1,912 @@
+openapi: 3.0.3
+info:
+  title: inGraph API
+  version: 1.0.0
+  description: |
+    Flask service in front of a GraphDB triplestore. It manages repositories, uploads
+    JSON-LD knowledge graphs, runs SPARQL queries and updates, and validates KGs against
+    the INTEND ontology with SHACL.
+
+    Conventions:
+    - **Requests are form fields** (`multipart/form-data`, or `application/x-www-form-urlencoded`
+      where no file is sent). JSON request bodies are ignored.
+    - **Errors** are `{"error": "<message>"}`. Errors that come from GraphDB (unknown repository,
+      rejected data or query, repository already exists) are returned as `500`.
+    - **Accepted file extensions** for every file field: `.jsonld`, `.json`, `.sparql`, `.rq`.
+    - **Max request size**: 16 MB (`413` above that).
+    - `repository` defaults to `second-graph` on `/upload`, `/query` and `/update`: always pass it.
+    - **No authentication** and **no CORS headers**.
+
+    Human-readable reference: `API.md`. Source of truth: `inGraphApp.py`.
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:5050
+    description: Docker dev stack (docker compose up)
+  - url: http://localhost:5000
+    description: python inGraphApp.py (no Docker)
+tags:
+  - name: Service
+  - name: Repositories
+    description: Manage GraphDB repositories
+  - name: Data
+    description: Upload JSON-LD, run SPARQL queries and updates
+  - name: Ontology
+    description: Load the ontology used for SHACL validation, validate KGs
+
+paths:
+  /:
+    get:
+      tags: [Service]
+      summary: Web interface
+      operationId: getWebInterface
+      responses:
+        '200':
+          description: The web interface (HTML page)
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /health:
+    get:
+      tags: [Service]
+      summary: Check the service and its connection to GraphDB
+      operationId: getHealth
+      responses:
+        '200':
+          description: App and GraphDB are up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              example:
+                status: healthy
+                graphdb: connected
+        '503':
+          description: GraphDB unreachable or not answering
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              example:
+                status: unhealthy
+                graphdb: disconnected
+
+  /examples:
+    get:
+      tags: [Service]
+      summary: curl / Python usage snippets
+      description: Snippets use `http://0.0.0.0:5000`; adjust the port under Docker.
+      operationId: getExamples
+      responses:
+        '200':
+          description: One entry per example (upload_jsonld, sparql_query, sparql_update, load_ontology, validate_kg)
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                    curl:
+                      type: string
+                    python:
+                      type: string
+
+  /repositories:
+    get:
+      tags: [Repositories]
+      summary: List all GraphDB repositories
+      operationId: listRepositories
+      responses:
+        '200':
+          description: Repository IDs and GraphDB's repository details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryList'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /repositories/active:
+    get:
+      tags: [Repositories]
+      summary: List repositories whose state is RUNNING
+      operationId: listActiveRepositories
+      responses:
+        '200':
+          description: Running repositories only
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActiveRepositoryList'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /repositories/create:
+    post:
+      tags: [Repositories]
+      summary: Create a GraphDB repository
+      description: |
+        Other settings are fixed by the app: file repository, owl:sameAs disabled,
+        predicate/literal/context indexes enabled, not read-only. With a reasoning ruleset,
+        GraphDB pre-seeds a small set of axiomatic triples, so `COUNT(*)` on a fresh repository
+        is not 0; use `ruleset=empty` for counts that match your files exactly.
+      operationId: createRepository
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateRepositoryForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateRepositoryForm'
+      responses:
+        '201':
+          description: Repository created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRepositoryResponse'
+        '400':
+          description: '`id` missing'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Repository ID is required
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /repository/{name}/info:
+    get:
+      tags: [Repositories]
+      summary: Repository details, triple count and named graphs
+      operationId: getRepositoryInfo
+      parameters:
+        - $ref: '#/components/parameters/RepositoryName'
+      responses:
+        '200':
+          description: GraphDB's repository description plus triple_count and named_graphs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryInfoResponse'
+        '404':
+          description: No repository with that ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Repository 'FILL' not found
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /repository/{name}/size:
+    get:
+      tags: [Repositories]
+      summary: Number of triples in a repository
+      description: |
+        Comes from GraphDB's `/size` endpoint, which can lag a few seconds behind a write.
+        For an exact count right after an upload, use `/query` with
+        `SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }`.
+      operationId: getRepositorySize
+      parameters:
+        - $ref: '#/components/parameters/RepositoryName'
+      responses:
+        '200':
+          description: Triple count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositorySizeResponse'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /repository/{name}/clear:
+    delete:
+      tags: [Repositories]
+      summary: Delete all triples in a repository (not reversible)
+      description: Runs `DELETE { ?s ?p ?o } WHERE { ?s ?p ?o }`. The repository itself is kept.
+      operationId: clearRepository
+      parameters:
+        - $ref: '#/components/parameters/RepositoryName'
+      responses:
+        '200':
+          description: Repository cleared
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryMessage'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /upload:
+    post:
+      tags: [Data]
+      summary: Upload a JSON-LD file to a repository
+      description: |
+        Adds the file's triples to the repository's default graph; existing data is kept.
+        If an ontology is loaded, the file is also SHACL-validated and the report is attached
+        as `validation`. Validation is informational only: a non-conforming file is still uploaded.
+      operationId: uploadJsonld
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file, repository]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: JSON-LD file (.jsonld / .json), UTF-8
+                repository:
+                  type: string
+                  description: Target repository ID (the server falls back to `second-graph` if omitted)
+                  example: FILL
+      responses:
+        '200':
+          description: Uploaded, whatever the validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '400':
+          description: No file, wrong extension, or not valid JSON
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Invalid JSON format
+        '413':
+          $ref: '#/components/responses/TooLarge'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /query:
+    post:
+      tags: [Data]
+      summary: Run a SPARQL SELECT / ASK / CONSTRUCT / DESCRIBE query
+      description: |
+        Send the query as a `.sparql`/`.rq` file (`file`) or as text (`query`); `file` wins if both are sent.
+
+        With `format=json` (default) the response wraps GraphDB's SPARQL JSON results.
+        Any other `format` returns GraphDB's raw output with the matching Content-Type.
+        `json`, `xml`, `csv` are SPARQL *result* formats (SELECT / ASK); use `turtle` or `rdf`
+        for CONSTRUCT / DESCRIBE.
+      operationId: runQuery
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QueryForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueryTextForm'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+            application/sparql-results+xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+            text/turtle:
+              schema:
+                type: string
+            application/rdf+xml:
+              schema:
+                type: string
+        '400':
+          description: No `file` and no `query`, or wrong file extension
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: No query provided (file or query parameter)
+        '413':
+          $ref: '#/components/responses/TooLarge'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /update:
+    post:
+      tags: [Data]
+      summary: Run a SPARQL 1.1 Update (INSERT / DELETE)
+      operationId: runUpdate
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateTextForm'
+      responses:
+        '200':
+          description: Update applied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateResponse'
+        '400':
+          description: No update provided, or wrong file extension
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: No update query provided (file or query parameter)
+        '413':
+          $ref: '#/components/responses/TooLarge'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /ontology/load:
+    post:
+      tags: [Ontology]
+      summary: Load the ontology TBox + SHACL shapes used for validation
+      description: |
+        Replaces whatever was loaded before (calls do not accumulate). All files are parsed
+        first: if any is not valid JSON-LD, nothing changes. Files are stored by file name,
+        so names must be unique within each field. The ontology is kept on disk
+        (`ontology_store/`) and survives restarts; it is not written into GraphDB.
+
+        Note: if you load all three domains' shapes and validate a single-domain KG, the FILL /
+        Telenor aggregate shapes (which target one fixed node each) report a violation on the
+        other domain's node. Load only the shapes of the domain you are checking to avoid it.
+      operationId: loadOntology
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              description: At least one file in either field.
+              properties:
+                ontology_files:
+                  type: array
+                  description: TBox files (core ontology, modules, extensions), JSON-LD
+                  items:
+                    type: string
+                    format: binary
+                shapes_files:
+                  type: array
+                  description: SHACL shapes files, JSON-LD
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '200':
+          description: Ontology loaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OntologyLoadResponse'
+        '400':
+          description: No files, wrong extension, or a file that is not valid JSON-LD (nothing changed)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '413':
+          $ref: '#/components/responses/TooLarge'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /ontology/status:
+    get:
+      tags: [Ontology]
+      summary: Is an ontology loaded, and which files
+      operationId: getOntologyStatus
+      responses:
+        '200':
+          description: Current ontology store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OntologyStatus'
+
+  /ontology:
+    delete:
+      tags: [Ontology]
+      summary: Unload the ontology
+      description: Afterwards `/validate` answers 409 and `/upload` reports validation as skipped.
+      operationId: clearOntology
+      responses:
+        '200':
+          description: Ontology cleared
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+              example:
+                message: Ontology cleared
+                status: success
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /validate:
+    post:
+      tags: [Ontology]
+      summary: Validate a KG file against the loaded ontology (dry run, nothing sent to GraphDB)
+      description: |
+        Validates the file together with the loaded TBox, not the repository's content.
+        Runs without RDFS inference, so data must state its rdf:types explicitly.
+      operationId: validateKg
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: JSON-LD file (.jsonld / .json)
+      responses:
+        '200':
+          description: Validation ran; check `validation.conforms` for the result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateResponse'
+        '400':
+          description: No file, wrong extension, or not valid JSON-LD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: No ontology loaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: No ontology loaded. POST to /ontology/load first.
+        '413':
+          $ref: '#/components/responses/TooLarge'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    RepositoryName:
+      name: name
+      in: path
+      required: true
+      description: Repository ID
+      schema:
+        type: string
+        example: FILL
+
+  responses:
+    ServerError:
+      description: |
+        Internal or GraphDB error. `error` contains the HTTP status GraphDB answered with and the URL
+        called; GraphDB's own explanation is only in its logs (`docker compose logs graphdb`).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooLarge:
+      description: Request larger than 16 MB
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: File too large
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: string
+          example: success
+
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, unhealthy]
+        graphdb:
+          type: string
+          enum: [connected, disconnected]
+        error:
+          type: string
+
+    GraphDBRepository:
+      type: object
+      description: GraphDB's own repository record (fields as returned by GraphDB's /rest/repositories)
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        uri:
+          type: string
+        type:
+          type: string
+        state:
+          type: string
+          example: RUNNING
+        readable:
+          type: boolean
+        writable:
+          type: boolean
+
+    RepositoryList:
+      type: object
+      properties:
+        repositories:
+          type: array
+          items:
+            type: string
+          example: [FILL, GATE, TELENOR]
+        count:
+          type: integer
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/GraphDBRepository'
+
+    ActiveRepositoryList:
+      type: object
+      properties:
+        active_repositories:
+          type: array
+          items:
+            type: string
+        count:
+          type: integer
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/GraphDBRepository'
+
+    CreateRepositoryForm:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+          description: Repository ID
+          example: FILL
+        title:
+          type: string
+          description: Human-readable title (defaults to `id`)
+        ruleset:
+          type: string
+          description: Any GraphDB ruleset name, e.g. empty, rdfsplus-optimized, owl2-rl
+          default: rdfsplus-optimized
+
+    CreateRepositoryResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        repository:
+          type: string
+        config:
+          type: object
+          description: The repository configuration sent to GraphDB
+          additionalProperties: true
+        status:
+          type: string
+          example: success
+
+    RepositoryInfoResponse:
+      type: object
+      properties:
+        repository:
+          type: string
+        info:
+          allOf:
+            - $ref: '#/components/schemas/GraphDBRepository'
+            - type: object
+              properties:
+                triple_count:
+                  description: Number of triples, or "Unknown" if GraphDB's size call failed
+                  oneOf:
+                    - type: integer
+                    - type: string
+                      enum: [Unknown]
+                named_graphs:
+                  type: array
+                  items:
+                    type: string
+        status:
+          type: string
+          example: success
+
+    RepositorySizeResponse:
+      type: object
+      properties:
+        repository:
+          type: string
+        size:
+          type: integer
+        status:
+          type: string
+          example: success
+
+    RepositoryMessage:
+      type: object
+      properties:
+        message:
+          type: string
+        repository:
+          type: string
+        status:
+          type: string
+          example: success
+
+    UploadResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: File uploaded successfully
+        repository:
+          type: string
+        filename:
+          type: string
+        total_triples:
+          type: string
+          description: |
+            Live COUNT(*) over the whole repository after the upload, returned as a string.
+            Includes earlier data and triples added by the ruleset.
+          example: '990'
+        status:
+          type: string
+          example: success
+        validation:
+          oneOf:
+            - $ref: '#/components/schemas/ValidationReport'
+            - $ref: '#/components/schemas/ValidationSkipped'
+            - $ref: '#/components/schemas/ValidationError'
+
+    QueryForm:
+      type: object
+      description: Send either `file` or `query`.
+      properties:
+        file:
+          type: string
+          format: binary
+          description: .sparql / .rq file with the query
+        query:
+          type: string
+          description: The query as text (ignored if `file` is sent)
+          example: SELECT ?s ?type WHERE { ?s a ?type } LIMIT 10
+        repository:
+          type: string
+          example: FILL
+        format:
+          $ref: '#/components/schemas/QueryFormat'
+
+    QueryTextForm:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+          example: SELECT ?s ?type WHERE { ?s a ?type } LIMIT 10
+        repository:
+          type: string
+          example: FILL
+        format:
+          $ref: '#/components/schemas/QueryFormat'
+
+    QueryFormat:
+      type: string
+      enum: [json, xml, csv, turtle, rdf]
+      default: json
+
+    QueryResponse:
+      type: object
+      properties:
+        query:
+          type: string
+        repository:
+          type: string
+        results:
+          description: GraphDB's SPARQL JSON results (head / results.bindings, or boolean for ASK)
+          type: object
+          additionalProperties: true
+        status:
+          type: string
+          example: success
+
+    UpdateForm:
+      type: object
+      description: Send either `file` or `query`.
+      properties:
+        file:
+          type: string
+          format: binary
+          description: .sparql / .rq file with the update
+        query:
+          type: string
+          description: The update as text (ignored if `file` is sent)
+        repository:
+          type: string
+          example: FILL
+
+    UpdateTextForm:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+          example: 'INSERT DATA { <urn:ex:a> <urn:ex:p> "x" }'
+        repository:
+          type: string
+          example: FILL
+
+    UpdateResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Update operation completed successfully
+        query:
+          type: string
+        repository:
+          type: string
+        status:
+          type: string
+          example: success
+
+    OntologyStatus:
+      type: object
+      properties:
+        loaded:
+          type: boolean
+        ontology_files:
+          type: array
+          items:
+            type: string
+        shapes_files:
+          type: array
+          items:
+            type: string
+        ontology_triples:
+          type: integer
+        shapes_triples:
+          type: integer
+
+    OntologyLoadResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        ontology_files:
+          type: array
+          items:
+            type: string
+        shapes_files:
+          type: array
+          items:
+            type: string
+        ontology_triples:
+          type: integer
+          example: 863
+        shapes_triples:
+          type: integer
+          example: 756
+        status:
+          type: string
+          example: success
+
+    ValidateResponse:
+      type: object
+      properties:
+        filename:
+          type: string
+        kg_triples:
+          type: integer
+          description: Triples in the uploaded file
+          example: 7711
+        validation:
+          $ref: '#/components/schemas/ValidationReport'
+        status:
+          type: string
+          example: success
+
+    ValidationReport:
+      type: object
+      properties:
+        conforms:
+          type: boolean
+          description: true if there is no result of severity sh:Violation
+        violation_count:
+          type: integer
+          description: Number of top-level SHACL results (matches pyshacl's "Results (N)")
+        violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Violation'
+        report_text:
+          type: string
+          description: pyshacl's human-readable report, unchanged
+
+    Violation:
+      type: object
+      description: One top-level SHACL result. Any field can be null.
+      properties:
+        focusNode:
+          type: string
+          nullable: true
+        resultPath:
+          type: string
+          nullable: true
+        value:
+          type: string
+          nullable: true
+        resultMessage:
+          type: string
+          nullable: true
+        resultSeverity:
+          type: string
+          nullable: true
+          example: http://www.w3.org/ns/shacl#Violation
+        sourceConstraintComponent:
+          type: string
+          nullable: true
+        sourceShape:
+          type: string
+          nullable: true
+        details:
+          type: array
+          description: Messages of nested sh:detail results explaining why a qualified constraint failed
+          items:
+            type: string
+
+    ValidationSkipped:
+      type: object
+      required: [skipped]
+      properties:
+        skipped:
+          type: string
+          example: No ontology loaded. POST to /ontology/load to enable validation.
+
+    ValidationError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          example: 'Validation could not run: ...'

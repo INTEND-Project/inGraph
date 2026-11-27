@@ -1,0 +1,2819 @@
+{
+  "@context": {
+    "cat": "https://w3id.org/intend/examples/fill-catalog#",
+    "data": "https://w3id.org/intend/examples/fill-data#",
+    "fill": "https://w3id.org/intend/extensions/fill#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "intend": "https://w3id.org/intend/ontology#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "tio": "https://w3id.org/intend/external/tio#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "data:MA03",
+      "@type": "fill:Machine",
+      "fill:hasMachineType": {
+        "@id": "cat:Machine1"
+      },
+      "fill:ipAddress": "10.2.45.01",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MA-03"
+      }
+    },
+    {
+      "@id": "data:amira",
+      "@type": "intend:Person",
+      "fill:owns": {
+        "@id": "data:MA04"
+      },
+      "foaf:name": "Amira",
+      "intend:generates": [
+        {
+          "@id": "data:intent11"
+        },
+        {
+          "@id": "data:intent10"
+        },
+        {
+          "@id": "data:intent12"
+        }
+      ],
+      "intend:hasPermission": {
+        "@id": "data:amiraPermission"
+      },
+      "intend:hasRole": {
+        "@id": "data:PlantOperatorRole"
+      }
+    },
+    {
+      "@id": "cat:Container27",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "fill:runsOn": {
+        "@id": "data:MA02"
+      },
+      "intend:name": "Container27"
+    },
+    {
+      "@id": "data:mary",
+      "@type": "intend:Person",
+      "fill:owns": [
+        {
+          "@id": "data:MA02"
+        },
+        {
+          "@id": "data:MA03"
+        }
+      ],
+      "foaf:name": "Mary",
+      "intend:generates": [
+        {
+          "@id": "data:intent7"
+        },
+        {
+          "@id": "data:intent9"
+        },
+        {
+          "@id": "data:intent8"
+        },
+        {
+          "@id": "data:intent6"
+        }
+      ],
+      "intend:hasPermission": {
+        "@id": "data:maryPermission"
+      },
+      "intend:hasRole": {
+        "@id": "data:MaintenanceTechnicianRole"
+      }
+    },
+    {
+      "@id": "data:knowledgeExtractor",
+      "@type": "intend:KnowledgeExtractor"
+    },
+    {
+      "@id": "data:intent2_target",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run service PROD DATA on machine MA-01"
+      }
+    },
+    {
+      "@id": "data:intent2_condition",
+      "@type": "tio:Condition",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "must be compatible with MA-01 (Machine2)"
+      }
+    },
+    {
+      "@id": "cat:Service2",
+      "@type": "fill:Service",
+      "fill:requires": {
+        "@id": "cat:Component4"
+      },
+      "intend:description": "MACHINE STATE provides an overview of your production. The machine status can be called up at any time, allowing workflows to be optimized.",
+      "intend:name": "Service2",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Machine State"
+      }
+    },
+    {
+      "@id": "data:fillWorkflow",
+      "@type": "intend:Workflow",
+      "intend:hasAdapter": {
+        "@id": "data:adapter"
+      },
+      "intend:hasBusinessKnowledge": {
+        "@id": "data:businessKnowledge"
+      },
+      "intend:hasChatbot": {
+        "@id": "data:chatbot"
+      },
+      "intend:hasExplainer": {
+        "@id": "data:explainer"
+      }
+    },
+    {
+      "@id": "data:MA02",
+      "@type": "fill:Machine",
+      "fill:hasMachineType": {
+        "@id": "cat:Machine3"
+      },
+      "fill:ipAddress": "10.2.45.02",
+      "rdfs:comment": "Reassigned from the paper's \"Machine6\" (does not exist in the real catalog) to Machine3, the most restricted real machine type — deliberately, so this machine can still illustrate an infeasible-intent case (Intent 5 below).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MA-02"
+      }
+    },
+    {
+      "@id": "cat:Container34",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA03"
+        }
+      ],
+      "intend:name": "Container34"
+    },
+    {
+      "@id": "data:dialogEngine",
+      "@type": "intend:DialogEngine"
+    },
+    {
+      "@id": "cat:Container31",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine1"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA03"
+        },
+        {
+          "@id": "data:MA01"
+        }
+      ],
+      "intend:name": "Container31"
+    },
+    {
+      "@id": "cat:Container11",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine3"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA03"
+        }
+      ],
+      "intend:name": "Container11"
+    },
+    {
+      "@id": "data:intent4",
+      "@type": "intend:Intent",
+      "intend:deploys": [
+        {
+          "@id": "cat:Container23"
+        },
+        {
+          "@id": "cat:Service2"
+        }
+      ],
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b4"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b5"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:pablo"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "I want to deploy service MACHINE STATE."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b4",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b5",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run containers Container23 on machine MA-01"
+      }
+    },
+    {
+      "@id": "cat:Container1",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine3"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA02"
+        }
+      ],
+      "intend:name": "Container1"
+    },
+    {
+      "@id": "cat:Container24",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "fill:runsOn": {
+        "@id": "data:MA04"
+      },
+      "intend:name": "Container24"
+    },
+    {
+      "@id": "cat:Service9",
+      "@type": "fill:Service",
+      "intend:description": "THERMO STABILITY detects the constant temperature range for efficient production. This saves time and reduces scrap due to a shorter warm-up phase.",
+      "intend:name": "Service9",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Thermo Stability"
+      }
+    },
+    {
+      "@id": "cat:Container9",
+      "@type": "fill:Container",
+      "intend:name": "Container9"
+    },
+    {
+      "@id": "data:llmService",
+      "@type": "intend:LLMService",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "GPT-5 mini (via DSPy ReAct agent, Section 6.4.2)"
+      }
+    },
+    {
+      "@id": "cat:Container42",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine3"
+        }
+      ],
+      "intend:name": "Container42"
+    },
+    {
+      "@id": "data:intent5",
+      "@type": "intend:Intent",
+      "intend:deploys": [
+        {
+          "@id": "cat:Container31"
+        },
+        {
+          "@id": "cat:Container34"
+        },
+        {
+          "@id": "cat:Container33"
+        },
+        {
+          "@id": "cat:Container39"
+        },
+        {
+          "@id": "cat:Container32"
+        },
+        {
+          "@id": "cat:Service8"
+        }
+      ],
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b6"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b7"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:pablo"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "I want to optimize the G-Code."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b7",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run containers Container31,32,33,34,39 on machine MA-01"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b6",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "cat:Machine1",
+      "@type": "fill:MachineType",
+      "fill:hasAvailableContainer": [
+        {
+          "@id": "cat:Container40"
+        },
+        {
+          "@id": "cat:Container23"
+        },
+        {
+          "@id": "cat:Container31"
+        },
+        {
+          "@id": "cat:Container5"
+        },
+        {
+          "@id": "cat:Container1"
+        },
+        {
+          "@id": "cat:Container2"
+        },
+        {
+          "@id": "cat:Container21"
+        },
+        {
+          "@id": "cat:Container39"
+        },
+        {
+          "@id": "cat:Container17"
+        },
+        {
+          "@id": "cat:Container30"
+        },
+        {
+          "@id": "cat:Container12"
+        },
+        {
+          "@id": "cat:Container32"
+        },
+        {
+          "@id": "cat:Container26"
+        },
+        {
+          "@id": "cat:Container34"
+        },
+        {
+          "@id": "cat:Container42"
+        },
+        {
+          "@id": "cat:Container33"
+        },
+        {
+          "@id": "cat:Container11"
+        },
+        {
+          "@id": "cat:Container29"
+        },
+        {
+          "@id": "cat:Container41"
+        },
+        {
+          "@id": "cat:Container19"
+        },
+        {
+          "@id": "cat:Container25"
+        }
+      ],
+      "fill:offersService": [
+        {
+          "@id": "cat:Service6"
+        },
+        {
+          "@id": "cat:Service2"
+        },
+        {
+          "@id": "cat:Service12"
+        },
+        {
+          "@id": "cat:Service3"
+        },
+        {
+          "@id": "cat:Service4"
+        },
+        {
+          "@id": "cat:Service9"
+        },
+        {
+          "@id": "cat:Service5"
+        },
+        {
+          "@id": "cat:Service7"
+        },
+        {
+          "@id": "cat:Service10"
+        },
+        {
+          "@id": "cat:Service8"
+        },
+        {
+          "@id": "cat:Service1"
+        },
+        {
+          "@id": "cat:Service11"
+        }
+      ],
+      "intend:name": "Machine1"
+    },
+    {
+      "@id": "data:outcomeDeterminationStage",
+      "@type": "intend:OutcomeDeterminationAgent"
+    },
+    {
+      "@id": "data:MA01",
+      "@type": "fill:Machine",
+      "fill:hasMachineType": {
+        "@id": "cat:Machine2"
+      },
+      "fill:ipAddress": "192.168.10.002",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MA-01"
+      }
+    },
+    {
+      "@id": "cat:Component6",
+      "@type": "fill:ProductComponent",
+      "fill:calls": {
+        "@id": "cat:Container29"
+      },
+      "intend:name": "Component6"
+    },
+    {
+      "@id": "data:amiraPermission",
+      "@type": "intend:Permission",
+      "intend:action": "manage",
+      "intend:scope": "maintenance-zone-1"
+    },
+    {
+      "@id": "cat:Container40",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "intend:name": "Container40"
+    },
+    {
+      "@id": "data:intent7",
+      "@type": "intend:Intent",
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b10"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b11"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:mary"
+      },
+      "rdfs:comment": "No intend:deploys asserted on purpose: cat:Machine3.fill:offersService does not include cat:Service10 (verified against examples/fill-catalog-data.ttl) — an authorization-level infeasibility, distinct from Intent 9's capability-level infeasibility below.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Tools should be replaced based on their condition for MA-02."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b10",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b11",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Tool Performance requested for MA-02, but Machine3 does not offer this service"
+      }
+    },
+    {
+      "@id": "data:intent9",
+      "@type": "intend:Intent",
+      "intend:deploys": [
+        {
+          "@id": "cat:Container32"
+        },
+        {
+          "@id": "cat:Container39"
+        },
+        {
+          "@id": "cat:Service8"
+        },
+        {
+          "@id": "cat:Container31"
+        },
+        {
+          "@id": "cat:Container34"
+        },
+        {
+          "@id": "cat:Container33"
+        }
+      ],
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b14"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b15"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:mary"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "I want to optimize the G-Code on my machine MA-03."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b14",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b15",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run containers Container31,32,33,34,39 on machine MA-03"
+      }
+    },
+    {
+      "@id": "data:MA04",
+      "@type": "fill:Machine",
+      "fill:hasMachineType": {
+        "@id": "cat:Machine5"
+      },
+      "fill:ipAddress": "192.168.8.002",
+      "rdfs:comment": "Reassigned from the paper's \"Machine7\" (does not exist in the real catalog) to Machine5.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MA-04"
+      }
+    },
+    {
+      "@id": "cat:Service11",
+      "@type": "fill:Service",
+      "fill:requires": [
+        {
+          "@id": "cat:Component9"
+        },
+        {
+          "@id": "cat:Component8"
+        },
+        {
+          "@id": "cat:Component4"
+        }
+      ],
+      "intend:description": "LOGBOOK logs component changes of motors, spindles and ball screws. In addition, every machine crash is recorded, including the program run.",
+      "intend:name": "Service11",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Logbook"
+      }
+    },
+    {
+      "@id": "data:businessKnowledge",
+      "@type": "intend:BusinessKnowledge",
+      "intend:hasCapability": [
+        {
+          "@id": "intend:AutomaticInsightGeneration"
+        },
+        {
+          "@id": "intend:DataUpload"
+        },
+        {
+          "@id": "intend:SparqlQuerying"
+        }
+      ],
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "FILL Business Knowledge graph"
+      }
+    },
+    {
+      "@id": "cat:Component2",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container14"
+        },
+        {
+          "@id": "cat:Container15"
+        },
+        {
+          "@id": "cat:Container16"
+        },
+        {
+          "@id": "cat:Container11"
+        },
+        {
+          "@id": "cat:Container12"
+        },
+        {
+          "@id": "cat:Container13"
+        }
+      ],
+      "intend:name": "Component2"
+    },
+    {
+      "@id": "data:ProductionManagerRole",
+      "@type": "intend:Role",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Production Manager"
+      }
+    },
+    {
+      "@id": "cat:Container36",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": {
+        "@id": "cat:Machine4"
+      },
+      "intend:name": "Container36"
+    },
+    {
+      "@id": "cat:Container18",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine5"
+        }
+      ],
+      "intend:name": "Container18"
+    },
+    {
+      "@id": "cat:Container17",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine3"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA03"
+        }
+      ],
+      "intend:name": "Container17"
+    },
+    {
+      "@id": "cat:Container14",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": {
+        "@id": "cat:Machine3"
+      },
+      "intend:name": "Container14"
+    },
+    {
+      "@id": "cat:Container32",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA03"
+        }
+      ],
+      "intend:name": "Container32"
+    },
+    {
+      "@id": "cat:Machine2",
+      "@type": "fill:MachineType",
+      "fill:hasAvailableContainer": [
+        {
+          "@id": "cat:Container4"
+        },
+        {
+          "@id": "cat:Container26"
+        },
+        {
+          "@id": "cat:Container34"
+        },
+        {
+          "@id": "cat:Container42"
+        },
+        {
+          "@id": "cat:Container33"
+        },
+        {
+          "@id": "cat:Container11"
+        },
+        {
+          "@id": "cat:Container29"
+        },
+        {
+          "@id": "cat:Container41"
+        },
+        {
+          "@id": "cat:Container19"
+        },
+        {
+          "@id": "cat:Container25"
+        },
+        {
+          "@id": "cat:Container40"
+        },
+        {
+          "@id": "cat:Container23"
+        },
+        {
+          "@id": "cat:Container31"
+        },
+        {
+          "@id": "cat:Container3"
+        },
+        {
+          "@id": "cat:Container5"
+        },
+        {
+          "@id": "cat:Container1"
+        },
+        {
+          "@id": "cat:Container2"
+        },
+        {
+          "@id": "cat:Container21"
+        },
+        {
+          "@id": "cat:Container39"
+        },
+        {
+          "@id": "cat:Container17"
+        },
+        {
+          "@id": "cat:Container30"
+        },
+        {
+          "@id": "cat:Container12"
+        },
+        {
+          "@id": "cat:Container32"
+        }
+      ],
+      "fill:offersService": [
+        {
+          "@id": "cat:Service8"
+        },
+        {
+          "@id": "cat:Service3"
+        },
+        {
+          "@id": "cat:Service11"
+        },
+        {
+          "@id": "cat:Service4"
+        },
+        {
+          "@id": "cat:Service5"
+        },
+        {
+          "@id": "cat:Service7"
+        },
+        {
+          "@id": "cat:Service10"
+        },
+        {
+          "@id": "cat:Service1"
+        },
+        {
+          "@id": "cat:Service6"
+        },
+        {
+          "@id": "cat:Service2"
+        },
+        {
+          "@id": "cat:Service9"
+        },
+        {
+          "@id": "cat:Service12"
+        }
+      ],
+      "intend:name": "Machine2"
+    },
+    {
+      "@id": "data:intent6",
+      "@type": "intend:Intent",
+      "intend:deploys": [
+        {
+          "@id": "cat:Container27"
+        },
+        {
+          "@id": "cat:Service3"
+        },
+        {
+          "@id": "cat:Container23"
+        },
+        {
+          "@id": "cat:Container4"
+        },
+        {
+          "@id": "cat:Container3"
+        },
+        {
+          "@id": "cat:Container2"
+        },
+        {
+          "@id": "cat:Container5"
+        },
+        {
+          "@id": "cat:Container1"
+        },
+        {
+          "@id": "cat:Container25"
+        }
+      ],
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b8"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b9"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:mary"
+      },
+      "rdfs:comment": "Resolved to Energy Tracker directly (unlike Intent 1's Prod Data resolution for near-identical phrasing) — service resolution is not assumed to be deterministic across users/phrasings; both are plausible, illustrative choices.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "I fear I have some leakage in my machine MA-02 and want to analyse the process."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b9",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run containers Container1,2,3,4,5,23,25,27 on machine MA-02"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b8",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "data:intent1",
+      "@type": "intend:Intent",
+      "intend:hasExpectation": {
+        "@id": "data:intent1_expectation"
+      },
+      "intend:hasTarget": {
+        "@id": "data:intent1_target"
+      },
+      "intend:isSentTo": {
+        "@id": "data:chatbot"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:pablo"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent 1 (tier 1, raw NL)"
+      }
+    },
+    {
+      "@id": "data:intent12",
+      "@type": "intend:Intent",
+      "intend:deploys": [
+        {
+          "@id": "cat:Container23"
+        },
+        {
+          "@id": "cat:Service11"
+        },
+        {
+          "@id": "cat:Container24"
+        }
+      ],
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b20"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b21"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:amira"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "I want to keep track of component changes and machine crashes."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b20",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b21",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run containers Container23,24 on machine MA-04"
+      }
+    },
+    {
+      "@id": "cat:Service7",
+      "@type": "fill:Service",
+      "fill:requires": [
+        {
+          "@id": "cat:Component2"
+        },
+        {
+          "@id": "cat:Component3"
+        },
+        {
+          "@id": "cat:Component1"
+        }
+      ],
+      "intend:description": "PROGRAM HISTORY automatically records every NC program change. The possibility of analysis and tracking provides more transparency and control.",
+      "intend:name": "Service7",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Program History"
+      }
+    },
+    {
+      "@id": "data:nlu",
+      "@type": "intend:NLU"
+    },
+    {
+      "@id": "data:adapter",
+      "@type": "intend:Adapter",
+      "intend:accessesTo": {
+        "@id": "data:businessKnowledge"
+      },
+      "intend:generates": {
+        "@id": "data:intent3"
+      },
+      "intend:hasKnowledgeExtractor": {
+        "@id": "data:knowledgeExtractor"
+      },
+      "intend:hasSystemIntentGenerator": {
+        "@id": "data:systemIntentGenerator"
+      }
+    },
+    {
+      "@id": "cat:Component12",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container20"
+        },
+        {
+          "@id": "cat:Container19"
+        }
+      ],
+      "intend:name": "Component12"
+    },
+    {
+      "@id": "cat:Container13",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": {
+        "@id": "cat:Machine3"
+      },
+      "intend:name": "Container13"
+    },
+    {
+      "@id": "cat:Component1",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container1"
+        },
+        {
+          "@id": "cat:Container9"
+        },
+        {
+          "@id": "cat:Container3"
+        },
+        {
+          "@id": "cat:Container6"
+        },
+        {
+          "@id": "cat:Container7"
+        },
+        {
+          "@id": "cat:Container2"
+        },
+        {
+          "@id": "cat:Container8"
+        },
+        {
+          "@id": "cat:Container10"
+        },
+        {
+          "@id": "cat:Container4"
+        },
+        {
+          "@id": "cat:Container5"
+        }
+      ],
+      "intend:name": "Component1"
+    },
+    {
+      "@id": "cat:Container41",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine1"
+        }
+      ],
+      "intend:name": "Container41"
+    },
+    {
+      "@id": "cat:Service10",
+      "@type": "fill:Service",
+      "fill:requires": [
+        {
+          "@id": "cat:Component13"
+        },
+        {
+          "@id": "cat:Component2"
+        },
+        {
+          "@id": "cat:Component3"
+        }
+      ],
+      "intend:description": "TOOL PERFORMANCE analyzes tool wear. You can determine the condition when replacing tools or compare wear among tools of the same type.",
+      "intend:name": "Service10",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Tool Performance"
+      }
+    },
+    {
+      "@id": "cat:Container10",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "intend:name": "Container10"
+    },
+    {
+      "@id": "data:intent3_expectation",
+      "@type": "tio:Expectation",
+      "intend:hasCondition": {
+        "@id": "data:intent3_condition"
+      },
+      "intend:hasTarget": {
+        "@id": "data:intent3_target"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "cat:Service8",
+      "@type": "fill:Service",
+      "fill:requires": [
+        {
+          "@id": "cat:Component11"
+        },
+        {
+          "@id": "cat:Component10"
+        }
+      ],
+      "intend:description": "G-CODE ANALYZER analyzes the G-code of all components. Optimization potential is suggested to effectively reduce cycle time.",
+      "intend:name": "Service8",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "G-Code Analyzer"
+      }
+    },
+    {
+      "@id": "data:intent1Report",
+      "@type": "intend:IntentReport",
+      "intend:hasConditionReport": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b2"
+      },
+      "intend:hasExpectationReport": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b1"
+      },
+      "intend:hasTargetReport": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b3"
+      },
+      "prov:wasGeneratedBy": {
+        "@id": "data:explainer"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b2",
+      "@type": "tio:ConditionReport",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "MA-01 (Machine2) compatibility check passed"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b3",
+      "@type": "tio:TargetReport",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "10/10 containers deployed on MA-01 (verified against the real FILL catalog)"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b1",
+      "@type": "tio:ExpectationReport",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "all conditions satisfied"
+      }
+    },
+    {
+      "@id": "cat:Service3",
+      "@type": "fill:Service",
+      "fill:requires": [
+        {
+          "@id": "cat:Component1"
+        },
+        {
+          "@id": "cat:Component5"
+        },
+        {
+          "@id": "cat:Component4"
+        }
+      ],
+      "intend:description": "ENERGY TRACKER monitors media consumption and ensures early detection of production changes and leaks that might otherwise go undetected.",
+      "intend:name": "Service3",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Energy Tracker"
+      }
+    },
+    {
+      "@id": "cat:Container33",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA03"
+        },
+        {
+          "@id": "data:MA01"
+        }
+      ],
+      "intend:name": "Container33"
+    },
+    {
+      "@id": "data:systemIntentGenerator",
+      "@type": "intend:SystemIntentGenerator"
+    },
+    {
+      "@id": "https://w3id.org/intend/examples/fill-data",
+      "@type": "owl:Ontology",
+      "owl:imports": [
+        {
+          "@id": "https://w3id.org/intend/extensions/fill"
+        },
+        {
+          "@id": "https://w3id.org/intend/examples/fill-catalog"
+        }
+      ],
+      "owl:versionInfo": "0.2.0",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - FILL example instance data"
+      }
+    },
+    {
+      "@id": "data:intent1_expectation",
+      "@type": "tio:Expectation",
+      "intend:hasTarget": {
+        "@id": "data:intent1_target"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Understand and clarify the user's request"
+      }
+    },
+    {
+      "@id": "cat:Service5",
+      "@type": "fill:Service",
+      "fill:requires": {
+        "@id": "cat:Component6"
+      },
+      "intend:description": "ALARM ANALYZER records all alarms and messages and identifies the main messages. Actual machine problems can thus be identified.",
+      "intend:name": "Service5",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Alarm Analyzer"
+      }
+    },
+    {
+      "@id": "data:explanationGenerationStage",
+      "@type": "intend:ExplanationGeneratorAgent"
+    },
+    {
+      "@id": "cat:Container19",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "fill:runsOn": {
+        "@id": "data:MA01"
+      },
+      "intend:name": "Container19"
+    },
+    {
+      "@id": "cat:Container26",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine1"
+        }
+      ],
+      "intend:name": "Container26"
+    },
+    {
+      "@id": "cat:Machine3",
+      "@type": "fill:MachineType",
+      "fill:hasAvailableContainer": [
+        {
+          "@id": "cat:Container29"
+        },
+        {
+          "@id": "cat:Container19"
+        },
+        {
+          "@id": "cat:Container25"
+        },
+        {
+          "@id": "cat:Container27"
+        },
+        {
+          "@id": "cat:Container14"
+        },
+        {
+          "@id": "cat:Container23"
+        },
+        {
+          "@id": "cat:Container3"
+        },
+        {
+          "@id": "cat:Container13"
+        },
+        {
+          "@id": "cat:Container5"
+        },
+        {
+          "@id": "cat:Container1"
+        },
+        {
+          "@id": "cat:Container2"
+        },
+        {
+          "@id": "cat:Container21"
+        },
+        {
+          "@id": "cat:Container17"
+        },
+        {
+          "@id": "cat:Container30"
+        },
+        {
+          "@id": "cat:Container12"
+        },
+        {
+          "@id": "cat:Container4"
+        },
+        {
+          "@id": "cat:Container42"
+        },
+        {
+          "@id": "cat:Container11"
+        }
+      ],
+      "fill:offersService": [
+        {
+          "@id": "cat:Service1"
+        },
+        {
+          "@id": "cat:Service2"
+        },
+        {
+          "@id": "cat:Service9"
+        },
+        {
+          "@id": "cat:Service3"
+        },
+        {
+          "@id": "cat:Service4"
+        }
+      ],
+      "intend:name": "Machine3"
+    },
+    {
+      "@id": "data:chatbot",
+      "@type": "intend:Chatbot",
+      "intend:accessesTo": {
+        "@id": "data:businessKnowledge"
+      },
+      "intend:generates": {
+        "@id": "data:intent2"
+      },
+      "intend:hasDialogEngine": {
+        "@id": "data:dialogEngine"
+      },
+      "intend:hasLlmServices": {
+        "@id": "data:llmService"
+      },
+      "intend:hasNlu": {
+        "@id": "data:nlu"
+      },
+      "intend:hasVectorStore": {
+        "@id": "data:vectorStore"
+      }
+    },
+    {
+      "@id": "data:PlantOperatorRole",
+      "@type": "intend:Role",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Plant Operator"
+      }
+    },
+    {
+      "@id": "cat:Component10",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container31"
+        },
+        {
+          "@id": "cat:Container36"
+        },
+        {
+          "@id": "cat:Container32"
+        },
+        {
+          "@id": "cat:Container35"
+        },
+        {
+          "@id": "cat:Container38"
+        },
+        {
+          "@id": "cat:Container34"
+        },
+        {
+          "@id": "cat:Container33"
+        },
+        {
+          "@id": "cat:Container37"
+        }
+      ],
+      "intend:name": "Component10"
+    },
+    {
+      "@id": "data:logAnalysisStage",
+      "@type": "intend:LogAnalysisAgent"
+    },
+    {
+      "@id": "cat:Service4",
+      "@type": "fill:Service",
+      "fill:requires": [
+        {
+          "@id": "cat:Component4"
+        },
+        {
+          "@id": "cat:Component1"
+        }
+      ],
+      "intend:description": "KPI ANALYZER provides information on the utilization of a machine in a defined period. The analysis provides insights into utilization and efficiency and identifies any bottlenecks or optimization potential.",
+      "intend:name": "Service4",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "KPI Analyzer"
+      }
+    },
+    {
+      "@id": "cat:Component9",
+      "@type": "fill:ProductComponent",
+      "intend:name": "Component9"
+    },
+    {
+      "@id": "cat:Container2",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA02"
+        }
+      ],
+      "intend:name": "Container2"
+    },
+    {
+      "@id": "cat:Component8",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container41"
+        },
+        {
+          "@id": "cat:Container40"
+        }
+      ],
+      "intend:name": "Component8"
+    },
+    {
+      "@id": "cat:Container23",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA02"
+        },
+        {
+          "@id": "data:MA04"
+        }
+      ],
+      "intend:name": "Container23"
+    },
+    {
+      "@id": "data:intent3",
+      "@type": "intend:Intent",
+      "intend:deploys": [
+        {
+          "@id": "cat:Container1"
+        },
+        {
+          "@id": "cat:Container12"
+        },
+        {
+          "@id": "cat:Container4"
+        },
+        {
+          "@id": "cat:Container29"
+        },
+        {
+          "@id": "cat:Container19"
+        },
+        {
+          "@id": "cat:Container3"
+        },
+        {
+          "@id": "cat:Container2"
+        },
+        {
+          "@id": "cat:Container5"
+        },
+        {
+          "@id": "cat:Container11"
+        },
+        {
+          "@id": "cat:Container17"
+        }
+      ],
+      "intend:hasCondition": {
+        "@id": "data:intent3_condition"
+      },
+      "intend:hasExpectation": {
+        "@id": "data:intent3_expectation"
+      },
+      "intend:hasIntentReport": {
+        "@id": "data:intent1Report"
+      },
+      "intend:hasTarget": {
+        "@id": "data:intent3_target"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasDerivedFrom": {
+        "@id": "data:intent2"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent 3 (tier 3, adapter-resolved system intent)"
+      }
+    },
+    {
+      "@id": "cat:Container12",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine3"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA03"
+        }
+      ],
+      "intend:name": "Container12"
+    },
+    {
+      "@id": "data:pablo",
+      "@type": "intend:Person",
+      "fill:owns": {
+        "@id": "data:MA01"
+      },
+      "foaf:name": "Pablo",
+      "intend:generates": [
+        {
+          "@id": "data:intent5"
+        },
+        {
+          "@id": "data:intent4"
+        },
+        {
+          "@id": "data:intent1"
+        }
+      ],
+      "intend:hasPermission": {
+        "@id": "data:pabloPermission"
+      },
+      "intend:hasRole": {
+        "@id": "data:ProductionManagerRole"
+      }
+    },
+    {
+      "@id": "cat:Container28",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine5"
+        }
+      ],
+      "intend:name": "Container28"
+    },
+    {
+      "@id": "cat:Container20",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "intend:name": "Container20"
+    },
+    {
+      "@id": "cat:Container35",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "intend:name": "Container35"
+    },
+    {
+      "@id": "data:vectorStore",
+      "@type": "intend:VectorStore"
+    },
+    {
+      "@id": "cat:Container30",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "intend:name": "Container30"
+    },
+    {
+      "@id": "cat:Machine5",
+      "@type": "fill:MachineType",
+      "fill:hasAvailableContainer": [
+        {
+          "@id": "cat:Container38"
+        },
+        {
+          "@id": "cat:Container10"
+        },
+        {
+          "@id": "cat:Container15"
+        },
+        {
+          "@id": "cat:Container26"
+        },
+        {
+          "@id": "cat:Container34"
+        },
+        {
+          "@id": "cat:Container33"
+        },
+        {
+          "@id": "cat:Container11"
+        },
+        {
+          "@id": "cat:Container30"
+        },
+        {
+          "@id": "cat:Container35"
+        },
+        {
+          "@id": "cat:Container18"
+        },
+        {
+          "@id": "cat:Container29"
+        },
+        {
+          "@id": "cat:Container19"
+        },
+        {
+          "@id": "cat:Container22"
+        },
+        {
+          "@id": "cat:Container25"
+        },
+        {
+          "@id": "cat:Container24"
+        },
+        {
+          "@id": "cat:Container37"
+        },
+        {
+          "@id": "cat:Container28"
+        },
+        {
+          "@id": "cat:Container27"
+        },
+        {
+          "@id": "cat:Container23"
+        },
+        {
+          "@id": "cat:Container31"
+        },
+        {
+          "@id": "cat:Container5"
+        },
+        {
+          "@id": "cat:Container6"
+        },
+        {
+          "@id": "cat:Container20"
+        },
+        {
+          "@id": "cat:Container1"
+        },
+        {
+          "@id": "cat:Container21"
+        },
+        {
+          "@id": "cat:Container39"
+        },
+        {
+          "@id": "cat:Container17"
+        }
+      ],
+      "fill:offersService": [
+        {
+          "@id": "cat:Service3"
+        },
+        {
+          "@id": "cat:Service4"
+        },
+        {
+          "@id": "cat:Service5"
+        },
+        {
+          "@id": "cat:Service7"
+        },
+        {
+          "@id": "cat:Service10"
+        },
+        {
+          "@id": "cat:Service8"
+        },
+        {
+          "@id": "cat:Service1"
+        },
+        {
+          "@id": "cat:Service11"
+        },
+        {
+          "@id": "cat:Service6"
+        },
+        {
+          "@id": "cat:Service2"
+        }
+      ],
+      "intend:name": "Machine5"
+    },
+    {
+      "@id": "cat:Component13",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container21"
+        },
+        {
+          "@id": "cat:Container22"
+        }
+      ],
+      "intend:name": "Component13"
+    },
+    {
+      "@id": "cat:Container6",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "intend:name": "Container6"
+    },
+    {
+      "@id": "data:MaintenanceTechnicianRole",
+      "@type": "intend:Role",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Maintenance Technician"
+      }
+    },
+    {
+      "@id": "cat:Container15",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "intend:name": "Container15"
+    },
+    {
+      "@id": "cat:Container37",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "intend:name": "Container37"
+    },
+    {
+      "@id": "cat:Component5",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container26"
+        },
+        {
+          "@id": "cat:Container25"
+        },
+        {
+          "@id": "cat:Container28"
+        },
+        {
+          "@id": "cat:Container27"
+        }
+      ],
+      "intend:name": "Component5"
+    },
+    {
+      "@id": "data:intent8",
+      "@type": "intend:Intent",
+      "intend:deploys": [
+        {
+          "@id": "cat:Container12"
+        },
+        {
+          "@id": "cat:Container11"
+        },
+        {
+          "@id": "cat:Container21"
+        },
+        {
+          "@id": "cat:Service10"
+        },
+        {
+          "@id": "cat:Container17"
+        }
+      ],
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b12"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b13"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:mary"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Tools should be replaced based on their condition for MA-03."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b12",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b13",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run containers Container11,12,17,21 on machine MA-03"
+      }
+    },
+    {
+      "@id": "data:intent11",
+      "@type": "intend:Intent",
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b18"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b19"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:amira"
+      },
+      "rdfs:comment": "No intend:deploys asserted: cat:Machine5.fill:offersService does not include cat:Service9, AND Service9 has no fill:requires target in the real catalog at all (Component9 is targeted by no Service, and Service9 targets no Component) — infeasible for two independent reasons.",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "I want to detect the optimal temperature range for production."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b19",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Thermo Stability requested for MA-04, but Machine5 does not offer this service"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b18",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "data:intent3_target",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run containers Container1,2,3,4,5,11,12,17,19,29 on machine MA-01"
+      }
+    },
+    {
+      "@id": "cat:Container29",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA04"
+        }
+      ],
+      "intend:name": "Container29"
+    },
+    {
+      "@id": "cat:Component11",
+      "@type": "fill:ProductComponent",
+      "fill:calls": {
+        "@id": "cat:Container39"
+      },
+      "intend:name": "Component11"
+    },
+    {
+      "@id": "data:fillCloudInstance1",
+      "@type": "intend:BusinessResource",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "FILL cloud analytics instance"
+      }
+    },
+    {
+      "@id": "data:maryPermission",
+      "@type": "intend:Permission",
+      "intend:action": "deploy",
+      "intend:scope": "production-line-2"
+    },
+    {
+      "@id": "data:FillContinuum",
+      "@type": "intend:Resource",
+      "intend:consistsIn": [
+        {
+          "@id": "data:MA03"
+        },
+        {
+          "@id": "data:fillEdgeServer1"
+        },
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:fillCloudInstance1"
+        },
+        {
+          "@id": "data:MA04"
+        },
+        {
+          "@id": "data:MA02"
+        }
+      ],
+      "rdfs:comment": "Worked example of the opt-in Resource-layer aggregate pattern (see shapes/intend-shapes-resource.ttl and shapes/intend-shapes-fill-extension.ttl).",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "FILL computing-continuum resource layer"
+      }
+    },
+    {
+      "@id": "data:intent2_expectation",
+      "@type": "tio:Expectation",
+      "intend:hasCondition": {
+        "@id": "data:intent2_condition"
+      },
+      "intend:hasTarget": {
+        "@id": "data:intent2_target"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "cat:Component4",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container24"
+        },
+        {
+          "@id": "cat:Container23"
+        }
+      ],
+      "intend:name": "Component4"
+    },
+    {
+      "@id": "cat:Component14",
+      "@type": "fill:ProductComponent",
+      "fill:calls": {
+        "@id": "cat:Container42"
+      },
+      "intend:name": "Component14"
+    },
+    {
+      "@id": "cat:Service12",
+      "@type": "fill:Service",
+      "fill:requires": [
+        {
+          "@id": "cat:Component9"
+        },
+        {
+          "@id": "cat:Component8"
+        }
+      ],
+      "intend:description": "Test runs generate the specific machine performance indicator. This allows you to detect changes over time and check successful installation after component replacement.",
+      "intend:name": "Service12"
+    },
+    {
+      "@id": "data:intent1_target",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "I want to analyze possible leakages"
+      }
+    },
+    {
+      "@id": "cat:Container21",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "fill:runsOn": {
+        "@id": "data:MA03"
+      },
+      "intend:name": "Container21"
+    },
+    {
+      "@id": "data:explainer",
+      "@type": "intend:Explainer",
+      "intend:accessesTo": {
+        "@id": "data:businessKnowledge"
+      },
+      "intend:hasExplanationGenerationStage": {
+        "@id": "data:explanationGenerationStage"
+      },
+      "intend:hasIntentParsingStage": {
+        "@id": "data:intentParsingStage"
+      },
+      "intend:hasLogAnalysisStage": {
+        "@id": "data:logAnalysisStage"
+      },
+      "intend:hasOutcomeDeterminationStage": {
+        "@id": "data:outcomeDeterminationStage"
+      },
+      "intend:sendsReport": {
+        "@id": "data:pablo"
+      }
+    },
+    {
+      "@id": "cat:Container22",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "intend:name": "Container22"
+    },
+    {
+      "@id": "cat:Container25",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "fill:runsOn": {
+        "@id": "data:MA02"
+      },
+      "intend:name": "Container25"
+    },
+    {
+      "@id": "cat:Container38",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        }
+      ],
+      "intend:name": "Container38"
+    },
+    {
+      "@id": "data:fillEdgeServer1",
+      "@type": "intend:BusinessResource",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "FILL shop-floor edge server"
+      }
+    },
+    {
+      "@id": "cat:Service6",
+      "@type": "fill:Service",
+      "intend:description": "DATA XPLORER allows manual analysis of all recorded data. Any questions can thus be clarified independently.",
+      "intend:name": "Service6",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Data Xplorer"
+      }
+    },
+    {
+      "@id": "data:intent2",
+      "@type": "intend:Intent",
+      "intend:deploys": {
+        "@id": "cat:Service1"
+      },
+      "intend:hasCondition": {
+        "@id": "data:intent2_condition"
+      },
+      "intend:hasExpectation": {
+        "@id": "data:intent2_expectation"
+      },
+      "intend:hasTarget": {
+        "@id": "data:intent2_target"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:chatbot"
+      },
+      "intend:wasDerivedFrom": {
+        "@id": "data:intent1"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Intent 2 (tier 2, chatbot-clarified)"
+      }
+    },
+    {
+      "@id": "cat:Container8",
+      "@type": "fill:Container",
+      "intend:name": "Container8"
+    },
+    {
+      "@id": "cat:Service1",
+      "@type": "fill:Service",
+      "fill:requires": [
+        {
+          "@id": "cat:Component2"
+        },
+        {
+          "@id": "cat:Component6"
+        },
+        {
+          "@id": "cat:Component1"
+        },
+        {
+          "@id": "cat:Component3"
+        },
+        {
+          "@id": "cat:Component12"
+        }
+      ],
+      "intend:description": "PROD DATA records all components and the process steps are analyzed. Occurred messages and the tool usage of each component are displayed and provide transparency in the production data.",
+      "intend:name": "Service1",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "Prod Data"
+      }
+    },
+    {
+      "@id": "https://w3id.org/intend/examples/fill-catalog",
+      "@type": "owl:Ontology",
+      "owl:imports": {
+        "@id": "https://w3id.org/intend/extensions/fill"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "INTEND Ontology - FILL catalog data (from real KG)"
+      }
+    },
+    {
+      "@id": "cat:Machine4",
+      "@type": "fill:MachineType",
+      "fill:hasAvailableContainer": [
+        {
+          "@id": "cat:Container34"
+        },
+        {
+          "@id": "cat:Container33"
+        },
+        {
+          "@id": "cat:Container24"
+        },
+        {
+          "@id": "cat:Container28"
+        },
+        {
+          "@id": "cat:Container27"
+        },
+        {
+          "@id": "cat:Container23"
+        },
+        {
+          "@id": "cat:Container19"
+        },
+        {
+          "@id": "cat:Container5"
+        },
+        {
+          "@id": "cat:Container6"
+        },
+        {
+          "@id": "cat:Container20"
+        },
+        {
+          "@id": "cat:Container1"
+        },
+        {
+          "@id": "cat:Container37"
+        },
+        {
+          "@id": "cat:Container39"
+        },
+        {
+          "@id": "cat:Container17"
+        },
+        {
+          "@id": "cat:Container31"
+        },
+        {
+          "@id": "cat:Container36"
+        },
+        {
+          "@id": "cat:Container15"
+        },
+        {
+          "@id": "cat:Container16"
+        },
+        {
+          "@id": "cat:Container7"
+        },
+        {
+          "@id": "cat:Container2"
+        },
+        {
+          "@id": "cat:Container26"
+        },
+        {
+          "@id": "cat:Container21"
+        },
+        {
+          "@id": "cat:Container11"
+        },
+        {
+          "@id": "cat:Container30"
+        },
+        {
+          "@id": "cat:Container35"
+        },
+        {
+          "@id": "cat:Container18"
+        },
+        {
+          "@id": "cat:Container29"
+        },
+        {
+          "@id": "cat:Container22"
+        },
+        {
+          "@id": "cat:Container12"
+        },
+        {
+          "@id": "cat:Container32"
+        },
+        {
+          "@id": "cat:Container38"
+        },
+        {
+          "@id": "cat:Container10"
+        },
+        {
+          "@id": "cat:Container25"
+        }
+      ],
+      "fill:offersService": [
+        {
+          "@id": "cat:Service6"
+        },
+        {
+          "@id": "cat:Service2"
+        },
+        {
+          "@id": "cat:Service3"
+        },
+        {
+          "@id": "cat:Service4"
+        },
+        {
+          "@id": "cat:Service5"
+        },
+        {
+          "@id": "cat:Service7"
+        },
+        {
+          "@id": "cat:Service10"
+        },
+        {
+          "@id": "cat:Service1"
+        }
+      ],
+      "intend:name": "Machine4"
+    },
+    {
+      "@id": "cat:Container16",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": {
+        "@id": "cat:Machine4"
+      },
+      "intend:name": "Container16"
+    },
+    {
+      "@id": "cat:Container5",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine5"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA02"
+        }
+      ],
+      "intend:name": "Container5"
+    },
+    {
+      "@id": "data:intent3_condition",
+      "@type": "tio:Condition",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "must be compatible with MA-01 (Machine2)"
+      }
+    },
+    {
+      "@id": "data:intent10",
+      "@type": "intend:Intent",
+      "intend:deploys": [
+        {
+          "@id": "cat:Container29"
+        },
+        {
+          "@id": "cat:Service5"
+        }
+      ],
+      "intend:hasExpectation": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b16"
+      },
+      "intend:hasTarget": {
+        "@id": "_:n2ad472f33811449699859408f6c58432b17"
+      },
+      "intend:isSentTo": {
+        "@id": "data:adapter"
+      },
+      "intend:wasAttributedTo": {
+        "@id": "data:amira"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "There are a lot of alarms on my machine, I want to analyze them."
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b16",
+      "@type": "tio:Expectation",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "satisfy all conditions"
+      }
+    },
+    {
+      "@id": "_:n2ad472f33811449699859408f6c58432b17",
+      "@type": "tio:Target",
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "run containers Container29 on machine MA-04"
+      }
+    },
+    {
+      "@id": "data:pabloPermission",
+      "@type": "intend:Permission",
+      "intend:action": "deploy",
+      "intend:scope": "production-line-1",
+      "rdfs:comment": "Illustrative: Section 6.2 states permissions scope deployment to assigned production lines/zones; the specific zone name is not given in the paper."
+    },
+    {
+      "@id": "data:intentParsingStage",
+      "@type": "intend:IntentParsingAgent"
+    },
+    {
+      "@id": "cat:Container7",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": {
+        "@id": "cat:Machine4"
+      },
+      "intend:name": "Container7"
+    },
+    {
+      "@id": "cat:Container4",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA02"
+        }
+      ],
+      "intend:name": "Container4"
+    },
+    {
+      "@id": "cat:Container39",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine1"
+        },
+        {
+          "@id": "cat:Machine2"
+        },
+        {
+          "@id": "cat:Machine4"
+        },
+        {
+          "@id": "cat:Machine5"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA03"
+        }
+      ],
+      "intend:name": "Container39"
+    },
+    {
+      "@id": "cat:Component3",
+      "@type": "fill:ProductComponent",
+      "fill:calls": [
+        {
+          "@id": "cat:Container17"
+        },
+        {
+          "@id": "cat:Container18"
+        }
+      ],
+      "intend:name": "Component3"
+    },
+    {
+      "@id": "cat:Container3",
+      "@type": "fill:Container",
+      "fill:compatibleWithMachineType": [
+        {
+          "@id": "cat:Machine3"
+        },
+        {
+          "@id": "cat:Machine2"
+        }
+      ],
+      "fill:runsOn": [
+        {
+          "@id": "data:MA01"
+        },
+        {
+          "@id": "data:MA02"
+        }
+      ],
+      "intend:name": "Container3"
+    }
+  ]
+}

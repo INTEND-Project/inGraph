@@ -783,15 +783,133 @@ body {
     margin-bottom: 12px;
 }
 
-.ontology-file-label input[type="file"] {
-    display: block;
-    width: 100%;
+/* Drag & drop file zones (wrap a hidden <input type="file">) */
+.file-drop-zone {
     margin-top: 6px;
-    padding: 8px;
-    border: 2px solid #e1e8ed;
+    padding: 14px;
+    border: 2px dashed #c3cdd8;
     border-radius: 8px;
     background: white;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.file-drop-zone:hover,
+.file-drop-zone:focus-visible {
+    border-color: #667eea;
+    outline: none;
+}
+
+.file-drop-zone.dragover {
+    border-color: #667eea;
+    border-style: solid;
+    background: rgba(102, 126, 234, 0.08);
+}
+
+.file-drop-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 400;
+    color: #6c757d;
+    text-align: center;
+}
+
+.file-drop-prompt i {
+    font-size: 20px;
+    color: #667eea;
+}
+
+.file-drop-zone.dragover .file-drop-prompt {
+    color: #4c5fd5;
+}
+
+.file-drop-prompt u {
+    color: #667eea;
+    text-underline-offset: 2px;
+}
+
+.file-drop-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.file-drop-zone.has-files .file-drop-list {
+    margin-top: 10px;
+    border-top: 1px solid #e1e8ed;
+    padding-top: 8px;
+}
+
+.file-drop-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-weight: 400;
+    color: #2c3e50;
+    cursor: default;
+}
+
+.file-drop-list li:hover {
+    background: #f1f4f8;
+}
+
+.file-drop-list li > i {
+    color: #8a96a3;
+}
+
+.file-drop-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 12px;
+}
+
+.file-drop-remove {
+    border: none;
+    background: none;
+    color: #8a96a3;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
     font-size: 13px;
+}
+
+.file-drop-remove:hover,
+.file-drop-remove:focus-visible {
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    outline: none;
+}
+
+.file-drop-list li.file-drop-clear-row {
+    justify-content: flex-end;
+}
+
+.file-drop-list li.file-drop-clear-row:hover {
+    background: none;
+}
+
+.file-drop-clear {
+    border: none;
+    background: none;
+    color: #6c757d;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.file-drop-clear:hover,
+.file-drop-clear:focus-visible {
+    color: #e74c3c;
+    outline: none;
 }
 
 .ontology-actions {
